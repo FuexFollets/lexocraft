@@ -1,0 +1,3 @@
+/home/fuexfollets/Projects/lexocraft/CMakeFiles/LexoCraft.dir
+/home/fuexfollets/Projects/lexocraft/CMakeFiles/edit_cache.dir
+/home/fuexfollets/Projects/lexocraft/CMakeFiles/rebuild_cache.dir

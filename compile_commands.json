@@ -1,0 +1,16 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-I/home/fuexfollets/Projects/lexocraft/lib/eigen",
+      "-std=gnu++20",
+      "-c",
+      "-o",
+      "CMakeFiles/LexoCraft.dir/src/main.cpp.o",
+      "/home/fuexfollets/Projects/lexocraft/src/main.cpp"
+    ],
+    "directory": "/home/fuexfollets/Projects/lexocraft",
+    "file": "/home/fuexfollets/Projects/lexocraft/src/main.cpp",
+    "output": "/home/fuexfollets/Projects/lexocraft/CMakeFiles/LexoCraft.dir/src/main.cpp.o"
+  }
+]
