@@ -63,42 +63,100 @@ CMAKE_BINARY_DIR = /home/fuexfollets/Projects/lexocraft
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/LexoCraft.dir/all
+all: src/lexocraft/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: src/lexocraft/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/LexoCraft.dir/clean
+clean: src/lexocraft/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/LexoCraft.dir
+# Directory level rules for directory src/lexocraft
+
+# Recursive "all" directory target.
+src/lexocraft/all: src/lexocraft/CMakeFiles/LexoCraft.dir/all
+src/lexocraft/all: src/lexocraft/neural_network/all
+.PHONY : src/lexocraft/all
+
+# Recursive "preinstall" directory target.
+src/lexocraft/preinstall: src/lexocraft/neural_network/preinstall
+.PHONY : src/lexocraft/preinstall
+
+# Recursive "clean" directory target.
+src/lexocraft/clean: src/lexocraft/CMakeFiles/LexoCraft.dir/clean
+src/lexocraft/clean: src/lexocraft/neural_network/clean
+.PHONY : src/lexocraft/clean
+
+#=============================================================================
+# Directory level rules for directory src/lexocraft/neural_network
+
+# Recursive "all" directory target.
+src/lexocraft/neural_network/all: src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/all
+.PHONY : src/lexocraft/neural_network/all
+
+# Recursive "preinstall" directory target.
+src/lexocraft/neural_network/preinstall:
+.PHONY : src/lexocraft/neural_network/preinstall
+
+# Recursive "clean" directory target.
+src/lexocraft/neural_network/clean: src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/clean
+.PHONY : src/lexocraft/neural_network/clean
+
+#=============================================================================
+# Target rules for target src/lexocraft/CMakeFiles/LexoCraft.dir
 
 # All Build rule for target.
-CMakeFiles/LexoCraft.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LexoCraft.dir/build.make CMakeFiles/LexoCraft.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LexoCraft.dir/build.make CMakeFiles/LexoCraft.dir/build
+src/lexocraft/CMakeFiles/LexoCraft.dir/all: src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/all
+	$(MAKE) $(MAKESILENT) -f src/lexocraft/CMakeFiles/LexoCraft.dir/build.make src/lexocraft/CMakeFiles/LexoCraft.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/lexocraft/CMakeFiles/LexoCraft.dir/build.make src/lexocraft/CMakeFiles/LexoCraft.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/fuexfollets/Projects/lexocraft/CMakeFiles --progress-num=1,2 "Built target LexoCraft"
-.PHONY : CMakeFiles/LexoCraft.dir/all
+.PHONY : src/lexocraft/CMakeFiles/LexoCraft.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/LexoCraft.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/fuexfollets/Projects/lexocraft/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/LexoCraft.dir/all
+src/lexocraft/CMakeFiles/LexoCraft.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/fuexfollets/Projects/lexocraft/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/lexocraft/CMakeFiles/LexoCraft.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/fuexfollets/Projects/lexocraft/CMakeFiles 0
-.PHONY : CMakeFiles/LexoCraft.dir/rule
+.PHONY : src/lexocraft/CMakeFiles/LexoCraft.dir/rule
 
 # Convenience name for target.
-LexoCraft: CMakeFiles/LexoCraft.dir/rule
+LexoCraft: src/lexocraft/CMakeFiles/LexoCraft.dir/rule
 .PHONY : LexoCraft
 
 # clean rule for target.
-CMakeFiles/LexoCraft.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LexoCraft.dir/build.make CMakeFiles/LexoCraft.dir/clean
-.PHONY : CMakeFiles/LexoCraft.dir/clean
+src/lexocraft/CMakeFiles/LexoCraft.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/lexocraft/CMakeFiles/LexoCraft.dir/build.make src/lexocraft/CMakeFiles/LexoCraft.dir/clean
+.PHONY : src/lexocraft/CMakeFiles/LexoCraft.dir/clean
+
+#=============================================================================
+# Target rules for target src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir
+
+# All Build rule for target.
+src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/all:
+	$(MAKE) $(MAKESILENT) -f src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/build.make src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/build.make src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/fuexfollets/Projects/lexocraft/CMakeFiles --progress-num=3,4 "Built target NeuralNetwork"
+.PHONY : src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/all
+
+# Build rule for subdir invocation for target.
+src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/fuexfollets/Projects/lexocraft/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/fuexfollets/Projects/lexocraft/CMakeFiles 0
+.PHONY : src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/rule
+
+# Convenience name for target.
+NeuralNetwork: src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/rule
+.PHONY : NeuralNetwork
+
+# clean rule for target.
+src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/build.make src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/clean
+.PHONY : src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

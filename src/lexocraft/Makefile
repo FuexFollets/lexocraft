@@ -87,14 +87,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/fuexfollets/Projects/lexocraft/CMakeFiles /home/fuexfollets/Projects/lexocraft//CMakeFiles/progress.marks
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
+	cd /home/fuexfollets/Projects/lexocraft && $(CMAKE_COMMAND) -E cmake_progress_start /home/fuexfollets/Projects/lexocraft/CMakeFiles /home/fuexfollets/Projects/lexocraft/src/lexocraft//CMakeFiles/progress.marks
+	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/lexocraft/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/fuexfollets/Projects/lexocraft/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean
+	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/lexocraft/clean
 .PHONY : clean
 
 # The main clean target
@@ -103,44 +103,56 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
+	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/lexocraft/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
+	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/lexocraft/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/fuexfollets/Projects/lexocraft && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named LexoCraft
+# Convenience name for target.
+src/lexocraft/CMakeFiles/LexoCraft.dir/rule:
+	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/lexocraft/CMakeFiles/LexoCraft.dir/rule
+.PHONY : src/lexocraft/CMakeFiles/LexoCraft.dir/rule
 
-# Build rule for target.
-LexoCraft: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LexoCraft
+# Convenience name for target.
+LexoCraft: src/lexocraft/CMakeFiles/LexoCraft.dir/rule
 .PHONY : LexoCraft
 
 # fast build rule for target.
 LexoCraft/fast:
-	$(MAKE) $(MAKESILENT) -f src/lexocraft/CMakeFiles/LexoCraft.dir/build.make src/lexocraft/CMakeFiles/LexoCraft.dir/build
+	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f src/lexocraft/CMakeFiles/LexoCraft.dir/build.make src/lexocraft/CMakeFiles/LexoCraft.dir/build
 .PHONY : LexoCraft/fast
 
-#=============================================================================
-# Target rules for targets named NeuralNetwork
+main.o: main.cpp.o
+.PHONY : main.o
 
-# Build rule for target.
-NeuralNetwork: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 NeuralNetwork
-.PHONY : NeuralNetwork
+# target to build an object file
+main.cpp.o:
+	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f src/lexocraft/CMakeFiles/LexoCraft.dir/build.make src/lexocraft/CMakeFiles/LexoCraft.dir/main.cpp.o
+.PHONY : main.cpp.o
 
-# fast build rule for target.
-NeuralNetwork/fast:
-	$(MAKE) $(MAKESILENT) -f src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/build.make src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/build
-.PHONY : NeuralNetwork/fast
+main.i: main.cpp.i
+.PHONY : main.i
+
+# target to preprocess a source file
+main.cpp.i:
+	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f src/lexocraft/CMakeFiles/LexoCraft.dir/build.make src/lexocraft/CMakeFiles/LexoCraft.dir/main.cpp.i
+.PHONY : main.cpp.i
+
+main.s: main.cpp.s
+.PHONY : main.s
+
+# target to generate assembly for a file
+main.cpp.s:
+	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f src/lexocraft/CMakeFiles/LexoCraft.dir/build.make src/lexocraft/CMakeFiles/LexoCraft.dir/main.cpp.s
+.PHONY : main.cpp.s
 
 # Help Target
 help:
@@ -151,7 +163,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... LexoCraft"
-	@echo "... NeuralNetwork"
+	@echo "... main.o"
+	@echo "... main.i"
+	@echo "... main.s"
 .PHONY : help
 
 
@@ -163,6 +177,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/fuexfollets/Projects/lexocraft && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

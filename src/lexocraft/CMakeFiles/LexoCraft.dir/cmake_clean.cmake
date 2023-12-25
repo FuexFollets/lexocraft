@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.o"
-  "CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.o.d"
+  "CMakeFiles/LexoCraft.dir/main.cpp.o"
+  "CMakeFiles/LexoCraft.dir/main.cpp.o.d"
   "LexoCraft"
   "LexoCraft.pdb"
 )

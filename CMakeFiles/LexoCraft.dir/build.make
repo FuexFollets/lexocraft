@@ -69,28 +69,28 @@ include CMakeFiles/LexoCraft.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/LexoCraft.dir/flags.make
 
-CMakeFiles/LexoCraft.dir/src/main.cpp.o: CMakeFiles/LexoCraft.dir/flags.make
-CMakeFiles/LexoCraft.dir/src/main.cpp.o: src/main.cpp
-CMakeFiles/LexoCraft.dir/src/main.cpp.o: CMakeFiles/LexoCraft.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/fuexfollets/Projects/lexocraft/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/LexoCraft.dir/src/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/LexoCraft.dir/src/main.cpp.o -MF CMakeFiles/LexoCraft.dir/src/main.cpp.o.d -o CMakeFiles/LexoCraft.dir/src/main.cpp.o -c /home/fuexfollets/Projects/lexocraft/src/main.cpp
+CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.o: CMakeFiles/LexoCraft.dir/flags.make
+CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.o: src/lexocraft/main.cpp
+CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.o: CMakeFiles/LexoCraft.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/fuexfollets/Projects/lexocraft/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.o -MF CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.o.d -o CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.o -c /home/fuexfollets/Projects/lexocraft/src/lexocraft/main.cpp
 
-CMakeFiles/LexoCraft.dir/src/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/LexoCraft.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fuexfollets/Projects/lexocraft/src/main.cpp > CMakeFiles/LexoCraft.dir/src/main.cpp.i
+CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fuexfollets/Projects/lexocraft/src/lexocraft/main.cpp > CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.i
 
-CMakeFiles/LexoCraft.dir/src/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/LexoCraft.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fuexfollets/Projects/lexocraft/src/main.cpp -o CMakeFiles/LexoCraft.dir/src/main.cpp.s
+CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fuexfollets/Projects/lexocraft/src/lexocraft/main.cpp -o CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.s
 
 # Object files for target LexoCraft
 LexoCraft_OBJECTS = \
-"CMakeFiles/LexoCraft.dir/src/main.cpp.o"
+"CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.o"
 
 # External object files for target LexoCraft
 LexoCraft_EXTERNAL_OBJECTS =
 
-LexoCraft: CMakeFiles/LexoCraft.dir/src/main.cpp.o
+LexoCraft: CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.o
 LexoCraft: CMakeFiles/LexoCraft.dir/build.make
 LexoCraft: CMakeFiles/LexoCraft.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/fuexfollets/Projects/lexocraft/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable LexoCraft"

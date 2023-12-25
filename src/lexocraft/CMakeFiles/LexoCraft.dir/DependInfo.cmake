@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/fuexfollets/Projects/lexocraft/src/lexocraft/main.cpp" "CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.o" "gcc" "CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.o.d"
+  "/home/fuexfollets/Projects/lexocraft/src/lexocraft/main.cpp" "src/lexocraft/CMakeFiles/LexoCraft.dir/main.cpp.o" "gcc" "src/lexocraft/CMakeFiles/LexoCraft.dir/main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

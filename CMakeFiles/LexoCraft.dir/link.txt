@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/LexoCraft.dir/src/main.cpp.o -o LexoCraft 
+/usr/bin/c++ CMakeFiles/LexoCraft.dir/src/lexocraft/main.cpp.o -o LexoCraft   -L/home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network 

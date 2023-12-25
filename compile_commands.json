@@ -3,14 +3,32 @@
     "arguments": [
       "/usr/bin/c++",
       "-I/home/fuexfollets/Projects/lexocraft/lib/eigen",
+      "-I/home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network/include",
+      "-I/home/fuexfollets/Projects/lexocraft/src/lexocraft/include",
       "-std=gnu++20",
       "-c",
       "-o",
-      "CMakeFiles/LexoCraft.dir/src/main.cpp.o",
-      "/home/fuexfollets/Projects/lexocraft/src/main.cpp"
+      "CMakeFiles/LexoCraft.dir/main.cpp.o",
+      "/home/fuexfollets/Projects/lexocraft/src/lexocraft/main.cpp"
     ],
-    "directory": "/home/fuexfollets/Projects/lexocraft",
-    "file": "/home/fuexfollets/Projects/lexocraft/src/main.cpp",
-    "output": "/home/fuexfollets/Projects/lexocraft/CMakeFiles/LexoCraft.dir/src/main.cpp.o"
+    "directory": "/home/fuexfollets/Projects/lexocraft/src/lexocraft",
+    "file": "/home/fuexfollets/Projects/lexocraft/src/lexocraft/main.cpp",
+    "output": "/home/fuexfollets/Projects/lexocraft/src/lexocraft/CMakeFiles/LexoCraft.dir/main.cpp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-I/home/fuexfollets/Projects/lexocraft/lib/eigen",
+      "-I/home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network/include",
+      "-I/home/fuexfollets/Projects/lexocraft/src/lexocraft/include",
+      "-std=gnu++20",
+      "-c",
+      "-o",
+      "CMakeFiles/NeuralNetwork.dir/lib.cpp.o",
+      "/home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network/lib.cpp"
+    ],
+    "directory": "/home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network",
+    "file": "/home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network/lib.cpp",
+    "output": "/home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/lib.cpp.o"
   }
 ]
