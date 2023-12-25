@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/LexoCraft.dir/main.cpp.o -o LexoCraft  neural_network/libNeuralNetwork.a 
+/usr/bin/c++ CMakeFiles/LexoCraft.dir/main.cpp.o -o LexoCraft  neural_network/libneural_network.a 

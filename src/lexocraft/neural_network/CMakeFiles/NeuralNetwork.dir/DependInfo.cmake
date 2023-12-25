@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network/lib.cpp" "src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/lib.cpp.o" "gcc" "src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/lib.cpp.o.d"
+  "/home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network/nn.cpp" "src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/nn.cpp.o" "gcc" "src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/nn.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

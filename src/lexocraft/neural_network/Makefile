@@ -65,16 +65,6 @@ CMAKE_BINARY_DIR = /home/fuexfollets/Projects/lexocraft
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-.PHONY : test/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake cache editor..."
@@ -127,42 +117,42 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/rule:
-	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/rule
-.PHONY : src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/rule
+src/lexocraft/neural_network/CMakeFiles/neural_network.dir/rule:
+	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/lexocraft/neural_network/CMakeFiles/neural_network.dir/rule
+.PHONY : src/lexocraft/neural_network/CMakeFiles/neural_network.dir/rule
 
 # Convenience name for target.
-NeuralNetwork: src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/rule
-.PHONY : NeuralNetwork
+neural_network: src/lexocraft/neural_network/CMakeFiles/neural_network.dir/rule
+.PHONY : neural_network
 
 # fast build rule for target.
-NeuralNetwork/fast:
-	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/build.make src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/build
-.PHONY : NeuralNetwork/fast
+neural_network/fast:
+	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f src/lexocraft/neural_network/CMakeFiles/neural_network.dir/build.make src/lexocraft/neural_network/CMakeFiles/neural_network.dir/build
+.PHONY : neural_network/fast
 
-lib.o: lib.cpp.o
-.PHONY : lib.o
+nn.o: nn.cpp.o
+.PHONY : nn.o
 
 # target to build an object file
-lib.cpp.o:
-	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/build.make src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/lib.cpp.o
-.PHONY : lib.cpp.o
+nn.cpp.o:
+	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f src/lexocraft/neural_network/CMakeFiles/neural_network.dir/build.make src/lexocraft/neural_network/CMakeFiles/neural_network.dir/nn.cpp.o
+.PHONY : nn.cpp.o
 
-lib.i: lib.cpp.i
-.PHONY : lib.i
+nn.i: nn.cpp.i
+.PHONY : nn.i
 
 # target to preprocess a source file
-lib.cpp.i:
-	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/build.make src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/lib.cpp.i
-.PHONY : lib.cpp.i
+nn.cpp.i:
+	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f src/lexocraft/neural_network/CMakeFiles/neural_network.dir/build.make src/lexocraft/neural_network/CMakeFiles/neural_network.dir/nn.cpp.i
+.PHONY : nn.cpp.i
 
-lib.s: lib.cpp.s
-.PHONY : lib.s
+nn.s: nn.cpp.s
+.PHONY : nn.s
 
 # target to generate assembly for a file
-lib.cpp.s:
-	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/build.make src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/lib.cpp.s
-.PHONY : lib.cpp.s
+nn.cpp.s:
+	cd /home/fuexfollets/Projects/lexocraft && $(MAKE) $(MAKESILENT) -f src/lexocraft/neural_network/CMakeFiles/neural_network.dir/build.make src/lexocraft/neural_network/CMakeFiles/neural_network.dir/nn.cpp.s
+.PHONY : nn.cpp.s
 
 # Help Target
 help:
@@ -172,11 +162,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... test"
-	@echo "... NeuralNetwork"
-	@echo "... lib.o"
-	@echo "... lib.i"
-	@echo "... lib.s"
+	@echo "... neural_network"
+	@echo "... nn.o"
+	@echo "... nn.i"
+	@echo "... nn.s"
 .PHONY : help
 
 

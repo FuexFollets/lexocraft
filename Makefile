@@ -65,16 +65,6 @@ CMAKE_BINARY_DIR = /home/fuexfollets/Projects/lexocraft
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-.PHONY : test/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake cache editor..."
@@ -140,17 +130,17 @@ LexoCraft/fast:
 .PHONY : LexoCraft/fast
 
 #=============================================================================
-# Target rules for targets named NeuralNetwork
+# Target rules for targets named neural_network
 
 # Build rule for target.
-NeuralNetwork: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 NeuralNetwork
-.PHONY : NeuralNetwork
+neural_network: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 neural_network
+.PHONY : neural_network
 
 # fast build rule for target.
-NeuralNetwork/fast:
-	$(MAKE) $(MAKESILENT) -f src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/build.make src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/build
-.PHONY : NeuralNetwork/fast
+neural_network/fast:
+	$(MAKE) $(MAKESILENT) -f src/lexocraft/neural_network/CMakeFiles/neural_network.dir/build.make src/lexocraft/neural_network/CMakeFiles/neural_network.dir/build
+.PHONY : neural_network/fast
 
 # Help Target
 help:
@@ -160,9 +150,8 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... test"
 	@echo "... LexoCraft"
-	@echo "... NeuralNetwork"
+	@echo "... neural_network"
 .PHONY : help
 
 

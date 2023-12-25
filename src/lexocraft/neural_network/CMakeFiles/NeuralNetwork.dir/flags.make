@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/fuexfollets/Projects/lexocraft/lib/eigen -I/home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network/include -I/home/fuexfollets/Projects/lexocraft/src/lexocraft/include
+CXX_INCLUDES = -I/home/fuexfollets/Projects/lexocraft/lib/eigen -I/home/fuexfollets/Projects/lexocraft/src
 
 CXX_FLAGS = -std=gnu++20
 

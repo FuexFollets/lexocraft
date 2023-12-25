@@ -92,7 +92,7 @@ LexoCraft_EXTERNAL_OBJECTS =
 
 src/lexocraft/LexoCraft: src/lexocraft/CMakeFiles/LexoCraft.dir/main.cpp.o
 src/lexocraft/LexoCraft: src/lexocraft/CMakeFiles/LexoCraft.dir/build.make
-src/lexocraft/LexoCraft: src/lexocraft/neural_network/libNeuralNetwork.a
+src/lexocraft/LexoCraft: src/lexocraft/neural_network/libneural_network.a
 src/lexocraft/LexoCraft: src/lexocraft/CMakeFiles/LexoCraft.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/fuexfollets/Projects/lexocraft/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable LexoCraft"
 	cd /home/fuexfollets/Projects/lexocraft/src/lexocraft && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/LexoCraft.dir/link.txt --verbose=$(VERBOSE)

@@ -69,28 +69,28 @@ include src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/flags.make
 
-src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/lib.cpp.o: src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/flags.make
-src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/lib.cpp.o: src/lexocraft/neural_network/lib.cpp
-src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/lib.cpp.o: src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/fuexfollets/Projects/lexocraft/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/lib.cpp.o"
-	cd /home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/lib.cpp.o -MF CMakeFiles/NeuralNetwork.dir/lib.cpp.o.d -o CMakeFiles/NeuralNetwork.dir/lib.cpp.o -c /home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network/lib.cpp
+src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/nn.cpp.o: src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/flags.make
+src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/nn.cpp.o: src/lexocraft/neural_network/nn.cpp
+src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/nn.cpp.o: src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/fuexfollets/Projects/lexocraft/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/nn.cpp.o"
+	cd /home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/nn.cpp.o -MF CMakeFiles/NeuralNetwork.dir/nn.cpp.o.d -o CMakeFiles/NeuralNetwork.dir/nn.cpp.o -c /home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network/nn.cpp
 
-src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/lib.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/NeuralNetwork.dir/lib.cpp.i"
-	cd /home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network/lib.cpp > CMakeFiles/NeuralNetwork.dir/lib.cpp.i
+src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/nn.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/NeuralNetwork.dir/nn.cpp.i"
+	cd /home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network/nn.cpp > CMakeFiles/NeuralNetwork.dir/nn.cpp.i
 
-src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/lib.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/NeuralNetwork.dir/lib.cpp.s"
-	cd /home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network/lib.cpp -o CMakeFiles/NeuralNetwork.dir/lib.cpp.s
+src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/nn.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/NeuralNetwork.dir/nn.cpp.s"
+	cd /home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network/nn.cpp -o CMakeFiles/NeuralNetwork.dir/nn.cpp.s
 
 # Object files for target NeuralNetwork
 NeuralNetwork_OBJECTS = \
-"CMakeFiles/NeuralNetwork.dir/lib.cpp.o"
+"CMakeFiles/NeuralNetwork.dir/nn.cpp.o"
 
 # External object files for target NeuralNetwork
 NeuralNetwork_EXTERNAL_OBJECTS =
 
-src/lexocraft/neural_network/libNeuralNetwork.a: src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/lib.cpp.o
+src/lexocraft/neural_network/libNeuralNetwork.a: src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/nn.cpp.o
 src/lexocraft/neural_network/libNeuralNetwork.a: src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/build.make
 src/lexocraft/neural_network/libNeuralNetwork.a: src/lexocraft/neural_network/CMakeFiles/NeuralNetwork.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/fuexfollets/Projects/lexocraft/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libNeuralNetwork.a"

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libLexoCraft.a CMakeFiles/LexoCraft.dir/nn.cpp.o
+/usr/bin/ranlib libLexoCraft.a
