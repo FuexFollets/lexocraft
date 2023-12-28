@@ -1,2 +1,0 @@
-/usr/bin/ar qc libProject.a CMakeFiles/Project.dir/nn.o
-/usr/bin/ranlib libProject.a

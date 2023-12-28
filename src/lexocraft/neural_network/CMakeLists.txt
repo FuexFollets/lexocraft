@@ -1,4 +1,4 @@
-include_directories(${PROJECT_SOURCE_DIR}/src)
-include_directories(${PROJECT_SOURCE_DIR}/lib/eigen)
+include(${PROJECT_SOURCE_DIR}/cmake/libs.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/opts.cmake)
 
-add_library(neural_network STATIC nn.cpp)
+add_library(neural_network nn.cpp)
