@@ -1,1 +1,0 @@
-int nnfunction(int value);
