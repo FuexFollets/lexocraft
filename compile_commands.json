@@ -3,15 +3,66 @@
     "arguments": [
       "/usr/bin/c++",
       "-I/home/fuexfollets/Projects/lexocraft/lib/eigen",
+      "-I/home/fuexfollets/Projects/lexocraft/lib/alpaca/include",
       "-I/home/fuexfollets/Projects/lexocraft/src",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
       "-std=gnu++20",
       "-c",
       "-o",
-      "CMakeFiles/LexC.dir/main.cpp.o",
+      "CMakeFiles/neural_network.dir/neural_network.cpp.o",
+      "/home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network/neural_network.cpp"
+    ],
+    "directory": "/home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network",
+    "file": "/home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network/neural_network.cpp",
+    "output": "/home/fuexfollets/Projects/lexocraft/src/lexocraft/neural_network/CMakeFiles/neural_network.dir/neural_network.cpp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-I/home/fuexfollets/Projects/lexocraft/lib/eigen",
+      "-I/home/fuexfollets/Projects/lexocraft/lib/alpaca/include",
+      "-I/home/fuexfollets/Projects/lexocraft/src",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-std=gnu++20",
+      "-c",
+      "-o",
+      "CMakeFiles/LexoCraft.dir/main.cpp.o",
       "/home/fuexfollets/Projects/lexocraft/src/lexocraft/main.cpp"
     ],
     "directory": "/home/fuexfollets/Projects/lexocraft/src/lexocraft",
     "file": "/home/fuexfollets/Projects/lexocraft/src/lexocraft/main.cpp",
-    "output": "/home/fuexfollets/Projects/lexocraft/src/lexocraft/CMakeFiles/LexC.dir/main.cpp.o"
+    "output": "/home/fuexfollets/Projects/lexocraft/src/lexocraft/CMakeFiles/LexoCraft.dir/main.cpp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-I/home/fuexfollets/Projects/lexocraft/lib/eigen",
+      "-I/home/fuexfollets/Projects/lexocraft/lib/alpaca/include",
+      "-I/home/fuexfollets/Projects/lexocraft/src",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-std=gnu++20",
+      "-c",
+      "-o",
+      "CMakeFiles/test1.dir/test1.cpp.o",
+      "/home/fuexfollets/Projects/lexocraft/tests/test1.cpp"
+    ],
+    "directory": "/home/fuexfollets/Projects/lexocraft/tests",
+    "file": "/home/fuexfollets/Projects/lexocraft/tests/test1.cpp",
+    "output": "/home/fuexfollets/Projects/lexocraft/tests/CMakeFiles/test1.dir/test1.cpp.o"
   }
 ]
