@@ -65,6 +65,16 @@ CMAKE_BINARY_DIR = /home/fuexfollets/Projects/lexocraft
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+.PHONY : test/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake cache editor..."
@@ -142,6 +152,19 @@ neural_network/fast:
 	$(MAKE) $(MAKESILENT) -f src/lexocraft/neural_network/CMakeFiles/neural_network.dir/build.make src/lexocraft/neural_network/CMakeFiles/neural_network.dir/build
 .PHONY : neural_network/fast
 
+#=============================================================================
+# Target rules for targets named test1
+
+# Build rule for target.
+test1: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test1
+.PHONY : test1
+
+# fast build rule for target.
+test1/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test1.dir/build.make tests/CMakeFiles/test1.dir/build
+.PHONY : test1/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -150,8 +173,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... test"
 	@echo "... LexoCraft"
 	@echo "... neural_network"
+	@echo "... test1"
 .PHONY : help
 
 

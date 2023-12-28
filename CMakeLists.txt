@@ -8,4 +8,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 include_directories(${PROJECT_SOURCE_DIR}/lib/eigen)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/lexocraft)
-# add_subdirectory(${PROJECT_SOURCE_DIR}/tests)
+add_subdirectory(${PROJECT_SOURCE_DIR}/tests)
+
+enable_testing()

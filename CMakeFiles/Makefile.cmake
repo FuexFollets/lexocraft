@@ -13,6 +13,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeLists.txt"
   "src/lexocraft/CMakeLists.txt"
   "src/lexocraft/neural_network/CMakeLists.txt"
+  "tests/CMakeLists.txt"
   "/usr/share/cmake/Modules/CMakeCInformation.cmake"
   "/usr/share/cmake/Modules/CMakeCXXInformation.cmake"
   "/usr/share/cmake/Modules/CMakeCommonLanguageInclude.cmake"
@@ -44,10 +45,12 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   "src/lexocraft/CMakeFiles/CMakeDirectoryInformation.cmake"
   "src/lexocraft/neural_network/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "tests/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "src/lexocraft/CMakeFiles/LexoCraft.dir/DependInfo.cmake"
   "src/lexocraft/neural_network/CMakeFiles/neural_network.dir/DependInfo.cmake"
+  "tests/CMakeFiles/test1.dir/DependInfo.cmake"
   )
