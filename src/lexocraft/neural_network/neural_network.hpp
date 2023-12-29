@@ -32,16 +32,17 @@ namespace lc {
 
             public:
 
-            explicit NeuralNetworkDiff(std::vector<std::size_t> layer_sizes);
+            explicit NeuralNetworkDiff(const std::vector<std::size_t>& layer_sizes);
+
+            NeuralNetworkDiff& operator+=(const NeuralNetworkDiff& other);
+            NeuralNetworkDiff& operator-=(const NeuralNetworkDiff& other);
+            NeuralNetworkDiff& operator*=(float scalar);
+            NeuralNetworkDiff& operator/=(float scalar);
 
             NeuralNetworkDiff operator+(const NeuralNetworkDiff& other) const;
             NeuralNetworkDiff operator-(const NeuralNetworkDiff& other) const;
             NeuralNetworkDiff operator*(float scalar) const;
             NeuralNetworkDiff operator/(float scalar) const;
-            NeuralNetworkDiff& operator+=(const NeuralNetworkDiff& other);
-            NeuralNetworkDiff& operator-=(const NeuralNetworkDiff& other);
-            NeuralNetworkDiff& operator*=(float scalar);
-            NeuralNetworkDiff& operator/=(float scalar);
 
             friend class NeuralNetwork;
         };
