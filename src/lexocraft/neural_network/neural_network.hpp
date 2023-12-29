@@ -48,7 +48,7 @@ namespace lc {
 
         void modify(NeuralNetworkDiff diff);
 
-        static float sigmoid(float value);
+        static float sigmoid_abs(float value);
     };
 
 } // namespace lc
