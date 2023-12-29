@@ -61,4 +61,19 @@ namespace lc {
     float NeuralNetwork::sigmoid_abs(float value) {
         return 0.5F + value / (2 * (1 + std::abs(value)));
     }
+
+    void NeuralNetwork::modify(NeuralNetwork::NeuralNetworkDiff diff, bool apply_biases,
+                               bool apply_weights) {
+        if (apply_biases) {
+            for (std::size_t index {0}; index < _biases.size(); ++index) {
+                _biases [index] += diff._bias_diffs [index];
+            }
+        }
+
+        if (apply_weights) {
+            for (std::size_t index {0}; index < _weights.size(); ++index) {
+                _weights [index] += diff._weight_diffs [index];
+            }
+        }
+    }
 } // namespace lc

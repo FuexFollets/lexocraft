@@ -14,18 +14,6 @@ namespace lc {
         }
     }
 
-    /* Implement:
-        NeuralNetworkDiff& operator+=(const NeuralNetworkDiff& other);
-        NeuralNetworkDiff& operator-=(const NeuralNetworkDiff& other);
-        NeuralNetworkDiff& operator*=(float scalar);
-        NeuralNetworkDiff& operator/=(float scalar);
-
-        NeuralNetworkDiff operator+(const NeuralNetworkDiff& other) const;
-        NeuralNetworkDiff operator-(const NeuralNetworkDiff& other) const;
-        NeuralNetworkDiff operator*(float scalar) const;
-        NeuralNetworkDiff operator/(float scalar) const;
-    */
-
     NeuralNetwork::NeuralNetworkDiff& NeuralNetwork::NeuralNetworkDiff::operator+=(
         const NeuralNetwork::NeuralNetworkDiff& other) {
         for (std::size_t index {0}; index < _layer_sizes.size() - 1; index++) {

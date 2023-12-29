@@ -47,7 +47,7 @@ namespace lc {
             friend class NeuralNetwork;
         };
 
-        void modify(NeuralNetworkDiff diff);
+        void modify(NeuralNetworkDiff diff, bool apply_biases = true, bool apply_weights = true);
 
         static float sigmoid_abs(float value);
     };
