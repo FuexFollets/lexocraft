@@ -1,3 +1,4 @@
+#include <cmath>
 #include <system_error>
 #include <utility>
 
@@ -46,5 +47,18 @@ namespace lc {
         alpaca::serialize(*this, bytes);
 
         return bytes;
+    }
+
+    Eigen::VectorXf NeuralNetwork::compute(Eigen::VectorXf input) const {
+        for (std::size_t index {0}; index < _weights.size(); ++index) {
+            input = _weights [index] * input + _biases [index];
+            input = input.unaryExpr([](float value) { return sigmoid_abs(value); });
+        }
+
+        return input;
+    }
+
+    float NeuralNetwork::sigmoid_abs(float value) {
+        return 0.5F + value / (2 * (1 + std::abs(value)));
     }
 } // namespace lc
