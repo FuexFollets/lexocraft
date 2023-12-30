@@ -160,8 +160,9 @@ namespace lc {
     NeuralNetwork NeuralNetwork::load_file(const std::filesystem::path& filename) {
         std::ifstream dumpfile(filename, std::ios::in | std::ios::binary);
         std::error_code error_code;
+        const auto file_size = std::filesystem::file_size(filename);
 
-        return alpaca::deserialize<NeuralNetwork>(dumpfile, error_code);
+        return alpaca::deserialize<NeuralNetwork>(dumpfile, file_size, error_code);
     }
 
 } // namespace lc

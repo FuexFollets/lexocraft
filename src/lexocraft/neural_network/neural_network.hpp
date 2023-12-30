@@ -69,6 +69,12 @@ namespace lc {
 
         public:
 
+        NeuralNetwork() = default;
+        NeuralNetwork(NeuralNetwork&& other) noexcept = default;
+        NeuralNetwork(const NeuralNetwork& other) noexcept = default;
+
+        NeuralNetwork& operator=(NeuralNetwork&& other) noexcept = default;
+
         explicit NeuralNetwork(std::vector<std::size_t> layer_sizes, bool randomize = true);
         explicit NeuralNetwork(std::vector<std::uint8_t> alpaca_bytes);
 
