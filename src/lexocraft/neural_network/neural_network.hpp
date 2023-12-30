@@ -9,15 +9,15 @@
 
 namespace lc {
 
-    class NeuralNetwork {
+   class NeuralNetwork {
         public:
 
         class NeuralNetworkDiff {
-            std::vector<Eigen::MatrixXf> _weight_diffs;
-            std::vector<Eigen::VectorXf> _bias_diffs;
-            std::vector<std::size_t> _layer_sizes;
-
             public:
+
+            std::vector<Eigen::MatrixXf> weight_diffs;
+            std::vector<Eigen::VectorXf> bias_diffs;
+            std::vector<std::size_t> layer_sizes;
 
             NeuralNetworkDiff() = default;
             NeuralNetworkDiff(NeuralNetworkDiff&& other) noexcept = default;
@@ -41,33 +41,20 @@ namespace lc {
 
             [[nodiscard]] NeuralNetworkDiff inverted() const noexcept;
 
-            [[nodiscard]] std::size_t layer_count() const;
-            [[nodiscard]] std::size_t layer_size(std::size_t layer) const;
-
-            [[nodiscard]] const Eigen::MatrixXf& weight_diff(std::size_t layer) const;
-            [[nodiscard]] const Eigen::VectorXf& bias_diff(std::size_t layer) const;
-
-            [[nodiscard]] Eigen::MatrixXf& weight_diff(std::size_t layer);
-            [[nodiscard]] Eigen::VectorXf& bias_diff(std::size_t layer);
-
             friend class NeuralNetwork;
         };
 
-        private:
-
         constexpr static float GOOD_COST {0.1F};
 
-        std::size_t _iterations;
-        std::vector<std::size_t> _layer_sizes;
+        std::size_t iterations;
+        std::vector<std::size_t> layer_sizes;
 
-        std::vector<Eigen::MatrixXf> _weights;
-        std::vector<Eigen::VectorXf> _biases;
+        std::vector<Eigen::MatrixXf> weights;
+        std::vector<Eigen::VectorXf> biases;
 
-        NeuralNetworkDiff _most_recent_diff;
-        float _most_recent_cost;
-        std::size_t _diff_improvement_streak;
-
-        public:
+        NeuralNetworkDiff most_recent_diff;
+        float most_recent_cost;
+        std::size_t diff_improvement_streak;
 
         NeuralNetwork() = default;
         NeuralNetwork(NeuralNetwork&& other) noexcept = default;
@@ -84,17 +71,6 @@ namespace lc {
 
         [[nodiscard]] std::vector<std::uint8_t> serialize() const;
         [[nodiscard]] Eigen::VectorXf compute(Eigen::VectorXf input) const;
-
-        [[nodiscard]] std::size_t iterations() const;
-        [[nodiscard]] std::size_t layer_count() const;
-        [[nodiscard]] std::size_t layer_size(std::size_t layer) const;
-
-        [[nodiscard]] const Eigen::MatrixXf& weights(std::size_t layer) const;
-        [[nodiscard]] const Eigen::VectorXf& biases(std::size_t layer) const;
-
-        [[nodiscard]] const NeuralNetworkDiff& most_recent_diff() const;
-        [[nodiscard]] float most_recent_cost() const;
-        [[nodiscard]] std::size_t diff_improvement_streak() const;
 
         void dump_file(const std::filesystem::path& filename) const;
 
