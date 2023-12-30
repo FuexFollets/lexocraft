@@ -1,10 +1,12 @@
 #include <cmath>
+#include <filesystem>
 #include <system_error>
 #include <utility>
 
 #include <alpaca/alpaca.h>
 
 #include <lexocraft/neural_network/neural_network.hpp>
+#include <vector>
 
 namespace lc {
 
@@ -148,6 +150,18 @@ namespace lc {
 
     std::size_t NeuralNetwork::diff_improvement_streak() const {
         return _diff_improvement_streak;
+    }
+
+    void NeuralNetwork::dump_file(const std::filesystem::path& filename) const {
+        std::ofstream dumpfile(filename, std::ios::out | std::ios::binary);
+        alpaca::serialize(*this, dumpfile);
+    }
+
+    NeuralNetwork NeuralNetwork::load_file(const std::filesystem::path& filename) {
+        std::ifstream dumpfile(filename, std::ios::in | std::ios::binary);
+        std::error_code error_code;
+
+        return alpaca::deserialize<NeuralNetwork>(dumpfile, error_code);
     }
 
 } // namespace lc
