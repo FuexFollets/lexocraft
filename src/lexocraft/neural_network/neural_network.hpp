@@ -2,6 +2,7 @@
 #define LEXICRAFT_NEURAL_NETWORK_HPP
 
 #include <cstddef>
+#include <filesystem>
 #include <vector>
 
 #include <eigen3/Eigen/Core>
@@ -89,6 +90,9 @@ namespace lc {
         [[nodiscard]] float most_recent_cost() const;
         [[nodiscard]] std::size_t diff_improvement_streak() const;
 
+        void dump_file(const std::filesystem::path& filename) const;
+
+        static NeuralNetwork load_file(const std::filesystem::path& filename);
         static float sigmoid_abs(float value);
     };
 } // namespace lc
