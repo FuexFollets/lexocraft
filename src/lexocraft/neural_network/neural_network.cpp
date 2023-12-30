@@ -9,7 +9,8 @@
 namespace lc {
 
     NeuralNetwork::NeuralNetwork(std::vector<std::size_t> layer_sizes, bool randomize) :
-        _iterations(0), _layer_sizes(std::move(layer_sizes)) {
+        _iterations {0}, _layer_sizes(std::move(layer_sizes)), _most_recent_diff(_layer_sizes),
+        _most_recent_cost {0}, _diff_improvement_streak {0} {
         for (std::size_t i = 1; i < _layer_sizes.size(); ++i) {
             _weights.emplace_back(_layer_sizes [i], _layer_sizes [i - 1]);
             _biases.emplace_back(_layer_sizes [i]);
@@ -26,7 +27,8 @@ namespace lc {
         }
     }
 
-    NeuralNetwork::NeuralNetwork(std::vector<std::uint8_t> alpaca_bytes) {
+    NeuralNetwork::NeuralNetwork(std::vector<std::uint8_t> alpaca_bytes) :
+        _most_recent_cost {0}, _diff_improvement_streak {0} {
         std::error_code error_code;
 
         auto object = alpaca::deserialize<NeuralNetwork>(alpaca_bytes, error_code);
@@ -39,6 +41,7 @@ namespace lc {
         _layer_sizes = std::move(object._layer_sizes);
         _weights = std::move(object._weights);
         _biases = std::move(object._biases);
+        _most_recent_diff = std::move(object._most_recent_diff);
     }
 
     std::vector<std::uint8_t> NeuralNetwork::serialize() const {
@@ -74,6 +77,44 @@ namespace lc {
             for (std::size_t index {0}; index < _weights.size(); ++index) {
                 _weights [index] += diff._weight_diffs [index];
             }
+        }
+    }
+
+    /* Example usage:
+     repeat {
+         NeuralNetwork nn {...};
+
+         auto res = nn.compute(...);
+
+         float cost = get_cost(res, ...);
+
+         nn.train(cost);
+     }
+    */
+
+    void NeuralNetwork::train(float cost) { /* cost is between 0 and 1 */
+        // If the cost is worse than GOOD_COST or the previous cost, revert the NN using
+        // _most_recent_diff, reset the streak, and apply a different NeuralNetworkDiff. Otherwise,
+        // continue to apply the same NeuralNetworkDiff and increment the streak. Based on the
+        // streak and most recent cost, modify the NeuralNetworkDiff and apply it each time. If
+        // _iterations is zero, choose a random starting NeuralNetworkDiff.
+
+        if (_iterations == 0) {
+            _most_recent_diff = NeuralNetworkDiff(_layer_sizes);
+
+            return;
+        }
+
+        if (cost < GOOD_COST || cost < _most_recent_cost) {
+            _diff_improvement_streak = 0;
+            _most_recent_diff.invert();
+            modify(_most_recent_diff);
+            _most_recent_diff = NeuralNetworkDiff(_layer_sizes);
+        }
+
+        else {
+            ++_diff_improvement_streak;
+            _most_recent_diff *= 1.0F + _diff_improvement_streak / 10.0F;
         }
     }
 } // namespace lc
