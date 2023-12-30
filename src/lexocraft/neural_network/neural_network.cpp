@@ -117,4 +117,37 @@ namespace lc {
             _most_recent_diff *= 1.0F + _diff_improvement_streak / 10.0F;
         }
     }
+
+    std::size_t NeuralNetwork::iterations() const {
+        return _iterations;
+    }
+
+    std::size_t NeuralNetwork::layer_count() const {
+        return _layer_sizes.size();
+    }
+
+    std::size_t NeuralNetwork::layer_size(std::size_t layer) const {
+        return _layer_sizes [layer];
+    }
+
+    const Eigen::MatrixXf& NeuralNetwork::weights(std::size_t layer) const {
+        return _weights [layer];
+    }
+
+    const Eigen::VectorXf& NeuralNetwork::biases(std::size_t layer) const {
+        return _biases [layer];
+    }
+
+    const NeuralNetwork::NeuralNetworkDiff& NeuralNetwork::most_recent_diff() const {
+        return _most_recent_diff;
+    }
+
+    float NeuralNetwork::most_recent_cost() const {
+        return _most_recent_cost;
+    }
+
+    std::size_t NeuralNetwork::diff_improvement_streak() const {
+        return _diff_improvement_streak;
+    }
+
 } // namespace lc
