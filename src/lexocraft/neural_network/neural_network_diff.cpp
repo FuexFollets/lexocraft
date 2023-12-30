@@ -119,4 +119,12 @@ namespace lc {
     Eigen::VectorXf& NeuralNetwork::NeuralNetworkDiff::bias_diff(std::size_t layer) {
         return _bias_diffs [layer];
     }
+
+    void NeuralNetwork::NeuralNetworkDiff::invert() noexcept {
+        *this *= -1;
+    }
+
+    NeuralNetwork::NeuralNetworkDiff NeuralNetwork::NeuralNetworkDiff::inverted() const noexcept {
+        return *this * -1;
+    }
 } // namespace lc

@@ -37,9 +37,9 @@ namespace lc {
             NeuralNetworkDiff operator*(float scalar) const noexcept;
             NeuralNetworkDiff operator/(float scalar) const;
 
-            void invert();
+            void invert() noexcept;
 
-            [[nodiscard]] NeuralNetworkDiff inverted() const;
+            [[nodiscard]] NeuralNetworkDiff inverted() const noexcept;
 
             [[nodiscard]] std::size_t layer_count() const;
             [[nodiscard]] std::size_t layer_size(std::size_t layer) const;
