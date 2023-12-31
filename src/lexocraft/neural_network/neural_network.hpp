@@ -2,6 +2,7 @@
 #define LEXICRAFT_NEURAL_NETWORK_HPP
 
 #include <cstddef>
+#include <cstdint>
 #include <filesystem>
 #include <vector>
 
@@ -9,12 +10,21 @@
 
 namespace lc {
 
-   class NeuralNetwork {
+    class NeuralNetwork {
         public:
 
         class NeuralNetworkDiff {
             public:
 
+            class SerializeMedium {
+                public:
+
+                std::vector<std::uint8_t*> weight_diffs_buffer;
+                std::vector<std::uint8_t*> bias_diffs_buffer;
+                std::vector<std::size_t> layer_sizes_buffer;
+            };
+
+            constexpr static std::size_t FIELD_COUNT {3};
             std::vector<Eigen::MatrixXf> weight_diffs;
             std::vector<Eigen::VectorXf> bias_diffs;
             std::vector<std::size_t> layer_sizes;
@@ -40,21 +50,37 @@ namespace lc {
             void invert() noexcept;
 
             [[nodiscard]] NeuralNetworkDiff inverted() const noexcept;
+            [[nodiscard]] SerializeMedium serialize() const;
 
             friend class NeuralNetwork;
         };
 
-        constexpr static float GOOD_COST {0.1F};
+        class SerializeMedium {
+            public:
 
-        std::size_t iterations;
+            std::size_t iterations {};
+            std::vector<std::size_t> layer_sizes;
+
+            std::vector<std::uint8_t*> weights_buffer;
+            std::vector<std::uint8_t*> biases_buffer;
+
+            NeuralNetworkDiff::SerializeMedium most_recent_diff;
+            float most_recent_cost {};
+            std::size_t diff_improvement_streak {};
+        };
+
+        constexpr static float GOOD_COST {0.1F};
+        constexpr static std::size_t FIELD_COUNT {7};
+
+        std::size_t iterations {};
         std::vector<std::size_t> layer_sizes;
 
         std::vector<Eigen::MatrixXf> weights;
         std::vector<Eigen::VectorXf> biases;
 
         NeuralNetworkDiff most_recent_diff;
-        float most_recent_cost;
-        std::size_t diff_improvement_streak;
+        float most_recent_cost {};
+        std::size_t diff_improvement_streak {};
 
         NeuralNetwork() = default;
         NeuralNetwork(NeuralNetwork&& other) noexcept = default;
@@ -69,12 +95,12 @@ namespace lc {
 
         void train(float cost);
 
-        [[nodiscard]] std::vector<std::uint8_t> serialize() const;
+        [[nodiscard]] SerializeMedium serialize() const;
         [[nodiscard]] Eigen::VectorXf compute(Eigen::VectorXf input) const;
 
-        void dump_file(const std::filesystem::path& filename) const;
+        void dump_file(const std::filesystem::path& filepath) const;
 
-        static NeuralNetwork load_file(const std::filesystem::path& filename);
+        static NeuralNetwork load_file(const std::filesystem::path& filepath);
         static float sigmoid_abs(float value);
     };
 } // namespace lc
