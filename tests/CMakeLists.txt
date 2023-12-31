@@ -11,3 +11,4 @@ endfunction()
 enable_testing()
 
 test_executable(test1)
+test_executable(eigen_serialize)
