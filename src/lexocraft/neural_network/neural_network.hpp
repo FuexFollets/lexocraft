@@ -6,9 +6,10 @@
 #include <filesystem>
 #include <vector>
 
-#include <eigen3/Eigen/Core>
+#include <Eigen/Core>
 
 namespace lc {
+    using vbuffer_t = std::vector<std::uint8_t>;
 
     class NeuralNetwork {
         public:
@@ -19,9 +20,9 @@ namespace lc {
             class SerializeMedium {
                 public:
 
-                std::vector<std::uint8_t*> weight_diffs_buffer;
-                std::vector<std::uint8_t*> bias_diffs_buffer;
-                std::vector<std::size_t> layer_sizes_buffer;
+                std::vector<vbuffer_t> weight_diffs_buffers;
+                std::vector<vbuffer_t> bias_diffs_buffers;
+                std::vector<std::size_t> layer_sizes;
             };
 
             constexpr static std::size_t FIELD_COUNT {3};
@@ -50,7 +51,7 @@ namespace lc {
             void invert() noexcept;
 
             [[nodiscard]] NeuralNetworkDiff inverted() const noexcept;
-            [[nodiscard]] SerializeMedium serialize() const;
+            [[nodiscard]] SerializeMedium serialize() const noexcept;
 
             friend class NeuralNetwork;
         };
@@ -61,8 +62,8 @@ namespace lc {
             std::size_t iterations {};
             std::vector<std::size_t> layer_sizes;
 
-            std::vector<std::uint8_t*> weights_buffer;
-            std::vector<std::uint8_t*> biases_buffer;
+            std::vector<vbuffer_t> weights_buffer;
+            std::vector<vbuffer_t> biases_buffer;
 
             NeuralNetworkDiff::SerializeMedium most_recent_diff;
             float most_recent_cost {};

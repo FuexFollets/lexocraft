@@ -3,8 +3,8 @@
 #include <Eigen/Geometry> // Needed for certain matrix types like Eigen::Quaternionf
 
 // For serialization:
-#include <Eigen/Eigen> // Includes the Serializer class
 #include <cstdint>
+#include <Eigen/Eigen> // Includes the Serializer class
 #include <iostream>
 #include <iterator>
 
@@ -15,21 +15,22 @@ int main() {
 
     std::cout << "Before serialization:\n" << matrix << "\n\n";
 
-    Eigen::Serializer<matrix_t> serializer;
+    // Eigen::Serializer<matrix_t> serializer;
 
-    auto size = serializer.size(matrix);
+    auto size = matrix.size();
 
-    auto* buffer = new std::uint8_t[size];
+    std::vector<std::uint8_t> bytes(size);
+    auto* buffer = bytes.data();
 
-    serializer.serialize(buffer, std::next(buffer, size), matrix);
+    Eigen::serialize(buffer, std::next(buffer, size), matrix);
 
     std::cout << "After serialization:\n";
     for (std::size_t index {0}; index < size; ++index) {
-        std::cout << static_cast<std::uint8_t>(buffer[index]) << " ";
+        std::cout << static_cast<std::uint8_t>(buffer [index]) << " ";
     }
 
     matrix_t deserialized_matrix;
-    serializer.deserialize(buffer, std::next(buffer, size), deserialized_matrix);
+    Eigen::deserialize(buffer, std::next(buffer, size), deserialized_matrix);
 
     std::cout << "\n\nAfter deserialization:\n" << deserialized_matrix << "\n";
 }
