@@ -90,14 +90,15 @@ namespace lc {
         NeuralNetwork& operator=(NeuralNetwork&& other) noexcept = default;
 
         explicit NeuralNetwork(std::vector<std::size_t> layer_sizes, bool randomize = true);
-        explicit NeuralNetwork(std::vector<std::uint8_t> alpaca_bytes);
+        explicit NeuralNetwork(vbuffer_t alpaca_bytes);
 
         void modify(NeuralNetworkDiff diff, bool apply_biases = true, bool apply_weights = true);
 
         void train(float cost);
 
-        [[nodiscard]] SerializeMedium serialize() const;
-        [[nodiscard]] Eigen::VectorXf compute(Eigen::VectorXf input) const;
+        [[nodiscard]] SerializeMedium serialize_medium() const noexcept;
+        [[nodiscard]] vbuffer_t serialize() const noexcept;
+        [[nodiscard]] Eigen::VectorXf compute(Eigen::VectorXf input) const noexcept;
 
         void dump_file(const std::filesystem::path& filepath) const;
 

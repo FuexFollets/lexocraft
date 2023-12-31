@@ -11,8 +11,7 @@
 namespace lc {
 
     NeuralNetwork::NeuralNetwork(std::vector<std::size_t> layer_sizes, bool randomize) :
-        iterations {0}, layer_sizes(std::move(layer_sizes)), most_recent_diff(layer_sizes),
-        most_recent_cost {0}, diff_improvement_streak {0} {
+        layer_sizes(std::move(layer_sizes)), most_recent_diff(layer_sizes) {
         for (std::size_t i = 1; i < layer_sizes.size(); ++i) {
             weights.emplace_back(layer_sizes [i], layer_sizes [i - 1]);
             biases.emplace_back(layer_sizes [i]);
@@ -29,11 +28,12 @@ namespace lc {
         }
     }
 
-    NeuralNetwork::NeuralNetwork(std::vector<std::uint8_t> alpaca_bytes) :
-        most_recent_cost {0}, diff_improvement_streak {0} {
+    NeuralNetwork::NeuralNetwork(std::vector<std::uint8_t> alpaca_bytes) {
         std::error_code error_code;
 
-        auto object = alpaca::deserialize<NeuralNetwork>(alpaca_bytes, error_code);
+        /*
+        auto object = alpaca::deserialize<NeuralNetwork, NeuralNetwork::FIELD_COUNT>(alpaca_bytes,
+                                                                                     error_code);
 
         if (error_code) {
             throw std::runtime_error(error_code.message());
@@ -44,17 +44,60 @@ namespace lc {
         weights = std::move(object.weights);
         biases = std::move(object.biases);
         most_recent_diff = std::move(object.most_recent_diff);
+        */
     }
 
-    std::vector<std::uint8_t> NeuralNetwork::serialize() const {
-        std::vector<std::uint8_t> bytes;
+    NeuralNetwork::SerializeMedium NeuralNetwork::serialize_medium() const noexcept {
+        using Medium_t = NeuralNetwork::SerializeMedium;
 
-        alpaca::serialize(*this, bytes);
+        Medium_t medium;
 
-        return bytes;
+        medium.iterations = iterations;
+        medium.layer_sizes = layer_sizes;
+        medium.most_recent_diff = most_recent_diff.serialize();
+        medium.most_recent_cost = most_recent_cost;
+        medium.diff_improvement_streak = diff_improvement_streak;
+
+        Eigen::Serializer<Eigen::MatrixXf> matrix_dynamic_serializer;
+        Eigen::Serializer<Eigen::VectorXf> vector_dynamic_serializer;
+
+        medium.weights_buffer.resize(weights.size());
+        medium.biases_buffer.resize(biases.size());
+
+        for (std::size_t index {0}; index < weights.size(); index++) {
+            const auto& weight {weights [index]};
+            const auto size = matrix_dynamic_serializer.size(weight);
+            std::vector<std::uint8_t> bytes(size);
+            auto* buffer = bytes.data();
+            matrix_dynamic_serializer.serialize(buffer, std::next(buffer, size), weight);
+            medium.weights_buffer [index] = std::move(bytes);
+        }
+
+        for (std::size_t index {0}; index < biases.size(); index++) {
+            const auto& bias {biases [index]};
+            const auto size = vector_dynamic_serializer.size(bias);
+            std::vector<std::uint8_t> bytes(size);
+            auto* buffer = bytes.data();
+            vector_dynamic_serializer.serialize(buffer, std::next(buffer, size), bias);
+            medium.biases_buffer [index] = std::move(bytes);
+        }
+
+        return medium;
     }
 
-    Eigen::VectorXf NeuralNetwork::compute(Eigen::VectorXf input) const {
+    vbuffer_t NeuralNetwork::serialize() const noexcept {
+        using Medium_t = NeuralNetwork::SerializeMedium;
+
+        Medium_t medium {serialize_medium()};
+
+        vbuffer_t buffer;
+
+        alpaca::serialize<Medium_t>(medium, buffer);
+
+        return buffer;
+    }
+
+    Eigen::VectorXf NeuralNetwork::compute(Eigen::VectorXf input) const noexcept {
         for (std::size_t index {0}; index < weights.size(); ++index) {
             input = weights [index] * input + biases [index];
             input = input.unaryExpr([](float value) { return sigmoid_abs(value); });
@@ -122,7 +165,9 @@ namespace lc {
 
     void NeuralNetwork::dump_file(const std::filesystem::path& filename) const {
         std::ofstream dumpfile(filename, std::ios::out | std::ios::binary);
-        alpaca::serialize(*this, dumpfile);
+        /*
+        alpaca::serialize<NeuralNetwork, NeuralNetwork::FIELD_COUNT>(*this, dumpfile);
+        */
     }
 
     NeuralNetwork NeuralNetwork::load_file(const std::filesystem::path& filename) {
@@ -130,7 +175,10 @@ namespace lc {
         std::error_code error_code;
         const auto file_size = std::filesystem::file_size(filename);
 
-        return alpaca::deserialize<NeuralNetwork>(dumpfile, file_size, error_code);
+        /*
+        return alpaca::deserialize<NeuralNetwork, NeuralNetwork::FIELD_COUNT>(dumpfile, file_size,
+                                                                              error_code);
+                                                                              */
     }
 
 } // namespace lc
