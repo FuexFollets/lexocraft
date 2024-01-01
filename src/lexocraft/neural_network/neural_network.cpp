@@ -12,9 +12,9 @@ namespace lc {
 
     NeuralNetwork::NeuralNetwork(std::vector<std::size_t> layer_sizes, bool randomize) :
         layer_sizes(std::move(layer_sizes)), most_recent_diff(layer_sizes) {
-        for (std::size_t i = 1; i < layer_sizes.size(); ++i) {
-            weights.emplace_back(layer_sizes [i], layer_sizes [i - 1]);
-            biases.emplace_back(layer_sizes [i]);
+        for (std::size_t index {1}; index < layer_sizes.size(); ++index) {
+            weights.emplace_back(layer_sizes [index], layer_sizes [index - 1]);
+            biases.emplace_back(layer_sizes [index]);
         }
 
         if (randomize) {
@@ -25,42 +25,6 @@ namespace lc {
             for (auto& bias: biases) {
                 bias = Eigen::VectorXf::Random(bias.rows());
             }
-        }
-    }
-
-    NeuralNetwork::NeuralNetwork(vbuffer_t alpaca_bytes) {
-        using Medium_t = NeuralNetwork::SerializeMedium;
-
-        std::error_code error_code;
-        auto medium = alpaca::deserialize<Medium_t>(alpaca_bytes, error_code);
-
-        if (error_code) {
-            throw std::system_error(error_code);
-        }
-
-        iterations = medium.iterations;
-        layer_sizes = medium.layer_sizes;
-        most_recent_diff = medium.most_recent_diff;
-        most_recent_cost = medium.most_recent_cost;
-        diff_improvement_streak = medium.diff_improvement_streak;
-
-        Eigen::Serializer<Eigen::MatrixXf> matrix_dynamic_deserializer;
-        Eigen::Serializer<Eigen::VectorXf> vector_dynamic_deserializer;
-
-        for (std::size_t index {0}; index < medium.weights_buffer.size(); index++) {
-            const auto& bytes = medium.weights_buffer [index];
-            const auto size = bytes.size();
-            const auto* buffer = bytes.data();
-            matrix_dynamic_deserializer.deserialize(buffer, std::next(buffer, size),
-                                                    weights [index]);
-        }
-
-        for (std::size_t index {0}; index < medium.biases_buffer.size(); index++) {
-            const auto& bytes = medium.biases_buffer [index];
-            const auto size = bytes.size();
-            const auto* buffer = bytes.data();
-            vector_dynamic_deserializer.deserialize(buffer, std::next(buffer, size),
-                                                    biases [index]);
         }
     }
 
@@ -112,6 +76,37 @@ namespace lc {
         alpaca::serialize<Medium_t>(medium, buffer);
 
         return buffer;
+    }
+
+    NeuralNetwork NeuralNetwork::SerializeMedium::demediumize() const noexcept {
+        // Go from this medium to a neural network
+
+        NeuralNetwork network;
+
+        network.iterations = iterations;
+        network.layer_sizes = layer_sizes;
+        network.most_recent_diff = most_recent_diff.demediumize();
+        network.most_recent_cost = most_recent_cost;
+        network.diff_improvement_streak = diff_improvement_streak;
+
+        Eigen::Serializer<Eigen::MatrixXf> matrix_dynamic_deserializer;
+        Eigen::Serializer<Eigen::VectorXf> vector_dynamic_deserializer;
+
+        for (std::size_t index {0}; index < weights_buffer.size(); index++) {
+            const auto& bytes = weights_buffer [index];
+            const auto size = bytes.size();
+            const auto* buffer = bytes.data();
+            matrix_dynamic_deserializer.deserialize(buffer, std::next(buffer, size),
+                                                    network.weights [index]);
+        }
+
+        for (std::size_t index {0}; index < biases_buffer.size(); index++) {
+            const auto& bytes = biases_buffer [index];
+            const auto size = bytes.size();
+            const auto* buffer = bytes.data();
+            vector_dynamic_deserializer.deserialize(buffer, std::next(buffer, size),
+                                                    network.biases [index]);
+        }
     }
 
     Eigen::VectorXf NeuralNetwork::compute(Eigen::VectorXf input) const noexcept {

@@ -23,6 +23,8 @@ namespace lc {
                 std::vector<vbuffer_t> weight_diffs_buffers;
                 std::vector<vbuffer_t> bias_diffs_buffers;
                 std::vector<std::size_t> layer_sizes;
+
+                [[nodiscard]] NeuralNetworkDiff demediumize() const noexcept;
             };
 
             constexpr static std::size_t FIELD_COUNT {3};
@@ -68,6 +70,8 @@ namespace lc {
             NeuralNetworkDiff::SerializeMedium most_recent_diff;
             float most_recent_cost {};
             std::size_t diff_improvement_streak {};
+
+            [[nodiscard]] NeuralNetwork demediumize() const noexcept;
         };
 
         constexpr static float GOOD_COST {0.1F};
@@ -91,6 +95,7 @@ namespace lc {
 
         explicit NeuralNetwork(std::vector<std::size_t> layer_sizes, bool randomize = true);
         explicit NeuralNetwork(vbuffer_t alpaca_bytes);
+        explicit NeuralNetwork(SerializeMedium&& medium);
 
         void modify(NeuralNetworkDiff diff, bool apply_biases = true, bool apply_weights = true);
 
