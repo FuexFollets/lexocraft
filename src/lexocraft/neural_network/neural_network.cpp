@@ -193,3 +193,31 @@ namespace lc {
     }
 
 } // namespace lc
+
+std::ostream& operator<<(std::ostream& stream, const lc::NeuralNetwork& network) {
+    stream << "NeuralNetwork:\n";
+    stream << "  layer_sizes: ";
+
+    for (const auto& layer_size: network.layer_sizes) {
+        stream << layer_size << " ";
+    }
+
+    stream << "\n  weights:\n";
+
+    for (const auto& weight: network.weights) {
+        stream << "    " << weight << "\n";
+    }
+
+    stream << "  biases:\n";
+
+    for (const auto& bias: network.biases) {
+        stream << "    " << bias << "\n";
+    }
+
+    stream << "  iterations: " << network.iterations << "\n";
+    stream << "  diff_improvement_streak: " << network.diff_improvement_streak << "\n";
+    stream << "  most_recent_cost: " << network.most_recent_cost << "\n";
+    stream << "  most_recent_diff:\n" << network.most_recent_diff;
+
+    return stream;
+}

@@ -110,4 +110,7 @@ namespace lc {
     };
 } // namespace lc
 
+std::ostream& operator<<(std::ostream& stream, const lc::NeuralNetwork& network);
+std::ostream& operator<<(std::ostream& stream, const lc::NeuralNetwork::NeuralNetworkDiff& diff);
+
 #endif // LEXICRAFT_NEURAL_NETWORK_HPP

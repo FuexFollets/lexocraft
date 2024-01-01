@@ -12,3 +12,4 @@ enable_testing()
 
 test_executable(test1)
 test_executable(eigen_serialize)
+test_executable(neural_network_serialization)

@@ -159,3 +159,28 @@ namespace lc {
         return diff;
     }
 } // namespace lc
+
+// Print neural network diff
+
+std::ostream& operator<<(std::ostream& stream, const lc::NeuralNetwork::NeuralNetworkDiff& diff) {
+    stream << "diff:\n";
+    stream << "  layer_sizes: ";
+
+    for (const auto& layer_size: diff.layer_sizes) {
+        stream << layer_size << " ";
+    }
+
+    stream << "\n  weight_diffs:\n";
+
+    for (const auto& weight_diff: diff.weight_diffs) {
+        stream << "    " << weight_diff << "\n";
+    }
+
+    stream << "  bias_diffs:\n";
+
+    for (const auto& bias_diff: diff.bias_diffs) {
+        stream << "    " << bias_diff << "\n";
+    }
+
+    return stream;
+}
