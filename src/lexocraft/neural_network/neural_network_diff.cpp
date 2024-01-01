@@ -126,5 +126,36 @@ namespace lc {
             vector_dynamic_serializer.serialize(buffer, std::next(buffer, size), bias_diff);
             medium.bias_diffs_buffers [index] = std::move(bytes);
         }
+
+        return medium;
+    }
+
+    // demediumize
+    NeuralNetwork::NeuralNetworkDiff
+        NeuralNetwork::NeuralNetworkDiff::SerializeMedium::demediumize() const noexcept {
+        NeuralNetwork::NeuralNetworkDiff diff;
+
+        diff.layer_sizes = layer_sizes;
+
+        Eigen::Serializer<Eigen::MatrixXf> matrix_dynamic_deserializer;
+        Eigen::Serializer<Eigen::VectorXf> vector_dynamic_deserializer;
+
+        for (std::size_t index {0}; index < layer_sizes.size(); index++) {
+            const auto& bytes = weight_diffs_buffers [index];
+            const auto size = bytes.size();
+            const auto* buffer = bytes.data();
+            matrix_dynamic_deserializer.deserialize(buffer, std::next(buffer, size),
+                                                    diff.weight_diffs [index]);
+        }
+
+        for (std::size_t index {0}; index < layer_sizes.size(); index++) {
+            const auto& bytes = bias_diffs_buffers [index];
+            const auto size = bytes.size();
+            const auto* buffer = bytes.data();
+            vector_dynamic_deserializer.deserialize(buffer, std::next(buffer, size),
+                                                    diff.bias_diffs [index]);
+        }
+
+        return diff;
     }
 } // namespace lc
