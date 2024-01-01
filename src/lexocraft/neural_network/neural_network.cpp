@@ -28,23 +28,40 @@ namespace lc {
         }
     }
 
-    NeuralNetwork::NeuralNetwork(std::vector<std::uint8_t> alpaca_bytes) {
-        std::error_code error_code;
+    NeuralNetwork::NeuralNetwork(vbuffer_t alpaca_bytes) {
+        using Medium_t = NeuralNetwork::SerializeMedium;
 
-        /*
-        auto object = alpaca::deserialize<NeuralNetwork, NeuralNetwork::FIELD_COUNT>(alpaca_bytes,
-                                                                                     error_code);
+        std::error_code error_code;
+        auto medium = alpaca::deserialize<Medium_t>(alpaca_bytes, error_code);
 
         if (error_code) {
-            throw std::runtime_error(error_code.message());
+            throw std::system_error(error_code);
         }
 
-        iterations = object.iterations;
-        layer_sizes = std::move(object.layer_sizes);
-        weights = std::move(object.weights);
-        biases = std::move(object.biases);
-        most_recent_diff = std::move(object.most_recent_diff);
-        */
+        iterations = medium.iterations;
+        layer_sizes = medium.layer_sizes;
+        most_recent_diff = medium.most_recent_diff;
+        most_recent_cost = medium.most_recent_cost;
+        diff_improvement_streak = medium.diff_improvement_streak;
+
+        Eigen::Serializer<Eigen::MatrixXf> matrix_dynamic_deserializer;
+        Eigen::Serializer<Eigen::VectorXf> vector_dynamic_deserializer;
+
+        for (std::size_t index {0}; index < medium.weights_buffer.size(); index++) {
+            const auto& bytes = medium.weights_buffer [index];
+            const auto size = bytes.size();
+            const auto* buffer = bytes.data();
+            matrix_dynamic_deserializer.deserialize(buffer, std::next(buffer, size),
+                                                    weights [index]);
+        }
+
+        for (std::size_t index {0}; index < medium.biases_buffer.size(); index++) {
+            const auto& bytes = medium.biases_buffer [index];
+            const auto size = bytes.size();
+            const auto* buffer = bytes.data();
+            vector_dynamic_deserializer.deserialize(buffer, std::next(buffer, size),
+                                                    biases [index]);
+        }
     }
 
     NeuralNetwork::SerializeMedium NeuralNetwork::serialize_medium() const noexcept {
