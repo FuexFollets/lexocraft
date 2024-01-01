@@ -1,5 +1,6 @@
 #include <cmath>
 #include <filesystem>
+#include <iostream>
 #include <system_error>
 #include <utility>
 
@@ -11,7 +12,10 @@
 namespace lc {
 
     NeuralNetwork::NeuralNetwork(std::vector<std::size_t> layer_sizes, bool randomize) :
-        layer_sizes(std::move(layer_sizes)), most_recent_diff(layer_sizes) {
+        layer_sizes(layer_sizes), most_recent_diff(layer_sizes) {
+        std::cout << "Layer sizes size: " << layer_sizes.size() << '\n';
+        std::cout << "Layer sizes max size: " << layer_sizes.max_size() << '\n';
+
         for (std::size_t index {1}; index < layer_sizes.size(); ++index) {
             weights.emplace_back(layer_sizes [index], layer_sizes [index - 1]);
             biases.emplace_back(layer_sizes [index]);
@@ -204,14 +208,20 @@ std::ostream& operator<<(std::ostream& stream, const lc::NeuralNetwork& network)
 
     stream << "\n  weights:\n";
 
-    for (const auto& weight: network.weights) {
-        stream << "    " << weight << "\n";
+    for (std::size_t weight_number {0}; weight_number < network.weights.size(); ++weight_number) {
+        const auto& weight = network.weights [weight_number];
+
+        stream << "    weight number " << weight_number << ":\n";
+        stream << "      " << weight << "\n";
     }
 
     stream << "  biases:\n";
 
-    for (const auto& bias: network.biases) {
-        stream << "    " << bias << "\n";
+    for (std::size_t bias_number {0}; bias_number < network.biases.size(); ++bias_number) {
+        const auto& bias = network.biases [bias_number];
+
+        stream << "    bias number " << bias_number << ":\n";
+        stream << "      " << bias << "\n";
     }
 
     stream << "  iterations: " << network.iterations << "\n";

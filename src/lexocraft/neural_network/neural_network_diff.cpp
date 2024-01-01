@@ -1,4 +1,5 @@
 #include <Eigen/Eigen>
+#include <iostream>
 #include <lexocraft/neural_network/neural_network.hpp>
 #include <vector>
 
@@ -8,6 +9,8 @@ namespace lc {
         const std::vector<std::size_t>& layer_sizes) :
         weight_diffs(layer_sizes.size() - 1),
         bias_diffs(layer_sizes.size() - 1), layer_sizes(layer_sizes) {
+        std::cout << "Layer sizes.size(): " << layer_sizes.size() << '\n';
+
         for (std::size_t index {0}; index < layer_sizes.size() - 1; index++) {
             weight_diffs [index] =
                 Eigen::MatrixXf::Random(layer_sizes [index + 1], layer_sizes [index]);
@@ -172,14 +175,22 @@ std::ostream& operator<<(std::ostream& stream, const lc::NeuralNetwork::NeuralNe
 
     stream << "\n  weight_diffs:\n";
 
-    for (const auto& weight_diff: diff.weight_diffs) {
-        stream << "    " << weight_diff << "\n";
+    for (std::size_t weight_diff_number {0}; weight_diff_number < diff.weight_diffs.size();
+         weight_diff_number++) {
+        const auto& weight_diff = diff.weight_diffs [weight_diff_number];
+
+        stream << "    weight diff number " << weight_diff_number << ":\n";
+        stream << "      " << weight_diff << "\n";
     }
 
     stream << "  bias_diffs:\n";
 
-    for (const auto& bias_diff: diff.bias_diffs) {
-        stream << "    " << bias_diff << "\n";
+    for (std::size_t bias_diff_number {0}; bias_diff_number < diff.bias_diffs.size();
+         bias_diff_number++) {
+        const auto& bias_diff = diff.bias_diffs [bias_diff_number];
+
+        stream << "    bias diff number " << bias_diff_number << ":\n";
+        stream << "      " << bias_diff << "\n";
     }
 
     return stream;
