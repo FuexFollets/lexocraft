@@ -107,6 +107,8 @@ namespace lc {
             vector_dynamic_deserializer.deserialize(buffer, std::next(buffer, size),
                                                     network.biases [index]);
         }
+
+        return network;
     }
 
     Eigen::VectorXf NeuralNetwork::compute(Eigen::VectorXf input) const noexcept {
@@ -175,22 +177,19 @@ namespace lc {
         }
     }
 
-    void NeuralNetwork::dump_file(const std::filesystem::path& filename) const {
-        std::ofstream dumpfile(filename, std::ios::out | std::ios::binary);
-        /*
-        alpaca::serialize<NeuralNetwork, NeuralNetwork::FIELD_COUNT>(*this, dumpfile);
-        */
+    void NeuralNetwork::dump_file(const std::filesystem::path& filepath) const {
+        std::ofstream dumpfile(filepath, std::ios::out | std::ios::binary);
+
+        alpaca::serialize<NeuralNetwork::SerializeMedium>(serialize_medium(), dumpfile);
     }
 
-    NeuralNetwork NeuralNetwork::load_file(const std::filesystem::path& filename) {
-        std::ifstream dumpfile(filename, std::ios::in | std::ios::binary);
+    NeuralNetwork NeuralNetwork::load_file(const std::filesystem::path& filepath) {
+        std::ifstream dumpfile(filepath, std::ios::in | std::ios::binary);
         std::error_code error_code;
-        const auto file_size = std::filesystem::file_size(filename);
+        const auto file_size = std::filesystem::file_size(filepath);
 
-        /*
-        return alpaca::deserialize<NeuralNetwork, NeuralNetwork::FIELD_COUNT>(dumpfile, file_size,
-                                                                              error_code);
-                                                                              */
+        return alpaca::deserialize<NeuralNetwork::SerializeMedium>(dumpfile, file_size, error_code)
+            .demediumize();
     }
 
 } // namespace lc

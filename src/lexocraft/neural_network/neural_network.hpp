@@ -94,8 +94,6 @@ namespace lc {
         NeuralNetwork& operator=(NeuralNetwork&& other) noexcept = default;
 
         explicit NeuralNetwork(std::vector<std::size_t> layer_sizes, bool randomize = true);
-        explicit NeuralNetwork(vbuffer_t alpaca_bytes);
-        explicit NeuralNetwork(SerializeMedium&& medium);
 
         void modify(NeuralNetworkDiff diff, bool apply_biases = true, bool apply_weights = true);
 
