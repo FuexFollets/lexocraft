@@ -113,21 +113,53 @@ namespace lc {
         medium.layer_sizes = layer_sizes;
 
         for (std::size_t index {0}; index < weight_diffs.size(); index++) {
-            const auto& weight_diff {weight_diffs [index]};
-            const auto size = matrix_dynamic_serializer.size(weight_diff);
-            std::vector<std::uint8_t> bytes(size);
-            auto* buffer = bytes.data();
+            const Eigen::MatrixXf& weight_diff {weight_diffs [index]};
+            const std::size_t size {matrix_dynamic_serializer.size(weight_diff)};
+            vbuffer_t bytes(size);
+            std::uint8_t* buffer = bytes.data();
             matrix_dynamic_serializer.serialize(buffer, std::next(buffer, size), weight_diff);
-            medium.weight_diffs_buffers [index] = std::move(bytes);
+            medium.weight_diffs_buffers [index] = bytes;
+
+            for (std::size_t index {0}; index < 10; index++) {
+                std::cout << "bytes[" << index << "]: " << static_cast<int>(bytes [index]) << "\n";
+            }
+
+            std::cout << "bytes[size - 1]: " << static_cast<int>(bytes [size - 1]) << "\n";
+
+            // try to deserialize
+
+            Eigen::MatrixXf deserialized_weight_diff;
+            matrix_dynamic_serializer.deserialize(buffer, std::next(buffer, size),
+                                                  deserialized_weight_diff);
+
+            std::cout << "Deserialized weight diff (inside NeuralNetworkDiff::serialize()):"
+                      << "\n"; // deserialized_weight_diff << "\n";
+            std::cout << "Size: " << size << "\n\n";
+            std::cout << "bytes.size(): " << bytes.size() << "\n";
         }
 
         for (std::size_t index {0}; index < bias_diffs.size(); index++) {
-            const auto& bias_diff {bias_diffs [index]};
-            const auto size = vector_dynamic_serializer.size(bias_diff);
-            std::vector<std::uint8_t> bytes(size);
-            auto* buffer = bytes.data();
+            const Eigen::VectorXf& bias_diff {bias_diffs [index]};
+            const std::size_t size = vector_dynamic_serializer.size(bias_diff);
+            vbuffer_t bytes(size);
+            std::uint8_t* buffer = bytes.data();
             vector_dynamic_serializer.serialize(buffer, std::next(buffer, size), bias_diff);
-            medium.bias_diffs_buffers [index] = std::move(bytes);
+            medium.bias_diffs_buffers [index] = bytes;
+
+            for (std::size_t index {0}; index < 10; index++) {
+                std::cout << "bytes[" << index << "]: " << static_cast<int>(bytes [index]) << "\n";
+            }
+
+            // try to deserialize
+
+            Eigen::VectorXf deserialized_bias_diff;
+            vector_dynamic_serializer.deserialize(buffer, std::next(buffer, size),
+                                                  deserialized_bias_diff);
+
+            std::cout << "Deserialized bias diff (inside NeuralNetworkDiff::serialize()):"
+                      << "\n"; // deserialized_bias_diff << "\n";
+            std::cout << "Size: " << size << "\n\n";
+            std::cout << "bytes.size(): " << bytes.size() << "\n";
         }
 
         return medium;
@@ -143,15 +175,27 @@ namespace lc {
         Eigen::Serializer<Eigen::MatrixXf> matrix_dynamic_deserializer;
         Eigen::Serializer<Eigen::VectorXf> vector_dynamic_deserializer;
 
-        for (std::size_t index {0}; index < layer_sizes.size(); index++) {
-            const auto& bytes = weight_diffs_buffers [index];
-            const auto size = bytes.size();
-            const auto* buffer = bytes.data();
+        std::cout
+            << "layer_sizes.size() (inside NeuralNetworkDiff::SerializeMedium::demediumize()): "
+            << layer_sizes.size() << "\n";
+
+        for (std::size_t index {0}; index < layer_sizes.size() - 1; index++) {
+            const vbuffer_t& bytes(weight_diffs_buffers [index]);
+            const std::size_t size {bytes.size()};
+            std::cout << "bytes.size(): " << size << "\n";
+
+            for (std::size_t index {0}; index < 10; index++) {
+                std::cout << "bytes[" << index << "]: " << static_cast<int>(bytes [index]) << "\n";
+            }
+
+            std::cout << "bytes[size - 1]: " << static_cast<int>(bytes [size - 1]) << "\n";
+
+            const std::uint8_t* buffer {bytes.data()};
             matrix_dynamic_deserializer.deserialize(buffer, std::next(buffer, size),
                                                     diff.weight_diffs [index]);
         }
 
-        for (std::size_t index {0}; index < layer_sizes.size(); index++) {
+        for (std::size_t index {0}; index < layer_sizes.size() - 1; index++) {
             const auto& bytes = bias_diffs_buffers [index];
             const auto size = bytes.size();
             const auto* buffer = bytes.data();
