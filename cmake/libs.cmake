@@ -1,5 +1,5 @@
 include_directories(${PROJECT_SOURCE_DIR}/lib/eigen)
-include_directories(${PROJECT_SOURCE_DIR}/lib/alpaca/include)
+include_directories(${PROJECT_SOURCE_DIR}/lib/cereal/include)
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
 set(LEXICRAFT_LIBS neural_network)

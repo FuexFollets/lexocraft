@@ -12,8 +12,6 @@ int main(int argc, char** argv) {
     std::cout << "Neural network created:\n" << network << "\n";
     std::cout << "Serialized and deserialized neural network:\n";
 
-    std::cout << network.serialize_medium().demediumize() << "\n";
-
     /*
     const std::string filename {*std::next(argv, 1)};
 

@@ -4,8 +4,6 @@
 #include <system_error>
 #include <utility>
 
-#include <alpaca/alpaca.h>
-
 #include <lexocraft/neural_network/neural_network.hpp>
 #include <vector>
 
