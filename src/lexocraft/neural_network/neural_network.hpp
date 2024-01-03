@@ -1,5 +1,5 @@
-#ifndef LEXICRAFT_NEURAL_NETWORK_HPP
-#define LEXICRAFT_NEURAL_NETWORK_HPP
+#ifndef LEXOCRAFT_NEURAL_NETWORK_HPP
+#define LEXOCRAFT_NEURAL_NETWORK_HPP
 
 #include <cstddef>
 #include <cstdint>
@@ -99,4 +99,4 @@ namespace lc {
 std::ostream& operator<<(std::ostream& stream, const lc::NeuralNetwork& network);
 std::ostream& operator<<(std::ostream& stream, const lc::NeuralNetwork::NeuralNetworkDiff& diff);
 
-#endif // LEXICRAFT_NEURAL_NETWORK_HPP
+#endif // LEXOCRAFT_NEURAL_NETWORK_HPP
