@@ -8,6 +8,8 @@
 
 #include <Eigen/Core>
 
+#include <lexocraft/cereal_eigen.hpp>
+
 namespace lc {
     using vbuffer_t = std::vector<std::uint8_t>;
 
@@ -45,6 +47,11 @@ namespace lc {
             [[nodiscard]] NeuralNetworkDiff inverted() const noexcept;
 
             friend class NeuralNetwork;
+
+            template <class Archive>
+            void serialize(Archive& archive) {
+                archive(weight_diffs, bias_diffs, layer_sizes);
+            }
         };
 
         constexpr static float GOOD_COST {0.1F};
@@ -75,6 +82,12 @@ namespace lc {
         [[nodiscard]] Eigen::VectorXf compute(Eigen::VectorXf input) const noexcept;
 
         void dump_file(const std::filesystem::path& filepath) const;
+
+        template <class Archive>
+        void serialize(Archive& archive) {
+            archive(iterations, layer_sizes, weights, biases, most_recent_diff, most_recent_cost,
+                    diff_improvement_streak);
+        }
 
         static NeuralNetwork load_file(const std::filesystem::path& filepath);
         static float sigmoid_abs(float value);
