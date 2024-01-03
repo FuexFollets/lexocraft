@@ -81,7 +81,7 @@ namespace lc {
 
         [[nodiscard]] Eigen::VectorXf compute(Eigen::VectorXf input) const noexcept;
 
-        void dump_file(const std::filesystem::path& filepath) const;
+        void save_file(const std::filesystem::path& filepath) const;
 
         template <class Archive>
         void serialize(Archive& archive) {

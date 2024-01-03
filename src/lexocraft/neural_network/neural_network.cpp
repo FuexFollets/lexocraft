@@ -96,6 +96,25 @@ namespace lc {
         }
     }
 
+    void NeuralNetwork::save_file(const std::filesystem::path& filepath) const {
+        std::ofstream file {filepath};
+
+        cereal::BinaryOutputArchive oarchive {file};
+
+        oarchive(*this);
+    }
+
+    static NeuralNetwork load_file(const std::filesystem::path& filepath) {
+        std::ifstream file {filepath};
+
+        cereal::BinaryInputArchive iarchive {file};
+
+        NeuralNetwork network;
+
+        iarchive(network);
+
+        return network;
+    }
 } // namespace lc
 
 std::ostream& operator<<(std::ostream& stream, const lc::NeuralNetwork& network) {
@@ -112,7 +131,8 @@ std::ostream& operator<<(std::ostream& stream, const lc::NeuralNetwork& network)
         const auto& weight = network.weights [weight_number];
 
         stream << "    weight number " << weight_number << ":\n";
-        stream << "      " << weight << "\n";
+        // print the weight matrix 6 spaces to the right
+        stream << weight << "\n";
     }
 
     stream << "  biases:\n";
