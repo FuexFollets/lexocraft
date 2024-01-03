@@ -3,9 +3,11 @@
 #include <iostream>
 #include <system_error>
 #include <utility>
+#include <vector>
+
+#include <cereal/cereal.hpp>
 
 #include <lexocraft/neural_network/neural_network.hpp>
-#include <vector>
 
 namespace lc {
 
@@ -104,7 +106,7 @@ namespace lc {
         oarchive(*this);
     }
 
-    static NeuralNetwork load_file(const std::filesystem::path& filepath) {
+    NeuralNetwork NeuralNetwork::load_file(const std::filesystem::path& filepath) {
         std::ifstream file {filepath};
 
         cereal::BinaryInputArchive iarchive {file};
@@ -141,7 +143,7 @@ std::ostream& operator<<(std::ostream& stream, const lc::NeuralNetwork& network)
         const auto& bias = network.biases [bias_number];
 
         stream << "    bias number " << bias_number << ":\n";
-        stream << "      " << bias << "\n";
+        stream << bias << "\n";
     }
 
     stream << "  iterations: " << network.iterations << "\n";

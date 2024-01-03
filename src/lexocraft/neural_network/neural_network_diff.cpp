@@ -115,7 +115,7 @@ std::ostream& operator<<(std::ostream& stream, const lc::NeuralNetwork::NeuralNe
         const auto& weight_diff = diff.weight_diffs [weight_diff_number];
 
         stream << "    weight diff number " << weight_diff_number << ":\n";
-        stream << "      " << weight_diff << "\n";
+        stream << weight_diff << "\n";
     }
 
     stream << "  bias_diffs:\n";
@@ -125,7 +125,7 @@ std::ostream& operator<<(std::ostream& stream, const lc::NeuralNetwork::NeuralNe
         const auto& bias_diff = diff.bias_diffs [bias_diff_number];
 
         stream << "    bias diff number " << bias_diff_number << ":\n";
-        stream << "      " << bias_diff << "\n";
+        stream << bias_diff << "\n";
     }
 
     return stream;
