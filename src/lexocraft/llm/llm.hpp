@@ -3,6 +3,6 @@
 
 #include <lexocraft/llm/context_builder.hpp>
 #include <lexocraft/llm/text_completion.hpp>
-#include <lexocraft/llm/surface_analysis.hpp>
+#include <lexocraft/llm/grammar.hpp>
 
 #endif // LEXOCRAFT_LLM_HPP
