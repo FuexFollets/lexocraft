@@ -54,3 +54,6 @@ _deps
 ### CMake Patch ###
 # External projects
 *-prefix/
+
+### Neural Network Files ###
+nn
