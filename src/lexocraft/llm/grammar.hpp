@@ -1,6 +1,7 @@
-#ifndef LEXOCAD_SURFACE_ANALYSIS_HPP
-#define LEXOCAD_SURFACE_ANALYSIS_HPP
+#ifndef LEXOCRAFT_SURFACE_ANALYSIS_HPP
+#define LEXOCRAFT_SURFACE_ANALYSIS_HPP
 
+#include <cstddef>
 #include <optional>
 #include <string>
 #include <tuple>
@@ -10,11 +11,11 @@
 #include <Eigen/Eigen>
 
 namespace lc::grammar {
-    // All grammar types: Container, Paragraph, Sentence, Word, Symbol
+    // All grammar types: Container, Word, Symbol
 
     struct GrammarObject {};
 
-    class Symbol : GrammarObject {
+    class Symbol : public GrammarObject {
         public:
 
         enum class Type {
@@ -51,9 +52,15 @@ namespace lc::grammar {
             Tilde = '~',
             Backtick = '`',
             Other = 0,
+            None = -1,
         };
 
-        static constexpr std::array<std::tuple<Type, char>, 33> types {
+        static constexpr std::array<Type, 6> OPENING_TYPES = {
+            Type::OpenParenthesis, Type::OpenBracket, Type::OpenBrace,
+            Type::DoubleQuote,     Type::SingleQuote, Type::LessThan,
+        };
+
+        static constexpr std::array<std::tuple<Type, char>, 33> TYPES {
             {
              {Type::Exclamation, '!'},
              {Type::CommercialAt, '@'},
@@ -94,7 +101,7 @@ namespace lc::grammar {
         Type type;
 
         static Type type_from_symbol(char symbol) {
-            for (auto [type, symbol_]: types) {
+            for (auto [type, symbol_]: TYPES) {
                 if (symbol == symbol_) {
                     return type;
                 }
@@ -103,7 +110,7 @@ namespace lc::grammar {
         }
 
         static char symbol_from_type(Type type) {
-            for (auto [type_, symbol]: types) {
+            for (auto [type_, symbol]: TYPES) {
                 if (type == type_) {
                     return symbol;
                 }
@@ -112,36 +119,41 @@ namespace lc::grammar {
         }
     };
 
-    class Word : GrammarObject {
+    class Word : public GrammarObject {
         public:
 
+        enum class Type {
+            Number,
+            Alphanumeric,
+            Other,
+        };
+
+        Type type;
         std::string content; // Always lowercase
-        std::vector<bool> capitalization_case;
+        std::optional<std::vector<bool>> capitalization_case;
     };
 
-    class Sentence : GrammarObject { // Can contain Container(s), Word(s), and Punctuation(s)
+    class Container : public GrammarObject { // Can contain
+                                             // Container(s), Word(s),
+                                             // and Punctuation(s)
         public:
 
-        std::vector<GrammarObject> contents;
-        Symbol ending_punctuation;
-    };
-
-    class Paragraph : GrammarObject { // Can contain Sentence(s)
-        std::vector<Sentence> sentences;
-    };
-
-    class Container : GrammarObject { // Can contain Container(s), Paragraph(s),
-                                      // Sentence(s), Word(s), and Punctuation(s)
-        enum class ContainerType {
-            Basic,
-            Parenthesis,
-            Quote,
+        enum class Type {
+            Sentence,
+            Paragraph,
+            Quoted,
+            Parenthesized,
+            Bracketed,
+            Braced,
+            AngleBracketed,
         };
 
         std::vector<GrammarObject> contents;
+        Symbol::Type opening_symbol;
     };
 
-    Container parse(const std::string& text);
+    std::size_t find_closing_symbol(const std::string& text, std::size_t opening_symbol_index);
+    Container parse(const std::string& text, Symbol::Type opening_symbol = Symbol::Type::None);
 } // namespace lc::grammar
 
 #endif
