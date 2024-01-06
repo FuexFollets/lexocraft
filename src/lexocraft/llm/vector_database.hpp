@@ -33,7 +33,7 @@ namespace lc {
 
         std::vector<WordVector> words;
 
-        void save(const std::filesystem::path& filepath) const;
+        // void save(const std::filesystem::path& filepath) const;
         void load(const std::filesystem::path& filepath);
 
         template <class Archive>
