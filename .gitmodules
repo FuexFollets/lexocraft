@@ -7,3 +7,6 @@
 [submodule "lib/cereal"]
 	path = lib/cereal
 	url = https://github.com/USCiLab/cereal.git
+[submodule "assets/english-words"]
+	path = assets/english-words
+	url = https://github.com/dwyl/english-words.git
