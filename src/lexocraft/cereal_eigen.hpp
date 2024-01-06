@@ -1,3 +1,6 @@
+#ifndef LEXOCRAFT_CEREAL_EIGEN_HPP
+#define LEXOCRAFT_CEREAL_EIGEN_HPP
+
 #include <cereal/archives/binary.hpp>
 #include <cereal/cereal.hpp>
 #include <cstddef>
@@ -32,3 +35,5 @@ namespace cereal {
         archive(binary_data(matrix.data(), static_cast<std::size_t>(rows * cols * sizeof(Scalar))));
     }
 } // namespace cereal
+
+#endif
