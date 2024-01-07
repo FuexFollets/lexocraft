@@ -1,7 +1,15 @@
 #include <string>
 #include <vector>
 
+#include <lexocraft/fancy_eigen_print.hpp>
 #include <lexocraft/llm/vector_database.hpp>
+
+std::string remove_whitespace(std::string str) {
+    str.erase(str.begin(), std::find_if_not(str.begin(), str.end(), ::isspace));
+    str.erase(std::find_if_not(str.rbegin(), str.rend(), ::isspace).base(), str.end());
+
+    return str;
+}
 
 int main(int argc, char** argv) {
     std::vector<std::string> args {std::next(argv, 1), std::next(argv, argc)};
@@ -22,7 +30,7 @@ int main(int argc, char** argv) {
         std::cout << "Reading from file: " << path_from << "\n";
 
         while (std::getline(file, line)) {
-            words.emplace_back(std::move(line));
+            words.emplace_back(remove_whitespace(line));
         }
 
         std::cout << "Read " << words.size() << " words from file\n";
@@ -36,7 +44,8 @@ int main(int argc, char** argv) {
         std::cout << "First 20 words:\n";
 
         for (std::size_t index {0}; index < 20 && index < database.words.size(); ++index) {
-            std::cout << database.words [index].word << "\n";
+            std::cout << database.words [index].word << ": " << std::setw(10)
+                      << lc::fancy_eigen_vector_str(database.words [index].vector) << "\n";
         }
     }
 
@@ -54,7 +63,8 @@ int main(int argc, char** argv) {
         std::cout << "First 20 words:\n";
 
         for (std::size_t index {0}; index < 20 && index < database.words.size(); ++index) {
-            std::cout << database.words [index].word << ;
+            std::cout << database.words [index].word << ": " << std::setw(10)
+                      << lc::fancy_eigen_vector_str(database.words [index].vector) << "\n";
         }
     }
 }

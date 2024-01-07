@@ -12,8 +12,6 @@ namespace lc {
      Only prints the first N rows or columns of the eigen vector or matrix as list. If there are
      more than N, then simply end the prnting with a '...'.
 
-     Everything should also be aligned.
-
     Ex:
     [1, 2, 3, 4, ...]
 
@@ -24,12 +22,6 @@ namespace lc {
     [..., ..., ..., ..., ..., ...]
     */
     template <typename T>
-    concept EigenVector = requires(T object) {
-        // Constraints for Eigen::VectorXd type
-        requires std::is_same_v<T, Eigen::VectorX<typename T::Scalar>>;
-    };
-
-    template <EigenVector T>
     std::string fancy_eigen_vector_str(const T& obj, int max_cols = 5, int decimal_places = 2) {
         std::stringstream sstream;
 
@@ -44,12 +36,6 @@ namespace lc {
     }
 
     template <typename T>
-    concept EigenMatrix = requires(T object) {
-        // Constraints for Eigen::MatrixXd type
-        requires std::is_same_v<T, Eigen::MatrixX<typename T::Scalar>>;
-    };
-
-    template <EigenMatrix T>
     std::string fancy_eigen_matrix_str(const T& obj, int max_rows = 5, int max_cols = 5,
                                        int decimal_places = 2) {
         std::stringstream sstream;
@@ -64,7 +50,7 @@ namespace lc {
             sstream << (static_cast<int>(obj.cols()) > max_cols ? " ...]" : "]")
                     << (i < std::min(static_cast<int>(obj.rows()), max_rows) - 1 ? "\n" : "");
         }
-        sstream << (static_cast<int>(obj.rows()) > max_rows ? "\n...\n" : "");
+        sstream << (static_cast<int>(obj.rows()) > max_rows ? "\n..." : "");
 
         return sstream.str();
     }
