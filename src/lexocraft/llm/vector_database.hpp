@@ -31,6 +31,10 @@ namespace lc {
         std::string word;
         Eigen::Vector<float, WORD_VECTOR_DIMENSIONS> vector;
 
+        [[nodiscard]] float similarity(const WordVector& other) const;
+        [[nodiscard]] float soundex_distance(const WordVector& other) const;
+        [[nodiscard]] float levenshtein_distance(const WordVector& other) const;
+
         template <class Archive>
         void serialize(Archive& archive) {
             archive(word, vector);
