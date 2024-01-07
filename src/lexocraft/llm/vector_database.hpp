@@ -28,7 +28,7 @@ namespace lc {
                 {'d', 3}, {'t', 3},
                 {'l', 4},
                 {'m', 5}, {'n', 5},
-                {'r', 6}
+                {'r', 6},
   // clang-format on
         });
 
@@ -44,7 +44,7 @@ namespace lc {
         std::string word;
         Eigen::Vector<float, WORD_VECTOR_DIMENSIONS> vector;
 
-        [[nodiscard]] float soundex() const;
+        [[nodiscard]] std::vector<float> soundex() const;
         [[nodiscard]] float soundex_distance(const WordVector& other) const;
         [[nodiscard]] float levenshtein_distance(const WordVector& other) const;
         [[nodiscard]] float similarity(const WordVector& other) const;

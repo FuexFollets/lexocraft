@@ -24,6 +24,18 @@ namespace lc {
         }
     }
 
+    std::vector<float> WordVector::soundex() const {
+        std::vector<float> soundex;
+
+        for (char letter: word) {
+            if (SOUNDEX_CODES.contains(letter)) {
+                soundex.push_back(SOUNDEX_CODES.at(letter));
+            }
+        }
+
+        return soundex;
+    }
+
     VectorDatabase::VectorDatabase(const std::vector<WordVector>& words) : words(words) {
     }
 
