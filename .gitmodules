@@ -10,3 +10,6 @@
 [submodule "assets/english-words"]
 	path = assets/english-words
 	url = https://github.com/dwyl/english-words.git
+[submodule "lib/eternal"]
+	path = lib/eternal
+	url = https://github.com/mapbox/eternal.git
