@@ -8,6 +8,7 @@
 #include <cereal/types/string.hpp>
 #include <cereal/types/vector.hpp>
 #include <Eigen/Eigen>
+#include <mapbox/eternal.hpp>
 
 #include <lexocraft/cereal_eigen.hpp>
 
@@ -18,6 +19,18 @@ namespace lc {
         static constexpr std::size_t WORD_VECTOR_DIMENSIONS = 32;
 
         using Vector_t = Eigen::Vector<float, WORD_VECTOR_DIMENSIONS>;
+
+        static MAPBOX_ETERNAL_CONSTEXPR const auto SOUNDEX_CODES =
+            mapbox::eternal::map<char, float>({
+  // clang-format off
+                {'b', 1}, {'f', 1}, {'p', 1}, {'v', 1},
+                {'c', 2}, {'g', 2}, {'j', 2}, {'k', 2}, {'q', 2}, {'s', 2}, {'x', 2},
+                {'d', 3}, {'t', 3},
+                {'l', 4},
+                {'m', 5}, {'n', 5},
+                {'r', 6}
+  // clang-format on
+        });
 
         WordVector() = default;
         WordVector(const WordVector&) = default;
@@ -31,9 +44,10 @@ namespace lc {
         std::string word;
         Eigen::Vector<float, WORD_VECTOR_DIMENSIONS> vector;
 
-        [[nodiscard]] float similarity(const WordVector& other) const;
+        [[nodiscard]] float soundex() const;
         [[nodiscard]] float soundex_distance(const WordVector& other) const;
         [[nodiscard]] float levenshtein_distance(const WordVector& other) const;
+        [[nodiscard]] float similarity(const WordVector& other) const;
 
         template <class Archive>
         void serialize(Archive& archive) {
