@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <fstream>
+#include <functional>
 #include <vector>
 
 #include <cereal/archives/binary.hpp>
@@ -76,5 +77,41 @@ namespace lc {
         cereal::BinaryInputArchive iarchive {file};
 
         iarchive(*this);
+    }
+
+    std::vector<VectorDatabase::SearchResult> VectorDatabase::search_closest_n(
+        const WordVector& searched_word, int top_n, float threshold, float soundex_weight,
+        float levenshtein_weight, bool stop_when_top_n_are_found) const {
+        std::vector<SearchResult> results;
+
+        results.reserve(top_n);
+
+        float lowest_similarity_in_top_n = 1.0F;
+
+        const std::function<bool()> results_are_full = [&]() {
+            return results.size() == static_cast<std::size_t>(top_n);
+        };
+
+        for (const WordVector& word: words) {
+            const float similarity =
+                searched_word.similarity(word, soundex_weight, levenshtein_weight);
+
+            if ((similarity > threshold) &&
+                (!results_are_full || (similarity < lowest_similarity_in_top_n))) {
+                results.emplace_back(word, similarity);
+                lowest_similarity_in_top_n = std::min(lowest_similarity_in_top_n, similarity);
+
+                if (results_are_full() && stop_when_top_n_are_found) {
+                    break;
+                }
+            }
+        }
+
+        std::sort(results.begin(), results.end(),
+                  [](const SearchResult& first_result, const SearchResult& second_result) {
+                      return first_result.similarity < second_result.similarity;
+                  });
+
+        return results;
     }
 } // namespace lc
