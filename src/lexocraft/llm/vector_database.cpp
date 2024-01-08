@@ -25,8 +25,8 @@ namespace lc {
         }
     }
 
-    std::vector<float> WordVector::soundex() const {
-        std::vector<float> soundex;
+    std::vector<int> WordVector::soundex() const {
+        std::vector<int> soundex;
 
         for (char letter: word) {
             if (SOUNDEX_CODES.contains(letter)) {
