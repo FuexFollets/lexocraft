@@ -45,6 +45,16 @@ namespace lc {
         return lc::levenshtein_distance(soundex(), other.soundex());
     }
 
+    float WordVector::similarity(const WordVector& other, float soundex_weight,
+                                 float levenshtein_weight) const {
+        const float soundex_distance = this->soundex_distance(other);
+        const float levenshtein_distance = this->levenshtein_distance(other);
+        const float weight_sum = soundex_weight + levenshtein_weight;
+
+        return (soundex_weight * soundex_distance + levenshtein_weight * levenshtein_distance) /
+               weight_sum;
+    }
+
     VectorDatabase::VectorDatabase(const std::vector<WordVector>& words) : words(words) {
     }
 

@@ -47,7 +47,8 @@ namespace lc {
         [[nodiscard]] std::vector<float> soundex() const;
         [[nodiscard]] float soundex_distance(const WordVector& other) const;
         [[nodiscard]] float levenshtein_distance(const WordVector& other) const;
-        [[nodiscard]] float similarity(const WordVector& other) const;
+        [[nodiscard]] float similarity(const WordVector& other, float soundex_weight = 0.5F,
+                                       float levenshtein_weight = 0.5F) const;
 
         template <class Archive>
         void serialize(Archive& archive) {
