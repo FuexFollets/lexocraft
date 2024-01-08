@@ -71,6 +71,15 @@ namespace lc {
 
         void add_word(const std::string& word, bool randomize_vector = true);
 
+        struct SearchResult {
+            WordVector word;
+            float similarity;
+        };
+
+        [[nodiscard]] std::vector<SearchResult>
+            search_closest_n(const WordVector& searched_word, int top_n, float threshold = 0.2F,
+                             float soundex_weight = 0.5F, float levenshtein_weight = 0.5F) const;
+
         void save(const std::filesystem::path& filepath) const;
         void load(const std::filesystem::path& filepath);
 
