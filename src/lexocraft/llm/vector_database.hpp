@@ -85,6 +85,11 @@ namespace lc {
                              float soundex_weight = 0.5F, float levenshtein_weight = 0.5F,
                              bool stop_when_top_n_are_found = true) const;
 
+        [[nodiscard]] std::vector<SearchResult>
+            rapidfuzz_search_closest_n(const WordVector& searched_word, int top_n,
+                                       float threshold = 0.2F,
+                                       bool stop_when_top_n_are_found = true) const;
+
         template <class Archive>
         void serialize(Archive& archive) {
             archive(words);
