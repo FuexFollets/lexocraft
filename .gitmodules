@@ -13,3 +13,6 @@
 [submodule "lib/eternal"]
 	path = lib/eternal
 	url = https://github.com/mapbox/eternal.git
+[submodule "lib/rapidfuzz-cpp"]
+	path = lib/rapidfuzz-cpp
+	url = https://github.com/rapidfuzz/rapidfuzz-cpp.git
