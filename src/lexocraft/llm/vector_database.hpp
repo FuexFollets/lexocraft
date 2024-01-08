@@ -39,6 +39,7 @@ namespace lc {
 
         WordVector(std::string&& word, Vector_t&& vector);
         explicit WordVector(std::string&& word, bool randomize_vector = true);
+        explicit WordVector(const std::string& word, bool randomize_vector = true);
 
         std::string word;
         Eigen::Vector<float, WORD_VECTOR_DIMENSIONS> vector;

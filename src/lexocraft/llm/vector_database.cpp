@@ -26,6 +26,16 @@ namespace lc {
         }
     }
 
+    WordVector::WordVector(const std::string& word, bool randomize_vector) : word(word) {
+        if (randomize_vector) {
+            vector = WordVector::Vector_t::Random();
+        }
+
+        else {
+            vector = WordVector::Vector_t::Zero();
+        }
+    }
+
     std::vector<int> WordVector::soundex() const {
         std::vector<int> soundex;
 
@@ -96,7 +106,7 @@ namespace lc {
             const float similarity =
                 searched_word.similarity(word, soundex_weight, levenshtein_weight);
 
-            if ((similarity > threshold) &&
+            if ((similarity < threshold) &&
                 (!results_are_full || (similarity < lowest_similarity_in_top_n))) {
                 results.emplace_back(word, similarity);
                 lowest_similarity_in_top_n = std::min(lowest_similarity_in_top_n, similarity);
