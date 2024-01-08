@@ -13,3 +13,6 @@
 [submodule "lib/eternal"]
 	path = lib/eternal
 	url = https://github.com/mapbox/eternal.git
+[submodule "lib/annoy"]
+	path = lib/annoy
+	url = https://github.com/spotify/annoy.git
