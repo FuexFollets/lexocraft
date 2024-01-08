@@ -41,6 +41,10 @@ namespace lc {
         return lc::levenshtein_distance(word, other.word);
     }
 
+    float WordVector::soundex_distance(const WordVector& other) const {
+        return lc::levenshtein_distance(soundex(), other.soundex());
+    }
+
     VectorDatabase::VectorDatabase(const std::vector<WordVector>& words) : words(words) {
     }
 
