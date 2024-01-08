@@ -79,6 +79,47 @@ namespace lc {
             archive(words);
         }
     };
+
+    template <typename FirstContainer, typename SecondContainer>
+    float levenshtein_distance(const FirstContainer& first, const SecondContainer& second) {
+        // Implemented just like the comment
+
+        using ValueType = typename FirstContainer::value_type;
+
+        const int first_length = first.size();
+        const int second_length = second.size();
+
+        if (first_length == 0 || second_length == 0) {
+            return std::max(first_length, second_length);
+        }
+
+        std::vector<std::vector<ValueType>> distance_matrix(
+            first_length + 1, std::vector<ValueType>(second_length + 1));
+
+        for (int index = 0; index <= first_length; index++) {
+            distance_matrix [index][0] = index;
+        }
+
+        for (int index = 0; index <= second_length; index++) {
+            distance_matrix [0][index] = index;
+        }
+
+        for (int index1 = 1; index1 <= first_length; index1++) {
+            for (int index2 = 1; index2 <= second_length; index2++) {
+                ValueType cost = (first [index1 - 1] == second [index2 - 1]) ? 0 : 1;
+
+                distance_matrix [index1][index2] =
+                    std::min({distance_matrix [index1 - 1][index2] + 1,
+                              distance_matrix [index1][index2 - 1] + 1,
+                              distance_matrix [index1 - 1][index2 - 1] + cost});
+            }
+        }
+
+        const int distance = distance_matrix [first_length][second_length];
+        const int max_possible_distance = first_length + second_length;
+
+        return static_cast<float>(distance) / max_possible_distance;
+    }
 } // namespace lc
 
 #endif // LEXOCRAFT_VECTOR_DATABASE_HPP
