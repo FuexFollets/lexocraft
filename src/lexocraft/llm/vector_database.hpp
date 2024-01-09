@@ -81,12 +81,12 @@ namespace lc {
         };
 
         [[nodiscard]] std::vector<SearchResult>
-            search_closest_n(const WordVector& searched_word, int top_n, float threshold = 0.2F,
+            search_closest_n(const std::string& searched_word, int top_n, float threshold = 0.2F,
                              float soundex_weight = 0.5F, float levenshtein_weight = 0.5F,
                              bool stop_when_top_n_are_found = true) const;
 
         [[nodiscard]] std::vector<SearchResult>
-            rapidfuzz_search_closest_n(const WordVector& searched_word, int top_n,
+            rapidfuzz_search_closest_n(const std::string& searched_word, int top_n,
                                        float threshold = 0.2F,
                                        bool stop_when_top_n_are_found = true) const;
 
@@ -95,6 +95,10 @@ namespace lc {
             archive(words);
         }
     };
+
+    bool add_search_result(std::vector<VectorDatabase::SearchResult>& results,
+                           const VectorDatabase::SearchResult& word, int max_result_count,
+                           std::optional<float> maybe_least_relevant_search_result);
 
     template <typename FirstContainer, typename SecondContainer>
     float levenshtein_distance(const FirstContainer& first, const SecondContainer& second) {

@@ -93,7 +93,7 @@ namespace lc {
 
     bool add_search_result(std::vector<VectorDatabase::SearchResult>& results,
                            const VectorDatabase::SearchResult& word, int max_result_count,
-                           const std::optional<float> maybe_least_relevant_search_result) {
+                           std::optional<float> maybe_least_relevant_search_result) {
         bool result_is_inserted {false};
 
         if (const std::optional<float> least_relevant_search_result =
@@ -130,9 +130,12 @@ namespace lc {
         return false;
     }
 
-    std::vector<VectorDatabase::SearchResult> VectorDatabase::search_closest_n(
-        const WordVector& searched_word, int top_n, float threshold, float soundex_weight,
-        float levenshtein_weight, bool stop_when_top_n_are_found) const {
+    [[deprecated(
+        "VectorDatabase::rapidfuzz_search_closest_n")]] std::vector<VectorDatabase::SearchResult>
+        VectorDatabase::search_closest_n(const std::string& searched_word, int top_n,
+                                         float threshold, float soundex_weight,
+                                         float levenshtein_weight,
+                                         bool stop_when_top_n_are_found) const {
         std::vector<SearchResult> results;
 
         results.reserve(top_n);
@@ -143,9 +146,11 @@ namespace lc {
             return results.size() == static_cast<std::size_t>(top_n);
         };
 
+        const WordVector searched_word_ {searched_word};
+
         for (const WordVector& word: words) {
             const float similarity =
-                searched_word.similarity(word, soundex_weight, levenshtein_weight);
+                searched_word_.similarity(word, soundex_weight, levenshtein_weight);
 
             if (similarity >= threshold) {
                 lowest_similarity_in_top_n = similarity;
@@ -168,7 +173,7 @@ namespace lc {
     }
 
     std::vector<VectorDatabase::SearchResult>
-        VectorDatabase::rapidfuzz_search_closest_n(const WordVector& searched_word, int top_n,
+        VectorDatabase::rapidfuzz_search_closest_n(const std::string& searched_word, int top_n,
                                                    float threshold,
                                                    bool stop_when_top_n_are_found) const {
         std::vector<SearchResult> results;
@@ -182,7 +187,7 @@ namespace lc {
         };
 
         for (const WordVector& word: words) {
-            const float similarity = rapidfuzz::fuzz::ratio(searched_word.word, word.word) / 100.0F;
+            const float similarity = rapidfuzz::fuzz::ratio(searched_word, word.word) / 100.0F;
 
             if (similarity < threshold) {
                 continue;
