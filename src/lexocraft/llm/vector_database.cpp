@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <fstream>
 #include <functional>
+#include <optional>
 #include <vector>
 
 #include <cereal/archives/binary.hpp>
@@ -63,8 +64,8 @@ namespace lc {
         const float levenshtein_distance = this->levenshtein_distance(other);
         const float weight_sum = soundex_weight + levenshtein_weight;
 
-        return (soundex_weight * soundex_distance + levenshtein_weight * levenshtein_distance) /
-               weight_sum;
+        return 1 - (soundex_weight * soundex_distance + levenshtein_weight * levenshtein_distance) /
+                       weight_sum;
     }
 
     VectorDatabase::VectorDatabase(const std::vector<WordVector>& words) : words(words) {
@@ -90,6 +91,45 @@ namespace lc {
         iarchive(*this);
     }
 
+    bool add_search_result(std::vector<VectorDatabase::SearchResult>& results,
+                           const VectorDatabase::SearchResult& word, int max_result_count,
+                           const std::optional<float> maybe_least_relevant_search_result) {
+        bool result_is_inserted {false};
+
+        if (const std::optional<float> least_relevant_search_result =
+                maybe_least_relevant_search_result) {
+            const float least_relevant_similarity = least_relevant_search_result.value();
+
+            if (results.size() >= static_cast<std::size_t>(max_result_count) &&
+                word.similarity < least_relevant_similarity) {
+                return false;
+            }
+        }
+
+        for (std::size_t index {0}; index < results.size(); ++index) {
+            if (word.similarity > results.at(index).similarity) {
+                results.insert(std::next(results.begin(), index), word);
+                result_is_inserted = true;
+
+                break;
+            }
+        }
+
+        if (!result_is_inserted && results.size() < static_cast<std::size_t>(max_result_count)) {
+            results.push_back(word);
+
+            return true;
+        }
+
+        if (result_is_inserted && results.size() > static_cast<std::size_t>(max_result_count)) {
+            results.erase(results.begin() + max_result_count, results.end());
+
+            return true;
+        }
+
+        return false;
+    }
+
     std::vector<VectorDatabase::SearchResult> VectorDatabase::search_closest_n(
         const WordVector& searched_word, int top_n, float threshold, float soundex_weight,
         float levenshtein_weight, bool stop_when_top_n_are_found) const {
@@ -97,7 +137,7 @@ namespace lc {
 
         results.reserve(top_n);
 
-        float lowest_similarity_in_top_n = 1.0F;
+        float lowest_similarity_in_top_n = 0.0F;
 
         const std::function<bool()> results_are_full = [&]() {
             return results.size() == static_cast<std::size_t>(top_n);
@@ -107,14 +147,15 @@ namespace lc {
             const float similarity =
                 searched_word.similarity(word, soundex_weight, levenshtein_weight);
 
-            if ((similarity < threshold) &&
-                (!results_are_full || (similarity < lowest_similarity_in_top_n))) {
-                results.emplace_back(word, similarity);
-                lowest_similarity_in_top_n = std::min(lowest_similarity_in_top_n, similarity);
+            if (similarity >= threshold) {
+                lowest_similarity_in_top_n = similarity;
+            }
 
-                if (results_are_full() && stop_when_top_n_are_found) {
-                    break;
-                }
+            const bool was_added =
+                add_search_result(results, {word, similarity}, top_n, lowest_similarity_in_top_n);
+
+            if (was_added && results_are_full() && stop_when_top_n_are_found) {
+                break;
             }
         }
 
@@ -134,7 +175,7 @@ namespace lc {
 
         results.reserve(top_n);
 
-        float lowest_similarity_in_top_n = 1.0F;
+        float lowest_similarity_in_top_n = 0.0F;
 
         const std::function<bool()> results_are_full = [&]() {
             return results.size() == static_cast<std::size_t>(top_n);
@@ -143,21 +184,17 @@ namespace lc {
         for (const WordVector& word: words) {
             const float similarity = rapidfuzz::fuzz::ratio(searched_word.word, word.word) / 100.0F;
 
-            if ((similarity < threshold) &&
-                (!results_are_full || (similarity < lowest_similarity_in_top_n))) {
-                results.emplace_back(word, similarity);
-                lowest_similarity_in_top_n = std::min(lowest_similarity_in_top_n, similarity);
+            if (similarity < threshold) {
+                continue;
+            }
 
-                if (results_are_full() && stop_when_top_n_are_found) {
-                    break;
-                }
+            const bool was_added =
+                add_search_result(results, {word, similarity}, top_n, lowest_similarity_in_top_n);
+
+            if (was_added && results_are_full() && stop_when_top_n_are_found) {
+                break;
             }
         }
-
-        std::sort(results.begin(), results.end(),
-                  [](const SearchResult& first_result, const SearchResult& second_result) {
-                      return first_result.similarity < second_result.similarity;
-                  });
 
         return results;
     }
