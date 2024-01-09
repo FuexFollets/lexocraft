@@ -54,13 +54,11 @@ int main(int argc, char** argv) {
 
     std::cout << "Searching for " << searched_word << "...\n";
 
-    const lc::WordVector searched_word_vector(searched_word, false);
-
     const auto results =
         use_rapidfuzz
-            ? database.rapidfuzz_search_closest_n(searched_word_vector, top_n, threshold,
+            ? database.rapidfuzz_search_closest_n(searched_word, top_n, threshold,
                                                   stop_when_top_n_are_found)
-            : database.search_closest_n(searched_word_vector, top_n, threshold, soundex_weight,
+            : database.search_closest_n(searched_word, top_n, threshold, soundex_weight,
                                         levenshtein_weight, stop_when_top_n_are_found);
 
     std::cout << "Search results:\n";
