@@ -69,10 +69,17 @@ namespace lc {
     }
 
     VectorDatabase::VectorDatabase(const std::vector<WordVector>& words) : words(words) {
+        for (const WordVector& word: words) {
+            word_map [word.word] = word;
+        }
     }
 
     void VectorDatabase::add_word(const std::string& word, bool randomize_vector) {
-        words.push_back(WordVector {std::string {word}, randomize_vector});
+        // (WordVector {std::string {word}, randomize_vector})
+
+        WordVector new_word {std::string {word}, randomize_vector};
+        words.push_back(new_word);
+        word_map [word] = new_word;
     }
 
     void VectorDatabase::save(const std::filesystem::path& filepath) const {
@@ -89,6 +96,12 @@ namespace lc {
         cereal::BinaryInputArchive iarchive {file};
 
         iarchive(*this);
+
+        // Add words to map
+
+        for (const WordVector& word: words) {
+            word_map [word.word] = word;
+        }
     }
 
     bool add_search_result(std::vector<VectorDatabase::SearchResult>& results,
@@ -202,5 +215,13 @@ namespace lc {
         }
 
         return results;
+    }
+
+    std::optional<WordVector> VectorDatabase::search_from_map(const std::string& word) const {
+        if (!word_map.contains(word)) {
+            return std::nullopt;
+        }
+
+        return word_map.at(word);
     }
 } // namespace lc

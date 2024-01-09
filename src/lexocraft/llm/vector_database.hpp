@@ -97,7 +97,7 @@ namespace lc {
                                        float threshold = 0.2F,
                                        bool stop_when_top_n_are_found = true) const;
 
-        [[nodiscard]] std::optional<WordVector> search(const std::string& word) const;
+        [[nodiscard]] std::optional<WordVector> search_from_map(const std::string& word) const;
 
         template <class Archive>
         void serialize(Archive& archive) {
