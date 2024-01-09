@@ -14,23 +14,25 @@ int main(int argc, char** argv) {
     }
 
     if (args.size() < 2) {
-        std::cout << "Usage: <database> <searched_word> OPTIONAL: <top_n> <threshold> "
-                     "<soundex_weight> <levenshtein_weight> <stop_when_top_n_are_found>";
+        std::cout
+            << "Usage: <database> <searched_word> [rapidfuzz/default] OPTIONAL: <top_n> "
+               "<threshold> <soundex_weight> <levenshtein_weight> <stop_when_top_n_are_found>";
 
         return 1;
     }
 
     const std::string database_path = args.at(0);
     const std::string searched_word = args.at(1);
+    const bool use_rapidfuzz = args.at(2) == "rapidfuzz";
 
-    const bool optional_args_provided = args.size() > 2;
+    const bool optional_args_provided = args.size() > 3;
 
-    const int top_n = optional_args_provided ? std::stoi(args.at(2)) : 10;
-    const float threshold = optional_args_provided ? std::stof(args.at(3)) : 0.2F;
-    const float soundex_weight = optional_args_provided ? std::stof(args.at(4)) : 0.5F;
-    const float levenshtein_weight = optional_args_provided ? std::stof(args.at(5)) : 0.5F;
+    const int top_n = optional_args_provided ? std::stoi(args.at(3)) : 10;
+    const float threshold = optional_args_provided ? std::stof(args.at(4)) : 0.2F;
+    const float soundex_weight = optional_args_provided ? std::stof(args.at(5)) : 0.5F;
+    const float levenshtein_weight = optional_args_provided ? std::stof(args.at(6)) : 0.5F;
     const bool stop_when_top_n_are_found =
-        optional_args_provided ? static_cast<bool>(std::stoi(args.at(6))) : false;
+        optional_args_provided ? static_cast<bool>(std::stoi(args.at(7))) : false;
 
     std::cout << std::boolalpha;
 
@@ -52,9 +54,14 @@ int main(int argc, char** argv) {
 
     std::cout << "Searching for " << searched_word << "...\n";
 
+    const lc::WordVector searched_word_vector(searched_word, false);
+
     const auto results =
-        database.search_closest_n(lc::WordVector(searched_word, false), top_n, threshold,
-                                  soundex_weight, levenshtein_weight, stop_when_top_n_are_found);
+        use_rapidfuzz
+            ? database.rapidfuzz_search_closest_n(searched_word_vector, top_n, threshold,
+                                                  stop_when_top_n_are_found)
+            : database.search_closest_n(searched_word_vector, top_n, threshold, soundex_weight,
+                                        levenshtein_weight, stop_when_top_n_are_found);
 
     std::cout << "Search results:\n";
 
