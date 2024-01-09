@@ -2,6 +2,7 @@ include_directories(${PROJECT_SOURCE_DIR}/lib/eigen)
 include_directories(${PROJECT_SOURCE_DIR}/lib/cereal/include)
 include_directories(${PROJECT_SOURCE_DIR}/lib/eternal/include)
 include_directories(${PROJECT_SOURCE_DIR}/lib/rapidfuzz-cpp)
+include_directories(${PROJECT_SOURCE_DIR}/lib/robin-map/include)
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
 set(LEXOCRAFT_LIBS neural_network llm rapidfuzz::rapidfuzz tsl::robin_map)
