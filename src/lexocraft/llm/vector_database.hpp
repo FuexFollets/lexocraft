@@ -2,6 +2,7 @@
 #define LEXOCRAFT_VECTOR_DATABASE_HPP
 
 #include <filesystem>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -9,6 +10,7 @@
 #include <cereal/types/vector.hpp>
 #include <Eigen/Eigen>
 #include <mapbox/eternal.hpp>
+#include <tsl/robin_map.h>
 
 #include <lexocraft/cereal_eigen.hpp>
 
@@ -59,6 +61,10 @@ namespace lc {
     class VectorDatabase {
         public:
 
+        using RobinMap_t =
+            tsl::robin_map<std::string, WordVector, std::hash<std::string>, std::equal_to<>,
+                           std::allocator<std::pair<std::string, int>>, true>;
+
         // all default constructors
         VectorDatabase() = default;
         VectorDatabase(const VectorDatabase&) = default;
@@ -69,6 +75,7 @@ namespace lc {
         explicit VectorDatabase(const std::vector<WordVector>& words);
 
         std::vector<WordVector> words;
+        RobinMap_t word_map;
 
         void add_word(const std::string& word, bool randomize_vector = true);
 
@@ -89,6 +96,8 @@ namespace lc {
             rapidfuzz_search_closest_n(const std::string& searched_word, int top_n,
                                        float threshold = 0.2F,
                                        bool stop_when_top_n_are_found = true) const;
+
+        [[nodiscard]] std::optional<WordVector> search(const std::string& word) const;
 
         template <class Archive>
         void serialize(Archive& archive) {
