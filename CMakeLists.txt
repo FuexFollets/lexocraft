@@ -8,5 +8,6 @@ include(${PROJECT_SOURCE_DIR}/cmake/opts.cmake)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/lexocraft)
 add_subdirectory(${PROJECT_SOURCE_DIR}/tests)
 add_subdirectory(${PROJECT_SOURCE_DIR}/lib/rapidfuzz-cpp)
+add_subdirectory(${PROJECT_SOURCE_DIR}/lib/robin-map)
 
 enable_testing()
