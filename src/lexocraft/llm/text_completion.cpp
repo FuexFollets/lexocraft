@@ -110,4 +110,44 @@ namespace lc {
 
         return true;
     }
+
+    Eigen::VectorXf TextCompleter::ContextBuilderNNFields::to_vector() const {
+        const std::size_t vector_length = ephemeral_memory.size() + context_memory.size();
+
+        Eigen::VectorXf vector(vector_length);
+
+        /* Vector layout encoding:
+         * sentence_length_mean
+         * sentence_length_stddev
+         * word_sophistication
+         * flesch_kincaid_grade
+         * ephemeral_memory
+         * context_memory
+         **/
+
+        std::size_t index {0};
+
+        vector(index++) = sentence_length_mean;
+        vector(index++) = sentence_length_stddev;
+        vector(index++) = word_sophistication;
+        vector(index++) = flesch_kincaid_grade;
+
+        vector.segment(index, ephemeral_memory.size()) = ephemeral_memory;
+        index += ephemeral_memory.size();
+
+        vector.segment(index, context_memory.size()) = context_memory;
+        index += context_memory.size();
+
+        return vector;
+    }
+
+    bool TextCompleter::ContextBuilderNNOutput::from_output(const Eigen::VectorXf& output) {
+        if (static_cast<std::size_t>(output.size()) != ephemeral_memory_size) {
+            return false;
+        }
+
+        context_memory = output;
+
+        return true;
+    }
 } // namespace lc

@@ -68,6 +68,8 @@ namespace lc {
         struct ContextBuilderNNOutput : NNOutput<ContextBuilderNNOutput> {
             /* TODO: Vector fields for ContextBuilderNN output */
 
+            std::size_t ephemeral_memory_size;
+
             Eigen::VectorXf context_memory;
 
             bool from_output(const Eigen::VectorXf& output) final;
