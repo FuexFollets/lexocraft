@@ -91,4 +91,23 @@ namespace lc {
 
         return vector;
     }
+
+    bool TextCompleter::EphemeralMemoryNNOutput::from_output(const Eigen::VectorXf& output) {
+        const std::size_t total_size = ephemeral_memory_size + WordVector::WORD_VECTOR_DIMENSIONS;
+
+        if (static_cast<std::size_t>(output.size()) != total_size) {
+            return false;
+        }
+
+        /* Vector layout encoding:
+         * ephemeral_memory
+         * context_memory
+         **/
+
+        ephemeral_memory = output.segment(0, ephemeral_memory_size);
+        word_vector_value =
+            output.segment(ephemeral_memory_size, WordVector::WORD_VECTOR_DIMENSIONS);
+
+        return true;
+    }
 } // namespace lc

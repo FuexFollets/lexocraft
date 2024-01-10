@@ -44,6 +44,8 @@ namespace lc {
         struct EphemeralMemoryNNOutput : NNOutput<EphemeralMemoryNNOutput> {
             /* TODO: Vector fields for EphemeralMemoryNN output */
 
+            std::size_t ephemeral_memory_size;
+
             Eigen::VectorXf ephemeral_memory;
             Eigen::VectorXf word_vector_value;
 
