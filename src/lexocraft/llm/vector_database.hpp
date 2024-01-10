@@ -22,7 +22,8 @@ namespace lc {
 
         using Vector_t = Eigen::Vector<float, WORD_VECTOR_DIMENSIONS>;
 
-        static MAPBOX_ETERNAL_CONSTEXPR const auto SOUNDEX_CODES = mapbox::eternal::map<char, int>({
+        [[deprecated]] static MAPBOX_ETERNAL_CONSTEXPR const auto SOUNDEX_CODES =
+            mapbox::eternal::map<char, int>({
   // clang-format off
                 {'b', 1}, {'f', 1}, {'p', 1}, {'v', 1},
                 {'c', 2}, {'g', 2}, {'j', 2}, {'k', 2}, {'q', 2}, {'s', 2}, {'x', 2},
@@ -47,10 +48,11 @@ namespace lc {
         Eigen::Vector<float, WORD_VECTOR_DIMENSIONS> vector;
 
         [[nodiscard]] std::vector<int> soundex() const;
-        [[nodiscard]] float soundex_distance(const WordVector& other) const;
-        [[nodiscard]] float levenshtein_distance(const WordVector& other) const;
-        [[nodiscard]] float similarity(const WordVector& other, float soundex_weight = 0.5F,
-                                       float levenshtein_weight = 0.5F) const;
+        [[deprecated]] [[nodiscard]] float soundex_distance(const WordVector& other) const;
+        [[deprecated]] [[nodiscard]] float levenshtein_distance(const WordVector& other) const;
+        [[deprecated]] [[nodiscard]] float similarity(const WordVector& other,
+                                                      float soundex_weight = 0.5F,
+                                                      float levenshtein_weight = 0.5F) const;
 
         template <class Archive>
         void serialize(Archive& archive) {
