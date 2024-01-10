@@ -1,3 +1,4 @@
+#include "lexocraft/llm/vector_database.hpp"
 #include <cctype>
 #include <string>
 #include <vector>
@@ -54,5 +55,40 @@ namespace lc {
         float average_syllables_per_word = syllables / static_cast<float>(words.size());
 
         return 0.39 * average_sentence_length + 11.8 * average_syllables_per_word - 15.59;
+    }
+
+    Eigen::VectorXf TextCompleter::EphemeralMemoryNNFields::to_vector() const {
+        const std::size_t vector_length = ephemeral_memory.size() + context_memory.size() +
+                                          WordVector::WORD_VECTOR_DIMENSIONS + 4;
+
+        Eigen::VectorXf vector(vector_length);
+
+        /* Vector layout encoding:
+         * sentence_length_mean
+         * sentence_length_stddev
+         * word_sophistication
+         * flesch_kincaid_grade
+         * word.vector
+         * ephemeral_memory
+         * context_memory
+         **/
+
+        std::size_t index {0};
+
+        vector(index++) = sentence_length_mean;
+        vector(index++) = sentence_length_stddev;
+        vector(index++) = word_sophistication;
+        vector(index++) = flesch_kincaid_grade;
+
+        vector.segment(index, word.vector.size()) = word.vector;
+        index += word.vector.size();
+
+        vector.segment(index, ephemeral_memory.size()) = ephemeral_memory;
+        index += ephemeral_memory.size();
+
+        vector.segment(index, context_memory.size()) = context_memory;
+        index += context_memory.size();
+
+        return vector;
     }
 } // namespace lc
