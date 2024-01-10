@@ -25,11 +25,16 @@ namespace lc {
         template <typename Output>
         struct NNOutput { // Abstract
             virtual ~NNOutput() = default;
-            [[nodiscard]] virtual Output from_vector(Eigen::VectorXf) const = 0;
+            virtual bool from_output(const Output& output) = 0;
         };
 
         struct EphemeralMemoryNNFields : NNFieldsInput {
             /* TODO: Vector fields for EphemeralMemoryNN */
+            float sentence_length_mean;
+            float sentence_length_stddev;
+            float word_sophistication;  // Interval: [0, 1] - 0 = Uncommon, 1 = Most common
+            float flesch_kincaid_grade; // Interval: [0, 20] - 0 = Most difficult, 20 = Easiest
+            Eigen::VectorXf ephemeral_memory;
         };
 
         struct EphemeralMemoryNNOutput : NNOutput<EphemeralMemoryNNOutput> {
@@ -43,6 +48,8 @@ namespace lc {
         struct ContextBuilderNNOutput : NNOutput<ContextBuilderNNOutput> {
             /* TODO: Vector fields for ContextBuilderNN output */
         };
+
+        static float flesch_kincaid_level(const std::string& text);
     };
 
 } // namespace lc
