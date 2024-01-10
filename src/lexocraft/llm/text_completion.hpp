@@ -25,7 +25,7 @@ namespace lc {
         template <typename Output>
         struct NNOutput { // Abstract
             virtual ~NNOutput() = default;
-            virtual bool from_output(const Output& output) = 0;
+            virtual bool from_output(const Eigen::VectorXf& output) = 0;
         };
 
         struct EphemeralMemoryNNFields : NNFieldsInput {
@@ -34,19 +34,41 @@ namespace lc {
             float sentence_length_stddev;
             float word_sophistication;  // Interval: [0, 1] - 0 = Uncommon, 1 = Most common
             float flesch_kincaid_grade; // Interval: [0, 20] - 0 = Most difficult, 20 = Easiest
+            WordVector word;
             Eigen::VectorXf ephemeral_memory;
+            Eigen::VectorXf context_memory;
+
+            [[nodiscard]] Eigen::VectorXf to_vector() const final;
         };
 
         struct EphemeralMemoryNNOutput : NNOutput<EphemeralMemoryNNOutput> {
             /* TODO: Vector fields for EphemeralMemoryNN output */
+
+            Eigen::VectorXf ephemeral_memory;
+            Eigen::VectorXf word_vector_value;
+
+            bool from_output(const Eigen::VectorXf& output) final;
         };
 
         struct ContextBuilderNNFields : NNFieldsInput {
             /* TODO: Vector fields for ContextBuilderNN */
+
+            float sentence_length_mean;
+            float sentence_length_stddev;
+            float word_sophistication;  // Interval: [0, 1] - 0 = Uncommon, 1 = Most common
+            float flesch_kincaid_grade; // Interval: [0, 20] - 0 = Most difficult, 20 = Easiest
+            Eigen::VectorXf ephemeral_memory;
+            Eigen::VectorXf context_memory;
+
+            [[nodiscard]] Eigen::VectorXf to_vector() const final;
         };
 
         struct ContextBuilderNNOutput : NNOutput<ContextBuilderNNOutput> {
             /* TODO: Vector fields for ContextBuilderNN output */
+
+            Eigen::VectorXf context_memory;
+
+            bool from_output(const Eigen::VectorXf& output) final;
         };
 
         static float flesch_kincaid_level(const std::string& text);
