@@ -7,5 +7,10 @@
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@types/html-to-text": "^9.0.4",
+    "html-to-text": "^9.0.5",
+    "wikipedia": "^2.1.1"
   }
 }
