@@ -1,110 +1,44 @@
 
 
-
-Bremen Castings, Inc (BCI) is a 4th generation family owned manufacturer of
-machined complete gray & ductile iron castings for heavy truck, valves & pipe
-fittings, pump components, compressors, lawn/garden equipment, and military
-contract work. BCI is headquartered in Bremen, Indiana .
+ Bremen Castings, Inc (BCI) is a 4th generation family owned manufacturer of machined complete gray & ductile iron castings for heavy truck, valves & pipe fittings, pump components, compressors, lawn/garden equipment, and military contract work. BCI is headquartered in Bremen, Indiana .
 
 
 
-
-HISTORY
-
+ HISTORY
 
 
-Bremen Gray Iron Foundry was founded on March 17, 1939 by Ellis Brown, Charles
-W. Kling, and Harold Heckamen. The foundry originally produced fire pots, stove
-parts, furnace, shaker, and laundry grates for its customers. Suppliers included
-Hurwich Iron where they purchased cupola/steel materials, I.O. Pfeiffer
-Construction who helped build the foundry and install equipment, and Koontz
-Hardware where various supplies were purchased. All of these early suppliers are
-still in business today and continue to have close relationships with BCI.
+ Bremen Gray Iron Foundry was founded on March 17, 1939 by Ellis Brown, Charles W. Kling, and Harold Heckamen. The foundry originally produced fire pots, stove parts, furnace, shaker, and laundry grates for its customers. Suppliers included Hurwich Iron where they purchased cupola/steel materials, I.O. Pfeiffer Construction who helped build the foundry and install equipment, and Koontz Hardware where various supplies were purchased. All of these early suppliers are still in business today and continue to have close relationships with BCI.
+
+ In 1972, the company changed its name to Bremen Castings, Inc.
+
+ Starting in the mid-1990s, Bremen Castings started to expand beyond casting. The foundry's machine shop opened in 1996 and the tool shop opened in 2009.
+
+ BCI Defense began in December 2012  and currently manufacturers firearms and Firearm  parts from 7075 aluminium alloy ,  specifically the AR-15 style rifle .    
+
+ MACHINING
 
 
-In 1972, the company changed its name to Bremen Castings, Inc.
+ In 1996 BCI launched its own internal machine shop with the new addition of a 15,000-square-foot (1,400 m2) facility to the existing foundry with the expectations to diversify across many markets. This forced quality and engineering to grow to be diverse in both machining and foundry. This gives BCI the advantage for both departments to communicate before the product launch for a lower total start up cost. BCI purchased its first CNC  machines in 1996 and now has over 17 CNC machines in its arsenal.
+ BCI continues to grow. In 2011 BCI opened its 55,000 SFT facility to house all machine centers and host all assemblies.
+ Bremen Castings also creates prototypes using solidification software and runs solidification simulations as a means of scrap reduction.
+
+ FOUNDRY
 
 
-Starting in the mid-1990s, Bremen Castings started to expand beyond casting. The
-foundry's machine shop opened in 1996 and the tool shop opened in 2009.
+ Bremen Castings foundry produces castings made from recycled materials such as plate and structural steel and old cast products. A Cupola and medium frequency furnaces are used at the foundry for melting recycled materials to be poured into green sand molds produced by match plate molding machines. Once the metal has been cast and shaken out, the products flow through the state of the art cleaning room (mill room) then on its way to the CNC machining centers.
+
+ ENGINEERING
 
 
-BCI Defense began in December 2012  and
-currently manufacturers firearms and Firearm  parts from 7075
-aluminium alloy , 
-specifically the AR-15 style rifle .
- 
- 
+ To help design casting models, BCI also creates prototypes and production models using MagmaSoft solidification software. The engineers are able to pre-determine scrap issues prior to production with solidification simulations and as a result they have been able to reduce the amount of scrap produced at start up of a new product launch.
+ The engineers at Bremen Castings are a full production staff handling product design, steel weldment conversions and existing products. All tooling and fixtures can be designed and built in house. BCI Engineering software consists of: MagmaSoft Solidification software, Vero Software  (Visi), and CAD/CAM/CAE software for aiding the design and manufacturing process.
+
+ STATUS QUO SUCKS
 
 
-MACHINING
+ The Status Quo Sucks (SQS) team was created to lead BCI in its goal to implement Lean Practices and eliminate waste throughout the organization. By incorporating a cultural change to a team concept, each individual at BCI has an ownership of sustainability and improvement with everything the employee touches. When the SQS team launches an improvement project, a well rounded team is assembled and a problem or situation is strategically attacked and resolved through a group effort.
+
+ RECYCLING
 
 
-
-In 1996 BCI launched its own internal machine shop with the new addition of a
-15,000-square-foot (1,400 m2) facility to the existing foundry with the
-expectations to diversify across many markets. This forced quality and
-engineering to grow to be diverse in both machining and foundry. This gives BCI
-the advantage for both departments to communicate before the product launch for
-a lower total start up cost. BCI purchased its first CNC  machines in
-1996 and now has over 17 CNC machines in its arsenal.
-
-BCI continues to grow. In 2011 BCI opened its 55,000 SFT facility to house all
-machine centers and host all assemblies.
-
-Bremen Castings also creates prototypes using solidification software and runs
-solidification simulations as a means of scrap reduction.
-
-
-FOUNDRY
-
-
-
-Bremen Castings foundry produces castings made from recycled materials such as
-plate and structural steel and old cast products. A Cupola and medium frequency
-furnaces are used at the foundry for melting recycled materials to be poured
-into green sand molds produced by match plate molding machines. Once the metal
-has been cast and shaken out, the products flow through the state of the art
-cleaning room (mill room) then on its way to the CNC machining centers.
-
-
-ENGINEERING
-
-
-
-To help design casting models, BCI also creates prototypes and production models
-using MagmaSoft solidification software. The engineers are able to pre-determine
-scrap issues prior to production with solidification simulations and as a result
-they have been able to reduce the amount of scrap produced at start up of a new
-product launch.
-
-The engineers at Bremen Castings are a full production staff handling product
-design, steel weldment conversions and existing products. All tooling and
-fixtures can be designed and built in house. BCI Engineering software consists
-of: MagmaSoft Solidification software, Vero Software  (Visi),
-and CAD/CAM/CAE software for aiding the design and manufacturing process.
-
-
-STATUS QUO SUCKS
-
-
-
-The Status Quo Sucks (SQS) team was created to lead BCI in its goal to implement
-Lean Practices and eliminate waste throughout the organization. By incorporating
-a cultural change to a team concept, each individual at BCI has an ownership of
-sustainability and improvement with everything the employee touches. When the
-SQS team launches an improvement project, a well rounded team is assembled and a
-problem or situation is strategically attacked and resolved through a group
-effort.
-
-
-RECYCLING
-
-
-
-BCI has been Bremen's  largest recycling plant and product
-producer by weight. In an effort to reduce paper usage and to increase
-productivity, BCI has adopted a paperless office  policy,
-and as of 2011, BCI has eliminated 85% of paper waste through technology such as
-iPad , iPhone , iPod , floor monitors, and
-electronic filing cabinet software.
+ BCI has been Bremen's  largest recycling plant and product producer by weight. In an effort to reduce paper usage and to increase productivity, BCI has adopted a paperless office  policy, and as of 2011, BCI has eliminated 85% of paper waste through technology such as iPad , iPhone , iPod , floor monitors, and electronic filing cabinet software.

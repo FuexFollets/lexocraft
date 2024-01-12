@@ -1,170 +1,59 @@
 
 
-
-Jāmiʿ al-bayān ʿan taʾwīl āy al-Qurʾān (Arabic : جامع البيان
-عن تأويل آي القرآن, lit.  'Collection of Statements on
-the Interpretation of the Verses of the Qur'an', also written with fī in place
-of ʿan), popularly Tafsīr al-Ṭabarī (Arabic : تفسير الطبري),
-is a Sunni  tafsir  by the Persian  scholar
-Muhammad ibn Jarir al-Tabari  (838–923).
- It immediately won high regard
-and has retained its importance for scholars to the present day.
- It is the earliest major running
-commentary of the Quran  to have survived in its original form.
- Like his history
-, al-Tabari's tafsir is notable for its
-comprehensiveness and citation of multiple, often conflicting sources.
- The book was translated into Persian
- by a group of scholars from Transoxania  on
-commission of the Samanid  king, Mansur I 
-(961–976). 
+ Jāmiʿ al-bayān ʿan taʾwīl āy al-Qurʾān (Arabic : جامع البيان عن تأويل آي القرآن, lit.  'Collection of Statements on the Interpretation of the Verses of the Qur'an', also written with fī in place of ʿan), popularly Tafsīr al-Ṭabarī (Arabic : تفسير الطبري), is a Sunni  tafsir  by the Persian  scholar Muhammad ibn Jarir al-Tabari  (838–923).  It immediately won high regard and has retained its importance for scholars to the present day.  It is the earliest major running commentary of the Quran  to have survived in its original form.  Like his history , al-Tabari's tafsir is notable for its comprehensiveness and citation of multiple, often conflicting sources.  The book was translated into Persian  by a group of scholars from Transoxania  on commission of the Samanid  king, Mansur I  (961–976). 
 
 
 
-
-BACKGROUND
-
+ BACKGROUND
 
 
-Tabari  finished his work in 883, often dictating sections to his
-students. 
- It is his second great work after "History of
-the Prophets and Kings " (Tarīkh al-Rusul
-wa'l-Muluk), also known as "Tarikh al-Tabari".
+ Tabari  finished his work in 883, often dictating sections to his students.   It is his second great work after "History of the Prophets and Kings " (Tarīkh al-Rusul wa'l-Muluk), also known as "Tarikh al-Tabari".
+
+ SOURCES
 
 
-SOURCES
+ Tabari has relied on narratives of the Islamic prophet Muhammad , including narrations and comments of sahabah  and tabi'in  where necessary. Tabari supplies the chain of narrations  for the reports included in the commentary, sometimes elaborating on the trustworthiness of narrators.
+  Narratives are selected based on their authenticity; a notable example is the rejection of the same historical sources he had already used for his historical works.
+ Al-Tabari incorporated an earlier commentary by ‘Abd al-Razzaq b. Hamman al-Himyari al-San‘ani (d. 211/827) in its entirety into his work, and Heribert Horst has argued that Al-Tabari has also used other subsequently lost commentaries. 
+
+ PREFACE
 
 
-
-Tabari has relied on narratives of the Islamic prophet Muhammad ,
-including narrations and comments of sahabah  and tabi'in 
-where necessary. Tabari supplies the chain of narrations
- for the reports included in the commentary,
-sometimes elaborating on the trustworthiness of narrators.
-
- Narratives are selected based on their
-authenticity; a notable example is the rejection of the same historical sources
-he had already used for his historical works.
-
-Al-Tabari incorporated an earlier commentary by ‘Abd al-Razzaq b. Hamman
-al-Himyari al-San‘ani (d. 211/827) in its entirety into his work, and Heribert
-Horst has argued that Al-Tabari has also used other subsequently lost
-commentaries. 
+ In the preface, general facts about the Quran  are given, including its superiority to any other text, what tafsir  and tawil  are, the seven qira'at , companions who commented on the Quran and the naming of the suras .
 
 
-PREFACE
+ The language of the Quran, Arabic, is discussed and the view that there are foreign words in the Quran is rejected.
+  Tabari mentions that these foreign words are coherent with Arabic, entering the Arabic language before the revelation of the Quran, and that they are very rare, and cannot be used as counter evidence that the Quran is Arabic.]
+
+ CONTENT
 
 
+ Interpretations start with "al-qawlu fī ta'wīli qawlihi ta'ālā" (English: The tawil of this word of God is) for every verse. Then hadith and other previous interpretations are stated and classified according to their compatibility to each other. Interpretation using other verses and Arabic language is favored, qualifying this tafsir as riwaya , but the inclusion of critiques and reason is an integral part of the books unique character; as Tabari has refrained from interpretation using merely his own opinion and opposed those who do so. 
 
-In the preface, general facts about the Quran  are given, including its
-superiority to any other text, what tafsir  and tawil  are,
-the seven qira'at , companions who commented on the Quran and the
-naming of the suras .
+ Lexical meanings of words are given, and their use in Arabic culture is examined. Tabari's linguistic views are based on the school of Basra . Opinions of linguists are given where appropriate. Evidence from Arabic poetry is used frequently, sometimes with its origins.[citation needed ]
+ Tabari is also a qira'at  scholar, reflected in his opinions on qira'at debates in his book. Choices of qira'at are usually given according to the Kufa  school. Sometimes both qira'at are preserved, leaving the choice to the reader. 
 
+ Although rare, Tabari has included isra'iliyat  occasionally in his book. Given only as notice, this information is not dwelled upon, usually left for the understanding of the reader.
 
-
-The language of the Quran, Arabic, is discussed and the view that there are
-foreign words in the Quran is rejected.
-
- Tabari mentions that these foreign words are
-coherent with Arabic, entering the Arabic language before the revelation of the
-Quran, and that they are very rare, and cannot be used as counter evidence that
-the Quran is Arabic.]
+ INFLUENCE
 
 
-CONTENT
+ The Tafsir gives information about older commentaries which have not survived to the present. Its content —which encompasses dictionaries, historical notes, law, recitation, theology and Arabic literature— has made it a highly referenced book throughout history, resulting in many editions. It is also a good example of reasoning in a tafsir by a widely accepted scholar, giving it a value of diraya .
+ It was marked by the same fullness of detail as his other work. The size of this work and the independence of judgment in it seem to have prevented it from having a large circulation, but scholars such as Baghawi  and Suyuti  used it largely; Ibn Kathir  used it in his Tafsir ibn Kathir .  Scholars including Suyuti have expressed their admiration towards this tafsir, regarding it as the most valuable of commentaries.
+  An abridgement was composed by Ibn Muṭarrif al-Ṭarafī  (d. 1062 CE). : 136  Until well into the 19th century Al-Tabari's tafsir was considered lost by Western scholars, who knew it only from fragmentary quotations. In 1860 Theodor Nöldeke  wrote: "If we had this work, we could do without all the later commentaries."
 
 
-
-Interpretations start with "al-qawlu fī ta'wīli qawlihi ta'ālā" (English: The
-tawil of this word of God is) for every verse. Then hadith and other previous
-interpretations are stated and classified according to their compatibility to
-each other. Interpretation using other verses and Arabic language is favored,
-qualifying this tafsir as riwaya , but the inclusion of
-critiques and reason is an integral part of the books unique character; as
-Tabari has refrained from interpretation using merely his own opinion and
-opposed those who do so. 
+ TRANSLATION
 
 
-Lexical meanings of words are given, and their use in Arabic culture is
-examined. Tabari's linguistic views are based on the school of Basra .
-Opinions of linguists are given where appropriate. Evidence from Arabic poetry
-is used frequently, sometimes with its origins.[citation needed
-]
+ Mansur I , a Samanid  king who ruled in Khorasan  between 961 and 976, asked for the legal opinion (fatwa ) of jurists  on the permissibility of translating the Quran into Persian . The scholars affirmed that reading and writing the translation of the Quran in Persian was permissible for those who did not speak Arabic. Subsequently, the King ordered a group of scholars from Transoxiana  and Khorasan to translate Tafsir al-Tabari into Persian. The Persian translation of the tafsir has survived and has been published numerous times in Iran.
 
-Tabari is also a qira'at  scholar, reflected in his opinions on
-qira'at debates in his book. Choices of qira'at are usually given according to
-the Kufa  school. Sometimes both qira'at are preserved, leaving the
-choice to the reader. 
+ EDITIONS
 
 
-Although rare, Tabari has included isra'iliyat  occasionally in
-his book. Given only as notice, this information is not dwelled upon, usually
-left for the understanding of the reader.
+ Editions of Tabari's commentary on the Qur'an:
+     , 1902-1903; reprinted in 1984.     published in 12 volumes by Dar al-Kutub al-'Ilmiyah, Beirut, 1997.     Deutschen Morgenlandischen Gesellschaft, vol. xxxv. (1881), pp. 588–628.     being an abridged translation of Jami' al-bayan 'an ta'wil ay al-Qur'an, with    an introduction and notes by J. Cooper, general editors, W.F. Madelung, A.    Jones. Oxford University Press, 1987. The late author did not carry this    beyond the first volume. It is out of print.      0-19-920142-0 .    This is a replica of the Cooper translation.
 
+ SEE ALSO
 
-INFLUENCE
-
-
-
-The Tafsir gives information about older commentaries which have not survived to
-the present. Its content —which encompasses dictionaries, historical notes, law,
-recitation, theology and Arabic literature— has made it a highly referenced book
-throughout history, resulting in many editions. It is also a good example of
-reasoning in a tafsir by a widely accepted scholar, giving it a value of diraya
-.
-
-It was marked by the same fullness of detail as his other work. The size of this
-work and the independence of judgment in it seem to have prevented it from
-having a large circulation, but scholars such as Baghawi  and Suyuti
- used it largely; Ibn Kathir  used it in his Tafsir ibn
-Kathir .  Scholars
-including Suyuti have expressed their admiration towards this tafsir, regarding
-it as the most valuable of commentaries.
-
- An abridgement was composed by Ibn Muṭarrif
-al-Ṭarafī  (d. 1062 CE).
-: 136  Until well into the 19th century
-Al-Tabari's tafsir was considered lost by Western scholars, who knew it only
-from fragmentary quotations. In 1860 Theodor Nöldeke  wrote:
-"If we had this work, we could do without all the later commentaries."
-
-
-
-TRANSLATION
-
-
-
-Mansur I , a Samanid  king who ruled in Khorasan
- between 961 and 976, asked for the legal opinion (fatwa
-) of jurists  on the permissibility of translating the Quran
-into Persian . The scholars affirmed that reading and
-writing the translation of the Quran in Persian was permissible for those who
-did not speak Arabic. Subsequently, the King ordered a group of scholars from
-Transoxiana  and Khorasan to translate Tafsir al-Tabari into
-Persian. The Persian translation of the tafsir has survived and has been
-published numerous times in Iran.
-
-
-EDITIONS
-
-
-
-Editions of Tabari's commentary on the Qur'an:
-
-    , 1902-1903; reprinted in 1984.
-    published in 12 volumes by Dar al-Kutub al-'Ilmiyah, Beirut, 1997.
-    Deutschen Morgenlandischen Gesellschaft, vol. xxxv. (1881), pp. 588–628.
-    being an abridged translation of Jami' al-bayan 'an ta'wil ay al-Qur'an, with
-   an introduction and notes by J. Cooper, general editors, W.F. Madelung, A.
-   Jones. Oxford University Press, 1987. The late author did not carry this
-   beyond the first volume. It is out of print.
-     0-19-920142-0 .
-   This is a replica of the Cooper translation.
-
-
-SEE ALSO
-
-
- * List of Sunni books 
+  * List of Sunni books 
