@@ -1,0 +1,189 @@
+
+
+˚ redirects here. For similar symbols, see Circle symbol (disambiguation)
+.
+
+A ring diacritic  may appear above or below letters. It may be
+combined with some letters  of the extended Latin alphabets
+ in various contexts.
+
+This article needs additional citations for verification
+. (April 2020)
+
+
+
+
+RINGS
+
+
+
+
+DISTINCT LETTER
+
+The character Å  (å) is derived from an A  with a ring. It is a
+distinct letter  in the Danish ,
+Norwegian , Swedish , Finnish
+, Walloon , and Chamorro
+ alphabets. For example, the 29-letter Swedish alphabet
+begins with the basic 26 Latin letters  and ends
+with the three letters Å , Ä , and Ö .
+
+
+OVERRING
+
+name "At the beehives" in Roudnice nad
+Labem  - Czech Republic
+
+The character Ů (ů) a Latin U  with overring, or kroužek
+ is a grapheme  in Czech
+ preserved for historic reasons, which identifies a vowel
+shift . For example, the word for "horse" used to be written kóň,
+which evolved, along with pronunciation, into kuoň. Ultimately, the vowel 
+disappeared completely, and the uo evolved into ů, modern form kůň. The letter ů
+now has the same pronunciation as the letter ú  (long ), but changes to
+a short o when a word is morphed (e.g. nom. kůň  →
+gen. koně, nom. dům → gen. domu), thus showing the historical evolution of the
+language. Ů cannot occur in initial position, while ú occurs almost exclusively
+in initial position or at the beginning of a word root  in
+a compound. These characters are used also in Steuer's Silesian alphabet
+. The  pronunciation has prevailed in some Moravian
+ dialects, as well as in Slovak , which
+uses the letter ô  instead of ů.
+
+The ring is used in some dialects of Emilian  and Romagnol
+ to distinguish the sound /ʌ/ (å) from /a/ (a).
+
+ů was used in Old Lithuanian  in Lithuania Minor
+ from the 16th till the beginning of the 20th century and for
+a shorter time in 16th-century Lithuania Major  for
+diphthong .
+
+The ring was used in the Lithuanian Cyrillic  alphabet promoted by
+Russian authorities in the last quarter of the 19th century with the letter У̊ /
+у̊  used to represent the /wɔ/ diphthong (now
+written uo in Lithuanian orthography).
+
+ẘ and ẙ are used in the ISO 233  romanization of the Arabic alphabet
+. A fatḥah followed by the letter ⟨ﻭ⟩ (wāw) with a sukūn
+(ـَوْ) is romanized as aẘ. A fatḥah followed by the letter ⟨ﻱ⟩ (yā’) with a
+sukūn over it (ـَيْ) is romanized as aẙ.
+
+Ring upon e (e̊) is used by certain dialectologists  of
+Walloon  (especially Jean-Jacques Gaziaux
+) to note the /ə/ vowel
+typically replacing /i/ and /y/ in the Brabant province 
+central Walloon dialects. The difficulty of type-writing it has led some writers
+to prefer ë for the same sound.
+
+Many more characters can be created in Unicode  using the combining
+character  U+030A ◌̊ COMBINING RING ABOVE, including the
+above-mentioned у̊ (Cyrillic у with overring) or ń̊ (n with acute and overring).
+
+The standalone (spacing) symbol is U+02DA ˚ RING ABOVE. The unrelated, but
+nearly identical degree symbol is U+00B0 ° DEGREE SIGN.
+
+Although similar in appearance, it is not to be confused with the Japanese
+handakuten  (U+309A ◌゚ COMBINING KATAKANA-HIRAGANA SEMI-VOICED
+SOUND MARK), a diacritic used with the kana for syllables starting with h to
+indicate that they should instead be pronounced with . In Japanese
+dialectology, handakuten is used with kana for syllables starting with k to
+indicate their consonant is , with syllables starting with r to indicate
+their consonant is l though this does not change the pronunciation, with kana u
+to indicate its morph into kana n, and with kana i to indicate the vowel is to
+be said as .
+
+In Canadian Aboriginal Syllabics , there are
+two ring characters: ᐤ (Cree  and Ojibwe 
+final w, or Sayisi o) and ᣞ (Cree and Ojibwe final w or final y). This second
+smaller ring can combine as a diacritic ring above in Moose Cree 
+and Moose-Cree influenced Ojibwe as a final y; in Inuktitut , the
+ring above the /_i/ character turns it into a /_aai/ character. In Western Cree,
+/_w_w/ sequence is represented as ᐝ.
+
+Unicode has:
+
+         
+                                   
+
+UNDERRING
+
+Unicode  encodes the underring at U+0325 ◌̥ COMBINING RING BELOW
+
+The underring is used in IPA  to indicate
+voicelessness , and in Indo-European studies
+ or in Sanskrit  transliteration (IAST
+) to indicate syllabicity  of r, l, m, n etc.
+(e.g. r̥ corresponding to IPA ). R with ring below, L with ring below, R
+with ring below and macron, and L with ring below and macron were proposed for
+Unicode because of their use in Sanskrit transliteration and the CSX+ Indic
+character set . 
+This proposal was rejected, because they are already encoded as sequences.
+
+
+In Pashto  romanization, ḁ is used to represent /ə/.
+
+
+Examples:
+
+  
+EMILIAN
+
+In Emilian , e̥ can be used to represent unstressed /ə/ in
+very accurate transcriptions.
+
+ROMAGNOL
+
+In Romagnol , e̥ is used to represent /ə/ in diphthongs,
+e.g. Santarcangelo  dialect ame̥ig 
+'friend', ne̥ud  'naked'.
+
+
+HALF RINGS
+
+See also: Modifier letter left half ring  and
+Modifier letter right half ring 
+
+Half rings also exist as diacritic marks; these are characters U+0351 ◌͑
+COMBINING LEFT HALF RING ABOVE and U+0357 ◌͗ COMBINING RIGHT HALF RING ABOVE.
+These characters are used in the Uralic Phonetic Alphabet
+, respectively for mediopalatal pronunciation and
+strong-onset vowels. These characters may be used in the International Phonetic
+Alphabet , denoting less and more roundedness
+, as alternatives to half rings below U+031C ◌̜ COMBINING LEFT
+HALF RING BELOW and U+0339 ◌̹ COMBINING RIGHT HALF RING BELOW. They are here
+given with the lowercase a: a͑ and a͗, a̜ and a̹.
+
+U+1E9A ẚ LATIN SMALL LETTER A WITH RIGHT HALF RING is similar in appearance but
+differs from a͗ because its compatibility decomposition 
+uses U+02BE ʾ MODIFIER LETTER RIGHT HALF RING instead of U+0357 ◌͗ COMBINING
+RIGHT HALF RING ABOVE.
+
+Other, similar signs are in use in Armenian : the U+0559 ◌ՙ
+ARMENIAN MODIFIER LETTER LEFT HALF RING and the U+055A ◌՚ ARMENIAN APOSTROPHE.
+
+Breve  and inverted breve  are also shaped like half
+rings, respectively, the bottom and top half of a circle.
+
+
+OTHER USES
+
+The ring is used in the transliteration of the Abkhaz  to
+represent the letter ҩ. It may also be used in place of the abbreviation symbol
+॰ when transliterating the Devanagari  alphabet.
+
+
+LETTERS WITH RING
+
+
+                                    
+
+SIMILAR MARKS
+
+
+
+The ring as a diacritic mark should not be confused with the dot
+ or U+0366 ◌ͦ COMBINING LATIN SMALL LETTER O diacritic marks,
+or with the degree sign °.
+
+The half ring as a diacritic mark should not be confused with the comma
+ or ogonek  diacritic marks.

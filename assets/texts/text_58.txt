@@ -1,0 +1,110 @@
+
+
+
+In eight-dimensional geometry , a truncated 8-orthoplex is a convex
+uniform 8-polytope , being a truncation
+ of the regular 8-orthoplex .
+
+
+
+There are 7 truncation for the 8-orthoplex. Vertices of the truncation
+8-orthoplex are located as pairs on the edge of the 8-orthoplex. Vertices of the
+bitruncated 8-orthoplex are located on the triangular faces of the 8-orthoplex.
+Vertices of the tritruncated 7-orthoplex are located inside the tetrahedral
+ cells of the 8-orthoplex. The final truncations are best
+expressed relative to the 8-cube.
+
+
+
+
+
+TRUNCATED 8-ORTHOPLEX
+
+
+
+Truncated 8-orthoplex Typeuniform 8-polytope  Schläfli
+symbol t0,1{3,3,3,3,3,3,4} Coxeter-Dynkin diagrams
+
+
+
+
+
+6-faces 5-faces 4-faces Cells Faces Edges1456 Vertices224 Vertex figure
+( )v{3,3,3,4} Coxeter groups B8,
+
+D8,  Propertiesconvex 
+
+
+ALTERNATE NAMES
+
+    
+
+
+CONSTRUCTION
+
+There are two Coxeter groups  associated with the truncated
+8-orthoplex, one with the C8 or  Coxeter group, and a lower
+symmetry with the D8 or  Coxeter group.
+
+
+COORDINATES
+
+Cartesian coordinates  for the vertices of a truncated
+8-orthoplex, centered at the origin, are all 224 vertices are sign (4) and
+coordinate (56) permutations  of
+
+(±2,±1,0,0,0,0,0,0)
+
+
+IMAGES
+
+
+
+
+BITRUNCATED 8-ORTHOPLEX
+
+
+
+
+
+ALTERNATE NAMES
+
+    
+
+
+COORDINATES
+
+Cartesian coordinates  for the vertices of a
+bitruncated 8-orthoplex, centered at the origin, are all sign and coordinate
+permutations  of
+
+(±2,±2,±1,0,0,0,0,0)
+
+
+IMAGES
+
+
+
+
+TRITRUNCATED 8-ORTHOPLEX
+
+
+
+
+
+ALTERNATE NAMES
+
+    
+
+
+COORDINATES
+
+Cartesian coordinates  for the vertices of a
+bitruncated 8-orthoplex, centered at the origin, are all sign and coordinate
+permutations  of
+
+(±2,±2,±2,±1,0,0,0,0)
+
+
+IMAGES
+

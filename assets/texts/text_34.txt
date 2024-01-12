@@ -1,0 +1,85 @@
+
+
+
+The OS 2200  communications management system
+includes CPComm and MCB along with many programs that provide communications
+related functions such as file transfer, e-mail, and distributed transaction
+processing protocols.
+
+
+
+CPCOMM
+
+
+
+CPComm executes as a real time program in a background run.
+ CPComm implements the protocol
+stacks.
+
+CPComm communicates with the CIOP (Communications I/O Processor) to connect to
+networks. CPcommOS is a variant for 2200 Series systems implemented on Intel
+architectures. In the most recent systems only various speeds of Ethernet
+communications are supported. Previous systems supported ATM and FDDI but these
+were dropped through lack of interest.
+
+CPComm and the Exec jointly handle authentication of connection requests and
+authorization for users and terminals to connect to time-sharing, and the
+various transaction application groups. SSL is supported for every connection.
+CPComm has software implementations of the encryption algorithms required for
+SSL.
+
+CPComm includes the protocols and connections to time-sharing and transaction
+message queues. One of the most heavily used legacy protocols is INT1 which is a
+TCP/IP variant of the UNISCOPE /UTS green-screen terminal protocol.
+
+TCP/IP v4 and TCP/IP v6 along with SNMP v1 and v3 are supported by CPComm.
+
+
+MCB
+
+
+
+The Message Control Bank (MCB) is a protected subsystem
+ that implements the message
+queues for transaction processing. It communicates with the transaction
+scheduler in the Exec. It also provides the APIs for applications to send and
+receive messages from the queues.
+
+
+
+COMAPI
+
+
+
+COMAPI is a sockets implementation for OS2200. It is a protected subsystem that
+provides APIs for programs that wish to communicate directly with the network.
+In addition to all the traditional sockets APIs for C, APIs are provided for all
+the other programming languages.
+
+
+
+CPFTP
+
+
+
+cpFTP is a program that provides both client and server FTP capability for OS
+2200. 
+
+
+WEBTS
+
+
+
+WebTS, the OS 2200 Web Transaction Server, is a full implementation of the HTTP
+ and HTTPS  protocol stacks.
+Server scripting using Java applets is supported, but the primary usage of WebTS
+is its full integration with OS 2200 including all security and transaction
+processing. 
+
+Transactions initiated via WebTS are subject to the same authentication as any
+other transaction and run with the same performance, scaling, and recovery. Such
+transactions may use the CGI APIs for communications with the client.
+Transactions developed for OS 2200 using the DPS display manager, typically
+require no changes or even recompilation to be fully operational with Web
+interfaces concurrently with terminals. Changes to DPS combined with client-side
+Java applets make everything transparent to the transaction program.
