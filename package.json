@@ -11,6 +11,7 @@
   "dependencies": {
     "@types/html-to-text": "^9.0.4",
     "html-to-text": "^9.0.5",
+    "node-html-parser": "^6.1.12",
     "wikipedia": "^2.1.1"
   }
 }
