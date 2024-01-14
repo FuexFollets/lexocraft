@@ -6,7 +6,6 @@ import { readdirSync } from "fs";
 const britannicaURL: string = "https://www.britannica.com/";
 const britannicaPureDocumentURL: string = "https://www.britannica.com/print/article/";
 const britannicaNewArticlesURL: string = "https://www.britannica.com/new-articles";
-const britannicaSitemapURL: string = "https://www.britannica.com/sitemap/";
 const britannicaSitemapPaths: string[] = [
     "0-9",
     "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o",
@@ -95,7 +94,7 @@ function urlToPath(url: string): string {
 function pathToFilename(path: string): string {
     // topic/article-title becomes topic.article-title.txt
 
-    return path.replace("/", "").replace("/", ".") + ".txt";
+    return path.replace("/", ".") + ".txt";
 }
 
 function filenameToPath(filename: string): string {
@@ -237,18 +236,28 @@ async function main() {
         else {
             for (const articlePath of selectedNotPulledArticlePaths) {
                 console.log("Pulling", articlePath);
-                const articleContent = await getArticleContent(britannicaURL + articlePath);
+                const articleContent = await getArticleContent(articlePath);
                 console.log("Writing", articlePath);
-                await Bun.write(parserResult.output + "/" + pathToFilename(articlePath), articleContent.join("\n"));
+                const outputFilePath = parserResult.output + "/" + pathToFilename(articlePath.replace("/", ""));
+                console.log(outputFilePath);
+                await Bun.write(Bun.file(outputFilePath), articleContent.join("\n\n"));
             }
         }
     }
 
     else if (parserResult.output_file) {
+        const articlePath = articlePathList[0];
+        const articleContent = await getArticleContent(articlePath);
+        const outputFilePath = parserResult.output_file;
+        await Bun.write(Bun.file(outputFilePath), articleContent.join("\n\n"));
     }
 
     else {
         // Print to stdout
+        for (const articlePath of articlePathList) {
+            const articleContent = await getArticleContent(articlePath);
+            console.log(articleContent.join("\n\n"));
+        }
     }
 }
 
