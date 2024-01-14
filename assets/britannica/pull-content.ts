@@ -204,11 +204,14 @@ async function main() {
     parser.add_argument("-p", "--path", { help: "Output the path and not the content" });
     parser.add_argument("-d", "--database", { help: "Specify the json article path database", required: true });
     parser.add_argument("-c", "--count", { help: "Count of articles to pull", type: Number, default: 1 });
+    parser.add_argument("-w", "--wait", { help: "Wait between pulls", type: Number, default: -1 });
     parser.parse_args();
 
     const parserResult = parser.parse_args();
 
     const articlePathList = await getListFromJSONFile(parserResult.database);
+
+    const pullDelaySeconds = parserResult.wait === -1 ? 50 : parserResult.wait;
 
     if (parserResult.output) {
         // List directories in output
@@ -235,12 +238,18 @@ async function main() {
 
         else {
             for (const articlePath of selectedNotPulledArticlePaths) {
-                console.log("Pulling", articlePath);
-                const articleContent = await getArticleContent(articlePath);
-                console.log("Writing", articlePath);
-                const outputFilePath = parserResult.output + "/" + pathToFilename(articlePath.replace("/", ""));
-                console.log(outputFilePath);
-                await Bun.write(Bun.file(outputFilePath), articleContent.join("\n\n"));
+                (async () => {
+                    console.log("Pulling", articlePath);
+                    const articleContent = await getArticleContent(articlePath);
+                    console.log("Writing", articlePath);
+                    const outputFilePath = parserResult.output + "/" + pathToFilename(articlePath.replace("/", ""));
+                    console.log(outputFilePath);
+                    await Bun.write(Bun.file(outputFilePath), articleContent.join("\n\n"));
+                })();
+
+                if (selectedNotPulledArticlePaths.length > 1) {
+                    await new Promise(resolve => setTimeout(resolve, pullDelaySeconds));
+                }
             }
         }
     }
