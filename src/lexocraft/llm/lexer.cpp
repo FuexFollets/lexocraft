@@ -6,7 +6,7 @@
 #include <lexocraft/llm/lexer.hpp>
 
 namespace lc::grammar {
-    std::vector<Token> tokkenize(const std::string& input) {
+    std::vector<Token> tokenize(const std::string& input) {
         // Delimited by spaces, newlines, or symbols. Symbols are considered to be their own tokens.
 
         std::vector<Token> tokens;
