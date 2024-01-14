@@ -1,5 +1,7 @@
 import HTMLParser, { HTMLElement } from "node-html-parser";
 import { convert } from "html-to-text";
+import { ArgumentParser } from "argparse";
+import { readdirSync } from "fs";
 
 const britannicaURL: string = "https://www.britannica.com/";
 const britannicaPureDocumentURL: string = "https://www.britannica.com/print/article/";
@@ -93,10 +95,17 @@ function urlToPath(url: string): string {
 function pathToFilename(path: string): string {
     // topic/article-title becomes topic.article-title.txt
 
-    return path.replace("/", ".") + ".txt";
+    return path.replace("/", "").replace("/", ".") + ".txt";
 }
 
-async function main() {
+function filenameToPath(filename: string): string {
+    // Remove the .txt from the end if there is any and repalce . with /
+    // Do the reverse of pathToFilename
+
+    return filename.replace(".txt", "").replace(".", "/");
+}
+
+async function pullNewestArticles() {
     const outputDirectory = process.argv[2];
 
     if (!outputDirectory) {
@@ -134,64 +143,114 @@ async function main() {
     }
 }
 
-/*
-const sitemapSubpaths = await allSitemapSubpaths("sitemap/" + britannicaSitemapPaths[0])
-const res = await Promise.all(sitemapSubpaths.map(allArticlePathsFromSitemapSubpath))
+async function pullAllArticlePaths() {
+    const result: string[] = [];
 
-console.log(JSON.stringify(res));
+    for (const sitemapPath of britannicaSitemapPaths) {
+        console.log("Pulling subpaths from", sitemapPath);
+        const subpaths = await allSitemapSubpaths("sitemap/" + sitemapPath)
+        console.log("Found", subpaths.length, "subpaths");
 
-*/
+        for (const subpath of subpaths) {
+            console.log("Pulling articles from", subpath);
+            const articlePaths = await allArticlePathsFromSitemapSubpath(subpath)
+            console.log("Found", articlePaths.length, "articles");
 
-/*
-const result = britannicaSitemapPaths.map(async (sitemapPath) => {
-    console.log("Pulling subpaths from", sitemapPath);
-    const subpaths = await allSitemapSubpaths("sitemap/" + sitemapPath)
-    console.log("Found", subpaths.length, "subpaths");
+            result.push(...articlePaths);
 
-    const seconds = 60;
+            console.log("Waiting 10 seconds...");
 
-    await new Promise(resolve => setTimeout(resolve, seconds * 1000));
+            await new Promise(resolve => setTimeout(resolve, 10000));
+        }
 
-    return subpaths.map(async (subpath) => {
-        console.log("Pulling articles from", subpath);
-        const articlePaths = await allArticlePathsFromSitemapSubpath(subpath)
-        console.log("Found", articlePaths.length, "articles");
+        console.log("Done pulling articles from", sitemapPath);
+        console.log("Waiting 1 minute...");
 
-        await new Promise(resolve => setTimeout(resolve, 10000));
+        const seconds = 60;
 
-        return articlePaths
-    });
-});
-*/
-
-const result: string[] = [];
-
-for (const sitemapPath of britannicaSitemapPaths) {
-    console.log("Pulling subpaths from", sitemapPath);
-    const subpaths = await allSitemapSubpaths("sitemap/" + sitemapPath)
-    console.log("Found", subpaths.length, "subpaths");
-
-    for (const subpath of subpaths) {
-        console.log("Pulling articles from", subpath);
-        const articlePaths = await allArticlePathsFromSitemapSubpath(subpath)
-        console.log("Found", articlePaths.length, "articles");
-
-        result.push(...articlePaths);
-
-        console.log("Waiting 10 seconds...");
-
-        await new Promise(resolve => setTimeout(resolve, 10000));
+        await new Promise(resolve => setTimeout(resolve, seconds * 1000));
     }
 
-    console.log("Done pulling articles from", sitemapPath);
-    console.log("Waiting 1 minute...");
+    const articleDataJSON = JSON.stringify(result);
 
-    const seconds = 60;
-
-    await new Promise(resolve => setTimeout(resolve, seconds * 1000));
+    await Bun.write("./output.json", articleDataJSON);
+    console.log(articleDataJSON);
 }
 
-const articleDataJSON = JSON.stringify(result);
+async function getListFromJSONFile(filePath: string): Promise<string[]> {
+    const fileContent = await Bun.file(filePath).text();
+    return JSON.parse(fileContent);
+}
 
-await Bun.write("./output.json", articleDataJSON);
-console.log(articleDataJSON);
+function shuffleArray<T>(array: T[]) {
+    for (let index = array.length - 1; index > 0; index--) {
+        const newIndex = Math.floor(Math.random() * (index + 1));
+        [array[index], array[newIndex]] = [array[newIndex], array[index]];
+    }
+
+    return array;
+}
+
+
+async function main() {
+    const parser = new ArgumentParser({
+        description: "Britannica content scraper",
+    });
+
+
+    // Options: output file, get random article path, get random article content, get article by path
+
+    parser.add_argument("-o", "--output", { help: "Output directory" });
+    parser.add_argument("-of", "--output-file", { help: "Output filename (not reccomended)" });
+    parser.add_argument("-p", "--path", { help: "Output the path and not the content" });
+    parser.add_argument("-d", "--database", { help: "Specify the json article path database", required: true });
+    parser.add_argument("-c", "--count", { help: "Count of articles to pull", type: Number, default: 1 });
+    parser.parse_args();
+
+    const parserResult = parser.parse_args();
+
+    const articlePathList = await getListFromJSONFile(parserResult.database);
+
+    if (parserResult.output) {
+        // List directories in output
+        const alreadyPulledArticles = readdirSync(parserResult.output);
+        let notPulledArticles: string[] = []
+
+        for (const articlePath of articlePathList) {
+            const articlePathFilename = pathToFilename(articlePath);
+
+            if (!(articlePathFilename in alreadyPulledArticles)) {
+                notPulledArticles.push(articlePathFilename);
+            }
+        }
+
+        // Shuffle notPulledArticles
+
+        notPulledArticles = shuffleArray(notPulledArticles);
+        const selectedNotPulledArticles = notPulledArticles.slice(0, parserResult.count);
+        const selectedNotPulledArticlePaths = selectedNotPulledArticles.map(filenameToPath);
+
+        if (parserResult.path) {
+            console.log(selectedNotPulledArticlePaths.join("\n"));
+        }
+
+        else {
+            for (const articlePath of selectedNotPulledArticlePaths) {
+                console.log("Pulling", articlePath);
+                const articleContent = await getArticleContent(britannicaURL + articlePath);
+                console.log("Writing", articlePath);
+                await Bun.write(parserResult.output + "/" + pathToFilename(articlePath), articleContent.join("\n"));
+            }
+        }
+    }
+
+    else if (parserResult.output_file) {
+    }
+
+    else {
+        // Print to stdout
+    }
+}
+
+await main();
+
