@@ -1,0 +1,1 @@
+Many basic devices must be manufactured in such a way that their behaviour can be modified by means of some external control. Generally, the same effect cannot be brought about (in practice and sometimes even in theory) by any intrinsic modification of the… 

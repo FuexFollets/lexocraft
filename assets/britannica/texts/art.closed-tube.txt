@@ -1,0 +1,1 @@
+     The end conditions of a closed tube create a node at the closed end and an antinode at the open end, so that the length of a closed tube (Lc) is one-quarter of a wavelength. For this reason, the length of the closed… 

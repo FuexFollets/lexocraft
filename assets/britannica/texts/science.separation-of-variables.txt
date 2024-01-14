@@ -1,0 +1,15 @@
+separation of variables,  one of the oldest and most widely used techniques for solving some types of partial differential equations. A partial differential equation is called linear if the unknown function and its derivatives have no exponent greater than one and there are no cross-terms—i.e., terms such as f f′ or f′f′′ in which the function or its derivatives appear more than once. An equation is called homogeneous if each term contains the function or one of its derivatives. For example, the equation f′ + f 2 = 0 is homogeneous but not linear, f′ + x2 = 0 is linear but not homogeneous, and fxx + fyy = 0 is both homogeneous and linear.
+
+If a homogeneous linear equation in two variables has a solution f(x, y) that consists of a product of factors g(x) and h(y), each involving only a single variable, the solution of the equation can sometimes be found by substituting the product of these unknown factors in place of the unknown composite function, obtaining in some cases an ordinary differential equation for each variable. For example, if f(x, y) is to satisfy the equation fxx + fyy = 0, then by substituting g(x)h(y) for f(x, y) the equation becomes gxxh + ghyy = 0, or −gxx/g = hyy/h. Because the left side of the latter equation depends only on the variable x and the right side only on y, the two sides can be equal only if they are both constant. Therefore, −gxx/g = c, or gxx + cg = 0, which is an ordinary differential equation in one variable and which has the solutions g = a sin (xc1/2) and g = a cos (xc1/2). In a similar manner, hyy/h = c, and h = e±yc1/2. Therefore, 
+f = gh = ae±yc1/2 sin (xc1/2)
+and 
+ae±yc1/2 sin (xc1/2)
+are solutions of the original equation 
+fxx + fyy = 0.
+The constants a and c are arbitrary and will depend upon other auxiliary conditions (boundary and initial values) in the physical situation that the solution to the equation will have to satisfy. A sum of terms such as 
+ae±yc1/2 sin (xc1/2)
+with different constants a and c will also satisfy the given differential equation, and, if the sum of an infinite number of terms is taken (called a Fourier series), solutions can be found that will satisfy a wider variety of auxiliary conditions, giving rise to the subject known as Fourier analysis, or harmonic analysis.
+
+The method of separation of variables can also be applied to some equations with variable coefficients, such as 
+fxx + x2fy = 0,
+and to higher-order equations and equations involving more variables.

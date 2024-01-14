@@ -1,0 +1,1 @@
+…equation (33) is called the power factor. It is evident that the only element that can dissipate energy is the resistance.

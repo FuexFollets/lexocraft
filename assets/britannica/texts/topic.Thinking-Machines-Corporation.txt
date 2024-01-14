@@ -1,0 +1,1 @@
+In 1983 Hillis cofounded the Thinking Machines Corporation to design, build, and market such multiprocessor computers. In 1985 the first of his Connection Machines, the CM-1 (quickly replaced by its more commercial successor, the CM-2), was introduced. The CM-1 utilized an astonishing 65,536 inexpensive one-bit processors, grouped 16 to a…
