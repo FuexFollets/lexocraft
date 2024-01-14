@@ -9,6 +9,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@types/argparse": "^2.0.14",
     "@types/html-to-text": "^9.0.4",
     "argparse": "^2.0.1",
     "html-to-text": "^9.0.5",
