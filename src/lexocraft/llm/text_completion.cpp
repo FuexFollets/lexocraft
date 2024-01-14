@@ -1,9 +1,9 @@
-#include "lexocraft/llm/vector_database.hpp"
 #include <cctype>
 #include <string>
 #include <vector>
 
 #include <lexocraft/llm/text_completion.hpp>
+#include <lexocraft/llm/vector_database.hpp>
 
 namespace lc {
     float TextCompleter::flesch_kincaid_level(const std::string& text) {
@@ -77,7 +77,7 @@ namespace lc {
 
         vector(index++) = sentence_length_mean;
         vector(index++) = sentence_length_stddev;
-        vector(index++) = word_sophistication;
+        // vector(index++) = word_sophistication;
         vector(index++) = flesch_kincaid_grade;
 
         vector.segment(index, word.vector.size()) = word.vector;
@@ -129,7 +129,7 @@ namespace lc {
 
         vector(index++) = sentence_length_mean;
         vector(index++) = sentence_length_stddev;
-        vector(index++) = word_sophistication;
+        // vector(index++) = word_sophistication;
         vector(index++) = flesch_kincaid_grade;
 
         vector.segment(index, ephemeral_memory.size()) = ephemeral_memory;
@@ -149,5 +149,57 @@ namespace lc {
         context_memory = output;
 
         return true;
+    }
+
+    float sentence_length_mean(const std::vector<grammar::Token>& tokens) {
+        std::size_t token_count = 0;
+        std::size_t sentence_count = 0;
+
+        for (const grammar::Token& token: tokens) {
+            token_count++;
+
+            if (token.value == "." || token.value == "!" || token.value == "?") {
+                sentence_count++;
+            }
+        }
+
+        return static_cast<float>(token_count) / std::max(1UL, sentence_count);
+    }
+
+    float sentence_length_stddev(const std::vector<grammar::Token>& tokens) {
+        std::vector<int> sentence_lengths;
+        int current_sentence_length = 0;
+
+        for (const grammar::Token& token: tokens) {
+            if (token.value == ".") {
+                sentence_lengths.push_back(current_sentence_length);
+                current_sentence_length = 0;
+            }
+            else {
+                current_sentence_length++;
+            }
+        }
+
+        if (current_sentence_length > 0) {
+            sentence_lengths.push_back(current_sentence_length);
+        }
+
+        if (sentence_lengths.empty()) {
+            return 0.0F; // No sentences
+        }
+
+        float mean_length = sentence_length_mean(tokens);
+
+        std::vector<float> squared_deviations;
+        for (int length: sentence_lengths) {
+            float deviation = length - mean_length;
+            squared_deviations.push_back(deviation * deviation);
+        }
+
+        float variance =
+            std::accumulate(squared_deviations.begin(), squared_deviations.end(), 0.0F) /
+            sentence_lengths.size();
+
+        return std::sqrt(variance);
     }
 } // namespace lc

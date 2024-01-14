@@ -1,6 +1,7 @@
 #ifndef TEXT_COMPLETION_HPP
 #define TEXT_COMPLETION_HPP
 
+#include "lexocraft/llm/lexer.hpp"
 #include <Eigen/Eigen>
 
 #include <lexocraft/llm/vector_database.hpp>
@@ -15,7 +16,7 @@ namespace lc {
 
         NeuralNetwork ephemeral_memory_accmulator;
         NeuralNetwork context_builder;
-        VectorDatabase* vector_database;
+        std::shared_ptr<VectorDatabase> vector_database;
 
         struct NNFieldsInput {
             virtual ~NNFieldsInput() = default; // Abstract
@@ -29,10 +30,10 @@ namespace lc {
         };
 
         struct EphemeralMemoryNNFields : NNFieldsInput {
-            /* TODO: Vector fields for EphemeralMemoryNN */
+            /* Vector fields for EphemeralMemoryNN */
             float sentence_length_mean;
             float sentence_length_stddev;
-            float word_sophistication;  // Interval: [0, 1] - 0 = Uncommon, 1 = Most common
+            // float word_sophistication;  // Interval: [0, 1] - 0 = Uncommon, 1 = Most common
             float flesch_kincaid_grade; // Interval: [0, 20] - 0 = Most difficult, 20 = Easiest
             WordVector word;
             Eigen::VectorXf ephemeral_memory;
@@ -42,7 +43,7 @@ namespace lc {
         };
 
         struct EphemeralMemoryNNOutput : NNOutput<EphemeralMemoryNNOutput> {
-            /* TODO: Vector fields for EphemeralMemoryNN output */
+            /* Vector fields for EphemeralMemoryNN output */
 
             std::size_t ephemeral_memory_size;
 
@@ -53,11 +54,11 @@ namespace lc {
         };
 
         struct ContextBuilderNNFields : NNFieldsInput {
-            /* TODO: Vector fields for ContextBuilderNN */
+            /* Vector fields for ContextBuilderNN */
 
             float sentence_length_mean;
             float sentence_length_stddev;
-            float word_sophistication;  // Interval: [0, 1] - 0 = Uncommon, 1 = Most common
+            // float word_sophistication;  // Interval: [0, 1] - 0 = Uncommon, 1 = Most common
             float flesch_kincaid_grade; // Interval: [0, 20] - 0 = Most difficult, 20 = Easiest
             Eigen::VectorXf ephemeral_memory;
             Eigen::VectorXf context_memory;
@@ -66,7 +67,7 @@ namespace lc {
         };
 
         struct ContextBuilderNNOutput : NNOutput<ContextBuilderNNOutput> {
-            /* TODO: Vector fields for ContextBuilderNN output */
+            /* Vector fields for ContextBuilderNN output */
 
             std::size_t ephemeral_memory_size;
 
@@ -78,6 +79,8 @@ namespace lc {
         static float flesch_kincaid_level(const std::string& text);
     };
 
+    float sentence_length_mean(const std::vector<grammar::Token>& tokens); 
+    float sentence_length_stddev(const std::vector<grammar::Token>& tokens);
 } // namespace lc
 
 #endif // TEXT_COMPLETION_HPP
