@@ -18,6 +18,10 @@ namespace lc {
         word(std::move(word)), vector(std::move(vector)) {
     }
 
+    WordVector::WordVector(const std::string& word, const Vector_t& vector) :
+        word(word), vector(vector) {
+    }
+
     WordVector::WordVector(std::string&& word, bool randomize_vector) : word(std::move(word)) {
         if (randomize_vector) {
             vector = WordVector::Vector_t::Random();
