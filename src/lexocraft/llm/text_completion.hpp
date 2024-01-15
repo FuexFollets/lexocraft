@@ -105,11 +105,11 @@ namespace lc {
 
             WordVectorImproviserNNFields(const VectorDatabase::SearchResult& result,
                                          const Eigen::VectorXf& ephemeral_memory,
-                                         Eigen::VectorXf& word_vector_ephemeral_memory);
+                                         Eigen::VectorXf& word_vector_value);
 
             VectorDatabase::SearchResult word_vectors_search_result;
             Eigen::VectorXf ephemeral_memory;
-            Eigen::VectorXf word_vector_ephemeral_memory;
+            Eigen::VectorXf word_vector_value;
 
             [[nodiscard]] Eigen::VectorXf to_vector() const final;
         };
@@ -118,7 +118,6 @@ namespace lc {
             /* Vector fields for WordVectorImproviserNN output */
 
             Eigen::VectorXf word_vector_value;
-            Eigen::VectorXf word_vector_ephemeral_memory;
 
             bool from_output(const Eigen::VectorXf& output) final;
         };
