@@ -18,6 +18,8 @@ namespace lc {
 
         NeuralNetwork ephemeral_memory_accmulator;
         NeuralNetwork context_builder;
+        NeuralNetwork word_vector_improviser;
+
         std::shared_ptr<VectorDatabase> vector_database;
 
         struct NNFieldsInput {
@@ -76,6 +78,23 @@ namespace lc {
             Eigen::VectorXf context_memory;
 
             bool from_output(const Eigen::VectorXf& output) final;
+        };
+
+        struct WordVectorImproviserNNFields : NNFieldsInput {
+            /* Vector fields for WordVectorImproviserNN */
+
+            VectorDatabase::SearchResult word_vectors_search_result;
+            Eigen::VectorXf ephemeral_memory;
+            Eigen::VectorXf word_vector_ephemeral_memory;
+
+            [[nodiscard]] Eigen::VectorXf to_vector() const final;
+        };
+
+        struct WordVectorImproviserNNOutput : NNOutput<WordVectorImproviserNNOutput> {
+            /* Vector fields for WordVectorImproviserNN output */
+
+            Eigen::VectorXf word_vector;
+            Eigen::VectorXf word_vector_ephemeral_memory;
         };
 
         static float flesch_kincaid_level(const std::string& text);
