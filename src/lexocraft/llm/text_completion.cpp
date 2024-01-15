@@ -1,4 +1,6 @@
 #include <cctype>
+#include <cstddef>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -201,5 +203,28 @@ namespace lc {
             sentence_lengths.size();
 
         return std::sqrt(variance);
+    }
+
+    TextCompleter::SearchedWordVector TextCompleter::find_word_vector(const std::string& word) {
+        constexpr std::size_t TOP_N = 10;
+
+        if (vector_database == nullptr) {
+            throw std::runtime_error("vector_database is null");
+        }
+
+        if (const std::optional<WordVector> word_vector = vector_database->search_from_map(word)) {
+            return {word_vector.value(), false};
+        }
+
+        for (float threshold = 0.9F; threshold >= -0.1F; threshold -= 0.1F) {
+            const std::vector<VectorDatabase::SearchResult> word_vectors =
+                vector_database->rapidfuzz_search_closest_n(word, TOP_N, threshold);
+
+            if (!word_vectors.empty()) {
+                return {improvised_word_vector(word, word_vectors), true};
+            }
+        }
+
+        return {improvised_word_vector(word, {}), true};
     }
 } // namespace lc

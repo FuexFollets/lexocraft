@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
     const bool optional_args_provided = args.size() > 3;
 
     const int top_n = optional_args_provided ? std::stoi(args.at(4)) : 10;
-    const float threshold = optional_args_provided ? std::stof(args.at(5)) : 0.2F;
+    const float threshold = optional_args_provided ? std::stof(args.at(5)) : 0.9F;
     const float soundex_weight = optional_args_provided ? std::stof(args.at(6)) : 0.5F;
     const float levenshtein_weight = optional_args_provided ? std::stof(args.at(7)) : 0.5F;
     const bool stop_when_top_n_are_found =

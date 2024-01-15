@@ -1,9 +1,11 @@
 #ifndef TEXT_COMPLETION_HPP
 #define TEXT_COMPLETION_HPP
 
-#include "lexocraft/llm/lexer.hpp"
+#include <memory>
+
 #include <Eigen/Eigen>
 
+#include <lexocraft/llm/lexer.hpp>
 #include <lexocraft/llm/vector_database.hpp>
 #include <lexocraft/neural_network/neural_network.hpp>
 
@@ -77,9 +79,20 @@ namespace lc {
         };
 
         static float flesch_kincaid_level(const std::string& text);
+
+        struct SearchedWordVector {
+            WordVector word_vector;
+            bool improvised;
+        };
+
+        SearchedWordVector find_word_vector(const std::string& word);
+
+        WordVector improvised_word_vector(
+            const std::string& word,
+            std::vector<VectorDatabase::SearchResult> word_vectors_search_result);
     };
 
-    float sentence_length_mean(const std::vector<grammar::Token>& tokens); 
+    float sentence_length_mean(const std::vector<grammar::Token>& tokens);
     float sentence_length_stddev(const std::vector<grammar::Token>& tokens);
 } // namespace lc
 
