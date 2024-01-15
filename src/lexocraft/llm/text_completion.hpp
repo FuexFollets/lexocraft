@@ -76,7 +76,7 @@ namespace lc {
             [[nodiscard]] Eigen::VectorXf to_vector() const final;
         };
 
-        struct {
+        struct ephemeral_memory_fields_sizes_t {
             std::size_t word_vector;
             std::size_t ephemeral_memory;
             std::size_t context_memory;
@@ -93,7 +93,7 @@ namespace lc {
             bool from_output(const Eigen::VectorXf& output) final;
         };
 
-        struct {
+        struct ephemeral_memory_output_sizes_t {
             std::size_t ephemeral_memory;
             std::size_t word_vector_value;
         } ephemeral_memory_output_sizes;
@@ -116,7 +116,7 @@ namespace lc {
             [[nodiscard]] Eigen::VectorXf to_vector() const final;
         };
 
-        struct {
+        struct context_builder_fields_sizes_t {
             std::size_t ephemeral_memory;
             std::size_t context_memory;
 
@@ -131,7 +131,7 @@ namespace lc {
             bool from_output(const Eigen::VectorXf& output) final;
         };
 
-        struct {
+        struct context_builder_output_sizes_t {
             std::size_t context_memory;
 
             [[nodiscard]] std::size_t total() const;
@@ -151,7 +151,7 @@ namespace lc {
             [[nodiscard]] Eigen::VectorXf to_vector() const final;
         };
 
-        struct {
+        struct word_vector_improviser_fields_sizes_t {
             std::size_t ephemeral_memory;
             std::size_t word_vector_value;
 
@@ -166,7 +166,7 @@ namespace lc {
             bool from_output(const Eigen::VectorXf& output) final;
         };
 
-        struct {
+        struct word_vector_improviser_output_sizes_t {
             std::size_t word_vector_value;
         } word_vector_improviser_output_sizes;
 
@@ -182,6 +182,24 @@ namespace lc {
         WordVector improvised_word_vector(
             const std::string& word,
             const std::vector<VectorDatabase::SearchResult>& word_vectors_search_result);
+
+        TextCompleter();
+        TextCompleter(const TextCompleter&) = delete;
+        TextCompleter& operator=(const TextCompleter&) = delete;
+        TextCompleter(TextCompleter&&) = default;
+        TextCompleter& operator=(TextCompleter&&) = default;
+
+        TextCompleter(
+            const std::shared_ptr<VectorDatabase>& vector_database,
+            const ephemeral_memory_fields_sizes_t& ephemeral_memory_fields_sizes,
+            const ephemeral_memory_output_sizes_t& ephemeral_memory_output_sizes,
+            const context_builder_fields_sizes_t& context_builder_fields_sizes,
+            const context_builder_output_sizes_t& context_builder_output_sizes,
+            const word_vector_improviser_fields_sizes_t& word_vector_improviser_fields_sizes,
+            const word_vector_improviser_output_sizes_t& word_vector_improviser_output_sizes);
+
+        TextCompleter(const std::shared_ptr<VectorDatabase>& vector_database,
+                      std::size_t ephemeral_memory_size, std::size_t context_memory_size);
     };
 
     float sentence_length_mean(const std::vector<grammar::Token>& tokens);
