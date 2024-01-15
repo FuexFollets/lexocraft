@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include <lexocraft/llm/lexer.hpp>
+#include <lexocraft/llm/text_completion.hpp>
 
 int main(int argc, char** argv) {
     std::vector<std::string> args {std::next(argv, 1), std::next(argv, argc)};
@@ -23,7 +24,7 @@ int main(int argc, char** argv) {
 
     std::cout << "file_contents: " << file_contents << "\n";
 
-    const auto result = lc::grammar::tokenize(file_contents);
+    const std::vector<lc::grammar::Token> result = lc::grammar::tokenize(file_contents);
 
     std::cout << "result:\n";
 
@@ -34,4 +35,7 @@ int main(int argc, char** argv) {
     }
 
     std::cout << "]\n";
+
+    std::cout << "Sentence mean: " << lc::sentence_length_mean(result) << "\n";
+    std::cout << "Sentence stddev: " << lc::sentence_length_stddev(result) << "\n";
 }
