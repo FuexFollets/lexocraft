@@ -96,7 +96,7 @@ namespace lc {
 
         [[nodiscard]] std::vector<SearchResult>
             rapidfuzz_search_closest_n(const std::string& searched_word, int top_n,
-                                       float threshold = 0.2F,
+                                       float threshold = 0.9F,
                                        bool stop_when_top_n_are_found = true) const;
 
         [[nodiscard]] std::optional<WordVector> search_from_map(const std::string& word) const;
