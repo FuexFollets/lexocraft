@@ -14,16 +14,10 @@ namespace lc {
         public:
 
         Eigen::VectorXf ephemeral_memory;
-
-        struct {
-            std::size_t ephemeral_memory_size;
-        } ephemeral_memory_info;
+        std::size_t ephemeral_memory_size;
 
         Eigen::VectorXf context_memory;
-
-        struct {
-            std::size_t context_memory_size;
-        } context_memory_info;
+        std::size_t context_memory_size;
 
         NeuralNetwork ephemeral_memory_accmulator;
         NeuralNetwork context_builder;
@@ -61,16 +55,27 @@ namespace lc {
             [[nodiscard]] Eigen::VectorXf to_vector() const final;
         };
 
+        struct {
+            std::size_t word_vector;
+            std::size_t ephemeral_memory;
+            std::size_t context_memory;
+
+            [[nodiscard]] std::size_t total() const;
+        } ephemeral_memory_fields_sizes;
+
         struct EphemeralMemoryNNOutput : NNOutput<EphemeralMemoryNNOutput> {
             /* Vector fields for EphemeralMemoryNN output */
-
-            std::size_t ephemeral_memory_size;
 
             Eigen::VectorXf ephemeral_memory;
             Eigen::VectorXf word_vector_value;
 
             bool from_output(const Eigen::VectorXf& output) final;
         };
+
+        struct {
+            std::size_t ephemeral_memory;
+            std::size_t word_vector_value;
+        } ephemeral_memory_output_sizes;
 
         struct ContextBuilderNNFields : NNFieldsInput {
             /* Vector fields for ContextBuilderNN */
@@ -90,15 +95,26 @@ namespace lc {
             [[nodiscard]] Eigen::VectorXf to_vector() const final;
         };
 
+        struct {
+            std::size_t ephemeral_memory;
+            std::size_t context_memory;
+
+            [[nodiscard]] std::size_t total() const;
+        } context_builder_fields_sizes;
+
         struct ContextBuilderNNOutput : NNOutput<ContextBuilderNNOutput> {
             /* Vector fields for ContextBuilderNN output */
-
-            std::size_t ephemeral_memory_size;
 
             Eigen::VectorXf context_memory;
 
             bool from_output(const Eigen::VectorXf& output) final;
         };
+
+        struct {
+            std::size_t context_memory;
+
+            [[nodiscard]] std::size_t total() const;
+        } context_builder_output_sizes;
 
         struct WordVectorImproviserNNFields : NNFieldsInput {
             /* Vector fields for WordVectorImproviserNN */
@@ -114,6 +130,13 @@ namespace lc {
             [[nodiscard]] Eigen::VectorXf to_vector() const final;
         };
 
+        struct {
+            std::size_t ephemeral_memory;
+            std::size_t word_vector_value;
+
+            [[nodiscard]] std::size_t total() const;
+        } word_vector_improviser_fields_sizes;
+
         struct WordVectorImproviserNNOutput : NNOutput<WordVectorImproviserNNOutput> {
             /* Vector fields for WordVectorImproviserNN output */
 
@@ -121,6 +144,10 @@ namespace lc {
 
             bool from_output(const Eigen::VectorXf& output) final;
         };
+
+        struct {
+            std::size_t word_vector_value;
+        } word_vector_improviser_output_sizes;
 
         static float flesch_kincaid_level(const std::string& text);
 
