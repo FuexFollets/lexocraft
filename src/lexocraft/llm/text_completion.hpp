@@ -93,8 +93,10 @@ namespace lc {
         struct WordVectorImproviserNNOutput : NNOutput<WordVectorImproviserNNOutput> {
             /* Vector fields for WordVectorImproviserNN output */
 
-            Eigen::VectorXf word_vector;
+            Eigen::VectorXf word_vector_value;
             Eigen::VectorXf word_vector_ephemeral_memory;
+
+            bool from_output(const Eigen::VectorXf& output) final;
         };
 
         static float flesch_kincaid_level(const std::string& text);
