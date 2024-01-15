@@ -3,7 +3,9 @@
 
 #include <memory>
 
+#include <cereal/types/memory.hpp>
 #include <Eigen/Eigen>
+#include <lexocraft/cereal_eigen.hpp>
 
 #include <lexocraft/llm/lexer.hpp>
 #include <lexocraft/llm/vector_database.hpp>
@@ -12,6 +14,25 @@
 namespace lc {
     class TextCompleter {
         public:
+
+        template <class Archive>
+        void serialize(Archive& archive) {
+            // clang-format off
+            archive(ephemeral_memory, ephemeral_memory_size, context_memory, context_memory_size,
+                    ephemeral_memory_accmulator, context_builder, word_vector_improviser,
+                    vector_database,
+
+                    ephemeral_memory_fields_sizes,
+                    ephemeral_memory_output_sizes,
+
+                    context_builder_fields_sizes,
+                    context_builder_output_sizes,
+
+                    word_vector_improviser_fields_sizes,
+                    word_vector_improviser_output_sizes
+                    );
+            // clang-format on
+        }
 
         Eigen::VectorXf ephemeral_memory;
         std::size_t ephemeral_memory_size;
