@@ -1,14 +1,15 @@
 #include <algorithm>
 #include <cctype>
 #include <cstddef>
+#include <functional>
 #include <string>
 #include <vector>
 
 #include <lexocraft/llm/lexer.hpp>
 
 namespace lc::grammar {
-    std::vector<Token> tokenize(const std::string& input,
-                                const std::vector<std::string>& designated_symbols) {
+    std::vector<Token> tokenize(const std::string& input) {
+        // remove any chars whose values are not between '!' and
         std::vector<Token> tokens;
         std::string current_token;
 
@@ -27,20 +28,12 @@ namespace lc::grammar {
             }
 
             else {
-                // Symbol: create a new token (unless it's a designated symbol)
-                if (designated_symbols.empty() ||
-                    std::find(designated_symbols.begin(), designated_symbols.end(),
-                              std::string(1, letter)) == designated_symbols.end()) {
-                    if (!current_token.empty()) {
-                        tokens.push_back({current_token});
-                        current_token.clear();
-                    }
-                    tokens.push_back({std::string(1, letter)});
-                }
-                else {
-                    // Designated symbol: append to current word token
-                    current_token += letter;
-                }
+                // Symbol: create a new token
+                tokens.push_back({current_token});
+                current_token.clear();
+                // std::cout << "symbol: " << "\"" << letter << "\" " << static_cast<int>(letter) <<
+                // "\n";
+                tokens.push_back({std::string(1, letter)});
             }
         }
 
@@ -51,9 +44,11 @@ namespace lc::grammar {
 
         // remove any token that is just spaces or empty
 
-        tokens.erase(std::remove_if(tokens.begin(), tokens.end(), [](const Token& token) {
-            return token.value.empty() || token.value == " ";
-        }), tokens.end());
+        tokens.erase(std::remove_if(tokens.begin(), tokens.end(),
+                                    [](const Token& token) {
+                                        return token.value.empty() || token.value == " ";
+                                    }),
+                     tokens.end());
 
         return tokens;
     }
