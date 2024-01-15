@@ -14,7 +14,16 @@ namespace lc {
         public:
 
         Eigen::VectorXf ephemeral_memory;
+
+        struct {
+            std::size_t ephemeral_memory_size;
+        } ephemeral_memory_info;
+
         Eigen::VectorXf context_memory;
+
+        struct {
+            std::size_t context_memory_size;
+        } context_memory_info;
 
         NeuralNetwork ephemeral_memory_accmulator;
         NeuralNetwork context_builder;
@@ -35,6 +44,12 @@ namespace lc {
 
         struct EphemeralMemoryNNFields : NNFieldsInput {
             /* Vector fields for EphemeralMemoryNN */
+
+            EphemeralMemoryNNFields(float sentence_length_mean, float sentence_length_stddev,
+                                    float flesch_kincaid_grade, const WordVector& word,
+                                    const Eigen::VectorXf& ephemeral_memory,
+                                    const Eigen::VectorXf& context_memory);
+
             float sentence_length_mean;
             float sentence_length_stddev;
             // float word_sophistication;  // Interval: [0, 1] - 0 = Uncommon, 1 = Most common
@@ -60,6 +75,11 @@ namespace lc {
         struct ContextBuilderNNFields : NNFieldsInput {
             /* Vector fields for ContextBuilderNN */
 
+            ContextBuilderNNFields(float sentence_length_mean, float sentence_length_stddev,
+                                   float flesch_kincaid_grade,
+                                   const Eigen::VectorXf& ephemeral_memory,
+                                   const Eigen::VectorXf& context_memory);
+
             float sentence_length_mean;
             float sentence_length_stddev;
             // float word_sophistication;  // Interval: [0, 1] - 0 = Uncommon, 1 = Most common
@@ -82,6 +102,10 @@ namespace lc {
 
         struct WordVectorImproviserNNFields : NNFieldsInput {
             /* Vector fields for WordVectorImproviserNN */
+
+            WordVectorImproviserNNFields(const VectorDatabase::SearchResult& result,
+                                         const Eigen::VectorXf& ephemeral_memory,
+                                         Eigen::VectorXf& word_vector_ephemeral_memory);
 
             VectorDatabase::SearchResult word_vectors_search_result;
             Eigen::VectorXf ephemeral_memory;
@@ -110,7 +134,7 @@ namespace lc {
 
         WordVector improvised_word_vector(
             const std::string& word,
-            std::vector<VectorDatabase::SearchResult> word_vectors_search_result);
+            const std::vector<VectorDatabase::SearchResult>& word_vectors_search_result);
     };
 
     float sentence_length_mean(const std::vector<grammar::Token>& tokens);
