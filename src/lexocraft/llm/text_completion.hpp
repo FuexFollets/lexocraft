@@ -4,9 +4,10 @@
 #include <memory>
 
 #include <cereal/types/memory.hpp>
+#include <cereal/types/polymorphic.hpp>
 #include <Eigen/Eigen>
-#include <lexocraft/cereal_eigen.hpp>
 
+#include <lexocraft/cereal_eigen.hpp>
 #include <lexocraft/llm/lexer.hpp>
 #include <lexocraft/llm/vector_database.hpp>
 #include <lexocraft/neural_network/neural_network.hpp>
@@ -82,6 +83,11 @@ namespace lc {
             std::size_t context_memory;
 
             [[nodiscard]] std::size_t total() const;
+
+            template <class Archive>
+            void serialize(Archive& archive) {
+                archive(word_vector, ephemeral_memory, context_memory);
+            }
         } ephemeral_memory_fields_sizes;
 
         struct EphemeralMemoryNNOutput : NNOutput<EphemeralMemoryNNOutput> {
@@ -96,6 +102,13 @@ namespace lc {
         struct ephemeral_memory_output_sizes_t {
             std::size_t ephemeral_memory;
             std::size_t word_vector_value;
+
+            [[nodiscard]] std::size_t total() const;
+
+            template <class Archive>
+            void serialize(Archive& archive) {
+                archive(ephemeral_memory, word_vector_value);
+            }
         } ephemeral_memory_output_sizes;
 
         struct ContextBuilderNNFields : NNFieldsInput {
@@ -121,6 +134,11 @@ namespace lc {
             std::size_t context_memory;
 
             [[nodiscard]] std::size_t total() const;
+
+            template <class Archive>
+            void serialize(Archive& archive) {
+                archive(ephemeral_memory, context_memory);
+            }
         } context_builder_fields_sizes;
 
         struct ContextBuilderNNOutput : NNOutput<ContextBuilderNNOutput> {
@@ -135,6 +153,11 @@ namespace lc {
             std::size_t context_memory;
 
             [[nodiscard]] std::size_t total() const;
+
+            template <class Archive>
+            void serialize(Archive& archive) {
+                archive(context_memory);
+            }
         } context_builder_output_sizes;
 
         struct WordVectorImproviserNNFields : NNFieldsInput {
@@ -156,6 +179,11 @@ namespace lc {
             std::size_t word_vector_value;
 
             [[nodiscard]] std::size_t total() const;
+
+            template <class Archive>
+            void serialize(Archive& archive) {
+                archive(ephemeral_memory, word_vector_value);
+            }
         } word_vector_improviser_fields_sizes;
 
         struct WordVectorImproviserNNOutput : NNOutput<WordVectorImproviserNNOutput> {
@@ -168,6 +196,13 @@ namespace lc {
 
         struct word_vector_improviser_output_sizes_t {
             std::size_t word_vector_value;
+
+            [[nodiscard]] std::size_t total() const;
+
+            template <class Archive>
+            void serialize(Archive& archive) {
+                archive(word_vector_value);
+            }
         } word_vector_improviser_output_sizes;
 
         static float flesch_kincaid_level(const std::string& text);
