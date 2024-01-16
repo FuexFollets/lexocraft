@@ -1,5 +1,4 @@
 #include <Eigen/Eigen>
-#include <iostream>
 #include <lexocraft/neural_network/neural_network.hpp>
 #include <vector>
 
@@ -9,7 +8,6 @@ namespace lc {
         const std::vector<std::size_t>& layer_sizes) :
         weight_diffs(layer_sizes.size() - 1),
         bias_diffs(layer_sizes.size() - 1), layer_sizes(layer_sizes) {
-        std::cout << "Layer sizes.size(): " << layer_sizes.size() << '\n';
 
         for (std::size_t index {0}; index < layer_sizes.size() - 1; index++) {
             weight_diffs [index] =

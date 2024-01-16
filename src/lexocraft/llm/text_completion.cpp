@@ -52,6 +52,7 @@ namespace lc {
 
         ephemeral_memory_size = ephemeral_memory_fields_sizes.ephemeral_memory;
         context_memory_size = context_builder_fields_sizes.context_memory;
+        context_memory = Eigen::VectorXf::Zero(context_memory_size);
     }
 
     /*

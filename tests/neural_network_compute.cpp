@@ -64,4 +64,6 @@ int main(int argc, char** argv) {
     std::cout << "duration: "
               << std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count()
               << " nanoseconds\n";
+
+    std::cout << "output.size(): " << output.size() << "\n";
 }
