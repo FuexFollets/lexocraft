@@ -54,6 +54,56 @@ namespace lc {
         context_memory_size = context_builder_fields_sizes.context_memory;
     }
 
+    /*
+
+        ephemeral_memory_fields_sizes {ephemeral_memory_fields_sizes},
+        ephemeral_memory_output_sizes {ephemeral_memory_output_sizes},
+        context_builder_fields_sizes {context_builder_fields_sizes},
+        context_builder_output_sizes {context_builder_output_sizes},
+        word_vector_improviser_fields_sizes {word_vector_improviser_fields_sizes},
+        word_vector_improviser_output_sizes {word_vector_improviser_output_sizes} {
+    */
+
+    TextCompleter::TextCompleter(const std::shared_ptr<VectorDatabase>& vector_database,
+                                 std::size_t ephemeral_memory_size,
+                                 std::size_t context_memory_size) :
+
+        // clang-format off
+        ephemeral_memory_size { ephemeral_memory_size },
+        context_memory_size {context_memory_size}, vector_database {vector_database},
+        // clang-format on
+
+        ephemeral_memory_fields_sizes {ephemeral_memory_fields_sizes_t {
+            .word_vector = WordVector::WORD_VECTOR_DIMENSIONS,
+            .ephemeral_memory = ephemeral_memory_size,
+            .context_memory = context_memory_size,
+        }},
+
+        ephemeral_memory_output_sizes {ephemeral_memory_output_sizes_t {
+            .ephemeral_memory = ephemeral_memory_size,
+            .word_vector_value = WordVector::WORD_VECTOR_DIMENSIONS,
+        }},
+
+        context_builder_fields_sizes {context_builder_fields_sizes_t {
+            .ephemeral_memory = ephemeral_memory_size,
+            .context_memory = context_memory_size,
+        }},
+
+        context_builder_output_sizes {context_builder_output_sizes_t {
+            .context_memory = context_memory_size,
+        }},
+
+        word_vector_improviser_fields_sizes {word_vector_improviser_fields_sizes_t {
+            .word_vector_search_result = WordVector::WORD_VECTOR_DIMENSIONS,
+            .ephemeral_memory = ephemeral_memory_size,
+            .word_vector_value = WordVector::WORD_VECTOR_DIMENSIONS,
+        }},
+
+        word_vector_improviser_output_sizes {word_vector_improviser_output_sizes_t {
+            .word_vector_value = WordVector::WORD_VECTOR_DIMENSIONS,
+        }} {
+    }
+
     float TextCompleter::flesch_kincaid_level(const std::string& text) {
         std::vector<std::string> words;
         std::vector<std::string> sentences;
