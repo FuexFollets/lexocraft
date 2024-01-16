@@ -449,4 +449,94 @@ namespace lc {
 
         return {improvised_word_vector(word, {}), true};
     }
+
+    /********************** Ephemeral Memory Accmulator ********************/
+    TextCompleter& TextCompleter::set_ephemeral_memory_accmulator_nn(
+        const NeuralNetwork& ephemeral_memory_accmulator) {
+        assert(ephemeral_memory_accmulator.layer_sizes.at(0) ==
+               ephemeral_memory_fields_sizes.total());
+        assert(ephemeral_memory_accmulator.layer_sizes.back() ==
+               ephemeral_memory_output_sizes.total());
+
+        this->ephemeral_memory_accmulator = ephemeral_memory_accmulator;
+        return *this;
+    }
+
+    TextCompleter& TextCompleter::set_ephemeral_memory_accmulator_nn(
+        NeuralNetwork&& ephemeral_memory_accmulator) {
+        assert(ephemeral_memory_accmulator.layer_sizes.at(0) ==
+               ephemeral_memory_fields_sizes.total());
+        assert(ephemeral_memory_accmulator.layer_sizes.back() ==
+               ephemeral_memory_output_sizes.total());
+
+        this->ephemeral_memory_accmulator = std::move(ephemeral_memory_accmulator);
+        return *this;
+    }
+
+    TextCompleter& TextCompleter::set_ephemeral_memory_accmulator_nn(
+        const std::vector<std::size_t>& layer_sizes, bool random) {
+        return set_ephemeral_memory_accmulator_nn(NeuralNetwork(layer_sizes, random));
+    }
+
+    /********************** Context Builder ********************/
+
+    TextCompleter& TextCompleter::set_context_builder_nn(const NeuralNetwork& context_builder) {
+        assert(context_builder.layer_sizes.at(0) == context_builder_fields_sizes.total());
+        assert(context_builder.layer_sizes.back() == context_builder_output_sizes.total());
+
+        this->context_builder = context_builder;
+        return *this;
+    }
+
+    TextCompleter& TextCompleter::set_context_builder_nn(NeuralNetwork&& context_builder) {
+        assert(context_builder.layer_sizes.at(0) == context_builder_fields_sizes.total());
+        assert(context_builder.layer_sizes.back() == context_builder_output_sizes.total());
+
+        this->context_builder = std::move(context_builder);
+        return *this;
+    }
+
+    TextCompleter&
+        TextCompleter::set_context_builder_nn(const std::vector<std::size_t>& layer_sizes,
+                                              bool random) {
+        return set_context_builder_nn(NeuralNetwork(layer_sizes, random));
+    }
+
+    /********************** Word Vector Improviser ********************/
+
+    TextCompleter&
+        TextCompleter::set_word_vector_improviser_nn(const NeuralNetwork& word_vector_improviser) {
+        assert(word_vector_improviser.layer_sizes.at(0) ==
+               word_vector_improviser_fields_sizes.total());
+        assert(word_vector_improviser.layer_sizes.back() ==
+               word_vector_improviser_output_sizes.total());
+
+        this->word_vector_improviser = word_vector_improviser;
+        return *this;
+    }
+
+    TextCompleter&
+        TextCompleter::set_word_vector_improviser_nn(NeuralNetwork&& word_vector_improviser) {
+        assert(word_vector_improviser.layer_sizes.at(0) ==
+               word_vector_improviser_fields_sizes.total());
+        assert(word_vector_improviser.layer_sizes.back() ==
+               word_vector_improviser_output_sizes.total());
+
+        this->word_vector_improviser = std::move(word_vector_improviser);
+        return *this;
+    }
+
+    TextCompleter&
+        TextCompleter::set_word_vector_improviser_nn(const std::vector<std::size_t>& layer_sizes,
+                                                     bool random) {
+        return set_word_vector_improviser_nn(NeuralNetwork(layer_sizes, random));
+    }
+
+    /********************** Vector Database ********************/
+
+    TextCompleter&
+        TextCompleter::set_vector_database(const std::shared_ptr<VectorDatabase>& vector_database) {
+        this->vector_database = vector_database;
+        return *this;
+    }
 } // namespace lc
