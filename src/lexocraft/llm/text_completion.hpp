@@ -58,7 +58,7 @@ namespace lc {
             virtual bool from_output(const Eigen::VectorXf& output) = 0;
         };
 
-        /******************** EphemeralMemoryNNInput ********************/
+        /******************** EphemeralMemoryNNFields ********************/
 
         struct ephemeral_memory_fields_sizes_t {
             std::size_t word_vector;
@@ -122,7 +122,7 @@ namespace lc {
             bool from_output(const Eigen::VectorXf& output) final;
         };
 
-        /******************** ContextBuilderNNInput ********************/
+        /******************** ContextBuilderNNFields ********************/
 
         struct context_builder_fields_sizes_t {
             std::size_t ephemeral_memory;
@@ -182,7 +182,7 @@ namespace lc {
             bool from_output(const Eigen::VectorXf& output) final;
         };
 
-        /******************** WordVectorImproviserNNInput ********************/
+        /******************** WordVectorImproviserNNFields ********************/
 
         struct word_vector_improviser_fields_sizes_t {
             std::size_t ephemeral_memory;
@@ -201,7 +201,7 @@ namespace lc {
 
             WordVectorImproviserNNFields(const VectorDatabase::SearchResult& result,
                                          const Eigen::VectorXf& ephemeral_memory,
-                                         Eigen::VectorXf& word_vector_value,
+                                         const Eigen::VectorXf& word_vector_value,
                                          const word_vector_improviser_fields_sizes_t& size_info);
 
             VectorDatabase::SearchResult word_vectors_search_result;

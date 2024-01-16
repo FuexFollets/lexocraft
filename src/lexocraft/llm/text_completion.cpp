@@ -59,6 +59,21 @@ namespace lc {
         return 0.39 * average_sentence_length + 11.8 * average_syllables_per_word - 15.59;
     }
 
+    /********************** EphemeralMemoryNNFields ********************/
+
+    TextCompleter::EphemeralMemoryNNFields::EphemeralMemoryNNFields(
+        float sentence_length_mean, float sentence_length_stddev, float flesch_kincaid_grade,
+        const WordVector& word, const Eigen::VectorXf& ephemeral_memory,
+        const Eigen::VectorXf& context_memory, const ephemeral_memory_fields_sizes_t& size_info) :
+        sentence_length_mean(sentence_length_mean),
+        sentence_length_stddev(sentence_length_stddev), flesch_kincaid_grade(flesch_kincaid_grade),
+        word(word), ephemeral_memory(ephemeral_memory), context_memory(context_memory),
+        size_info(size_info) {
+        assert(static_cast<std::size_t>(word.vector.size()) == size_info.word_vector);
+        assert(static_cast<std::size_t>(ephemeral_memory.size()) == size_info.ephemeral_memory);
+        assert(static_cast<std::size_t>(context_memory.size()) == size_info.context_memory);
+    }
+
     Eigen::VectorXf TextCompleter::EphemeralMemoryNNFields::to_vector() const {
         const std::size_t vector_length = ephemeral_memory.size() + context_memory.size() +
                                           WordVector::WORD_VECTOR_DIMENSIONS + 4;
@@ -94,10 +109,17 @@ namespace lc {
         return vector;
     }
 
-    bool TextCompleter::EphemeralMemoryNNOutput::from_output(const Eigen::VectorXf& output) {
-        const std::size_t total_size = ephemeral_memory_size + WordVector::WORD_VECTOR_DIMENSIONS;
+    /********************** EphemeralMemoryNNOutput ********************/
 
-        if (static_cast<std::size_t>(output.size()) != total_size) {
+    TextCompleter::EphemeralMemoryNNOutput::EphemeralMemoryNNOutput(
+        ephemeral_memory_output_sizes_t size_info) :
+        size_info(size_info) {
+    }
+
+    bool TextCompleter::EphemeralMemoryNNOutput::from_output(const Eigen::VectorXf& output) {
+        const std::size_t expected_size = ;
+
+        if (static_cast<std::size_t>(output.size()) != expected_size) {
             return false;
         }
 
@@ -111,6 +133,19 @@ namespace lc {
             output.segment(ephemeral_memory_size, WordVector::WORD_VECTOR_DIMENSIONS);
 
         return true;
+    }
+
+    /********************** ContextBuilderNNFields ********************/
+
+    TextCompleter::ContextBuilderNNFields::ContextBuilderNNFields(
+        float sentence_length_mean, float sentence_length_stddev, float flesch_kincaid_grade,
+        const Eigen::VectorXf& ephemeral_memory, const Eigen::VectorXf& context_memory,
+        const context_builder_fields_sizes_t& size_info) :
+        sentence_length_mean(sentence_length_mean),
+        sentence_length_stddev(sentence_length_stddev), flesch_kincaid_grade(flesch_kincaid_grade),
+        ephemeral_memory(ephemeral_memory), context_memory(context_memory), size_info(size_info) {
+        assert(static_cast<std::size_t>(ephemeral_memory.size()) == size_info.ephemeral_memory);
+        assert(static_cast<std::size_t>(context_memory.size()) == size_info.context_memory);
     }
 
     Eigen::VectorXf TextCompleter::ContextBuilderNNFields::to_vector() const {
@@ -143,6 +178,13 @@ namespace lc {
         return vector;
     }
 
+    /********************** ContextBuilderNNOutput ********************/
+
+    TextCompleter::ContextBuilderNNOutput::ContextBuilderNNOutput(
+        context_builder_output_sizes_t size_info) :
+        size_info(size_info) {
+    }
+
     bool TextCompleter::ContextBuilderNNOutput::from_output(const Eigen::VectorXf& output) {
         if (static_cast<std::size_t>(output.size()) != ephemeral_memory_size) {
             return false;
@@ -153,9 +195,21 @@ namespace lc {
         return true;
     }
 
+    /********************** WordVectorImproviserNNFields ********************/
+
+    TextCompleter::WordVectorImproviserNNFields::WordVectorImproviserNNFields(
+        const VectorDatabase::SearchResult& result, const Eigen::VectorXf& ephemeral_memory,
+        const Eigen::VectorXf& word_vector_value,
+        const word_vector_improviser_fields_sizes_t& size_info) :
+        word_vectors_search_result(result),
+        ephemeral_memory(ephemeral_memory), word_vector_value(word_vector_value),
+        size_info(size_info) {
+        assert(static_cast<std::size_t>(ephemeral_memory.size()) == size_info.ephemeral_memory);
+        assert(static_cast<std::size_t>(word_vector_value.size()) == size_info.word_vector_value);
+    }
+
     Eigen::VectorXf TextCompleter::WordVectorImproviserNNFields::to_vector() const {
-        const std::size_t vector_length = ephemeral_memory.size() +
-                                          word_vector_value.size() +
+        const std::size_t vector_length = ephemeral_memory.size() + word_vector_value.size() +
                                           word_vectors_search_result.word.vector.size() + 1;
 
         Eigen::VectorXf vector(vector_length);
@@ -184,9 +238,15 @@ namespace lc {
         return vector;
     }
 
+    /********************** WordVectorImproviserNNOutput ********************/
+
+    TextCompleter::WordVectorImproviserNNOutput::WordVectorImproviserNNOutput(
+        word_vector_improviser_output_sizes_t size_info) :
+        size_info(size_info) {
+    }
+
     bool TextCompleter::WordVectorImproviserNNOutput::from_output(const Eigen::VectorXf& output) {
-        const std::size_t expected_output_vector_size =
-            word_vector_value.size();
+        const std::size_t expected_output_vector_size = word_vector_value.size();
 
         if (static_cast<std::size_t>(output.size()) != expected_output_vector_size) {
             return false;
@@ -196,6 +256,8 @@ namespace lc {
 
         return true;
     }
+
+    /********************** TextCompleter ********************/
 
     float sentence_length_mean(const std::vector<grammar::Token>& tokens) {
         std::size_t token_count = 0;
