@@ -1,6 +1,7 @@
 #ifndef TEXT_COMPLETION_HPP
 #define TEXT_COMPLETION_HPP
 
+#include <cstddef>
 #include <memory>
 
 #include <cereal/types/memory.hpp>
@@ -11,6 +12,7 @@
 #include <lexocraft/llm/lexer.hpp>
 #include <lexocraft/llm/vector_database.hpp>
 #include <lexocraft/neural_network/neural_network.hpp>
+#include <vector>
 
 namespace lc {
     class TextCompleter {
@@ -253,6 +255,30 @@ namespace lc {
         WordVector improvised_word_vector(
             const std::string& word,
             const std::vector<VectorDatabase::SearchResult>& word_vectors_search_result);
+
+        /*
+            NeuralNetwork ephemeral_memory_accmulator;
+            NeuralNetwork context_builder;
+            NeuralNetwork word_vector_improviser;
+        */
+
+        TextCompleter&
+            set_ephemeral_memory_accmulator_nn(const NeuralNetwork& ephemeral_memory_accmulator);
+        TextCompleter&
+            set_ephemeral_memory_accmulator_nn(NeuralNetwork&& ephemeral_memory_accmulator);
+        TextCompleter&
+            set_ephemeral_memory_accmulator_nn(const std::vector<std::size_t>& layer_sizes,
+                                               bool random = false);
+
+        TextCompleter& set_context_builder_nn(const NeuralNetwork& context_builder);
+        TextCompleter& set_context_builder_nn(NeuralNetwork&& context_builder);
+        TextCompleter& set_context_builder_nn(const std::vector<std::size_t>& layer_sizes,
+                                              bool random = false);
+
+        TextCompleter& set_word_vector_improviser_nn(const NeuralNetwork& word_vector_improviser);
+        TextCompleter& set_word_vector_improviser_nn(NeuralNetwork&& word_vector_improviser);
+        TextCompleter& set_word_vector_improviser_nn(const std::vector<std::size_t>& layer_sizes,
+                                                     bool random = false);
 
         TextCompleter();
         TextCompleter(const TextCompleter&) = delete;
