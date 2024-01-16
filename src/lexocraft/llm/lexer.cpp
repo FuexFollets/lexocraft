@@ -13,11 +13,12 @@ namespace lc::grammar {
         std::vector<Token> tokens;
         std::string current_token;
 
+        std::size_t index = 0;
         for (char letter: input) {
             if (std::isspace(letter) != 0) {
                 // Space delimiter: add current token as a special token
                 if (!current_token.empty()) {
-                    tokens.push_back({current_token});
+                    tokens.emplace_back(current_token, true);
                     current_token.clear();
                 }
             }
@@ -29,17 +30,21 @@ namespace lc::grammar {
 
             else {
                 // Symbol: create a new token
-                tokens.push_back({current_token});
+                tokens.emplace_back(current_token, false);
                 current_token.clear();
-                // std::cout << "symbol: " << "\"" << letter << "\" " << static_cast<int>(letter) <<
-                // "\n";
-                tokens.push_back({std::string(1, letter)});
+
+                const bool is_next_letter_space =
+                    (index + 1 < input.size()) && (std::isspace(input [index + 1]) != 0);
+
+                tokens.emplace_back(std::string(1, letter), is_next_letter_space);
             }
+
+            index++;
         }
 
         // Add the last token if any
         if (!current_token.empty()) {
-            tokens.push_back({current_token});
+            tokens.emplace_back(current_token, false);
         }
 
         // remove any token that is just spaces or empty
