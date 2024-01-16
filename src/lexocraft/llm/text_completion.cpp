@@ -352,6 +352,10 @@ namespace lc {
 
     /********************** WordVectorImproviserNNOutput ********************/
 
+    std::size_t TextCompleter::word_vector_improviser_output_sizes_t::total() const {
+        return word_vector_value;
+    }
+
     TextCompleter::WordVectorImproviserNNOutput::WordVectorImproviserNNOutput(
         word_vector_improviser_output_sizes_t size_info) :
         size_info(size_info) {
@@ -369,7 +373,7 @@ namespace lc {
         return true;
     }
 
-    /********************** TextCompleter ********************/
+    /********************** End ********************/
 
     float sentence_length_mean(const std::vector<grammar::Token>& tokens) {
         std::size_t token_count = 0;
