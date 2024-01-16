@@ -185,6 +185,7 @@ namespace lc {
         /******************** WordVectorImproviserNNFields ********************/
 
         struct word_vector_improviser_fields_sizes_t {
+            std::size_t word_vector_search_result;
             std::size_t ephemeral_memory;
             std::size_t word_vector_value;
 

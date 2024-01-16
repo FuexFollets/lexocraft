@@ -61,6 +61,10 @@ namespace lc {
 
     /********************** EphemeralMemoryNNFields ********************/
 
+    std::size_t TextCompleter::ephemeral_memory_fields_sizes_t::total() const {
+        return word_vector + ephemeral_memory + context_memory + 3;
+    }
+
     TextCompleter::EphemeralMemoryNNFields::EphemeralMemoryNNFields(
         float sentence_length_mean, float sentence_length_stddev, float flesch_kincaid_grade,
         const WordVector& word, const Eigen::VectorXf& ephemeral_memory,
@@ -75,8 +79,7 @@ namespace lc {
     }
 
     Eigen::VectorXf TextCompleter::EphemeralMemoryNNFields::to_vector() const {
-        const std::size_t vector_length = ephemeral_memory.size() + context_memory.size() +
-                                          WordVector::WORD_VECTOR_DIMENSIONS + 4;
+        const std::size_t vector_length = size_info.total();
 
         Eigen::VectorXf vector(vector_length);
 
@@ -97,19 +100,23 @@ namespace lc {
         // vector(index++) = word_sophistication;
         vector(index++) = flesch_kincaid_grade;
 
-        vector.segment(index, word.vector.size()) = word.vector;
-        index += word.vector.size();
+        vector.segment(index, size_info.word_vector) = word.vector;
+        index += size_info.word_vector;
 
-        vector.segment(index, ephemeral_memory.size()) = ephemeral_memory;
-        index += ephemeral_memory.size();
+        vector.segment(index, size_info.ephemeral_memory) = ephemeral_memory;
+        index += size_info.ephemeral_memory;
 
-        vector.segment(index, context_memory.size()) = context_memory;
-        index += context_memory.size();
+        vector.segment(index, size_info.context_memory) = context_memory;
+        index += size_info.context_memory;
 
         return vector;
     }
 
     /********************** EphemeralMemoryNNOutput ********************/
+
+    std::size_t TextCompleter::ephemeral_memory_output_sizes_t::total() const {
+        return ephemeral_memory + word_vector_value;
+    }
 
     TextCompleter::EphemeralMemoryNNOutput::EphemeralMemoryNNOutput(
         ephemeral_memory_output_sizes_t size_info) :
@@ -117,7 +124,7 @@ namespace lc {
     }
 
     bool TextCompleter::EphemeralMemoryNNOutput::from_output(const Eigen::VectorXf& output) {
-        const std::size_t expected_size = ;
+        const std::size_t expected_size = size_info.total();
 
         if (static_cast<std::size_t>(output.size()) != expected_size) {
             return false;
@@ -125,17 +132,20 @@ namespace lc {
 
         /* Vector layout encoding:
          * ephemeral_memory
-         * context_memory
+         * word_vector_value
          **/
 
-        ephemeral_memory = output.segment(0, ephemeral_memory_size);
-        word_vector_value =
-            output.segment(ephemeral_memory_size, WordVector::WORD_VECTOR_DIMENSIONS);
+        ephemeral_memory = output.segment(0, size_info.ephemeral_memory);
+        word_vector_value = output.segment(size_info.ephemeral_memory, size_info.word_vector_value);
 
         return true;
     }
 
     /********************** ContextBuilderNNFields ********************/
+
+    std::size_t TextCompleter::context_builder_fields_sizes_t::total() const {
+        return ephemeral_memory + context_memory + 3;
+    }
 
     TextCompleter::ContextBuilderNNFields::ContextBuilderNNFields(
         float sentence_length_mean, float sentence_length_stddev, float flesch_kincaid_grade,
@@ -156,7 +166,6 @@ namespace lc {
         /* Vector layout encoding:
          * sentence_length_mean
          * sentence_length_stddev
-         * word_sophistication
          * flesch_kincaid_grade
          * ephemeral_memory
          * context_memory
@@ -169,16 +178,20 @@ namespace lc {
         // vector(index++) = word_sophistication;
         vector(index++) = flesch_kincaid_grade;
 
-        vector.segment(index, ephemeral_memory.size()) = ephemeral_memory;
-        index += ephemeral_memory.size();
+        vector.segment(index, size_info.ephemeral_memory) = ephemeral_memory;
+        index += size_info.ephemeral_memory;
 
-        vector.segment(index, context_memory.size()) = context_memory;
-        index += context_memory.size();
+        vector.segment(index, size_info.context_memory) = context_memory;
+        index += size_info.context_memory;
 
         return vector;
     }
 
     /********************** ContextBuilderNNOutput ********************/
+
+    std::size_t TextCompleter::context_builder_output_sizes_t::total() const {
+        return context_memory;
+    }
 
     TextCompleter::ContextBuilderNNOutput::ContextBuilderNNOutput(
         context_builder_output_sizes_t size_info) :
@@ -186,7 +199,7 @@ namespace lc {
     }
 
     bool TextCompleter::ContextBuilderNNOutput::from_output(const Eigen::VectorXf& output) {
-        if (static_cast<std::size_t>(output.size()) != ephemeral_memory_size) {
+        if (static_cast<std::size_t>(output.size()) != size_info.total()) {
             return false;
         }
 
@@ -196,6 +209,10 @@ namespace lc {
     }
 
     /********************** WordVectorImproviserNNFields ********************/
+
+    std::size_t TextCompleter::word_vector_improviser_fields_sizes_t::total() const {
+        return ephemeral_memory + word_vector_value + word_vector_search_result + 1;
+    }
 
     TextCompleter::WordVectorImproviserNNFields::WordVectorImproviserNNFields(
         const VectorDatabase::SearchResult& result, const Eigen::VectorXf& ephemeral_memory,
@@ -209,8 +226,7 @@ namespace lc {
     }
 
     Eigen::VectorXf TextCompleter::WordVectorImproviserNNFields::to_vector() const {
-        const std::size_t vector_length = ephemeral_memory.size() + word_vector_value.size() +
-                                          word_vectors_search_result.word.vector.size() + 1;
+        const std::size_t vector_length = size_info.total();
 
         Eigen::VectorXf vector(vector_length);
 
@@ -225,15 +241,15 @@ namespace lc {
 
         vector(index++) = word_vectors_search_result.similarity;
 
-        vector.segment(index, word_vectors_search_result.word.vector.size()) =
+        vector.segment(index, size_info.word_vector_search_result) =
             word_vectors_search_result.word.vector;
-        index += word_vectors_search_result.word.vector.size();
+        index += size_info.word_vector_search_result;
 
-        vector.segment(index, ephemeral_memory.size()) = ephemeral_memory;
-        index += ephemeral_memory.size();
+        vector.segment(index, size_info.ephemeral_memory) = ephemeral_memory;
+        index += size_info.ephemeral_memory;
 
-        vector.segment(index, word_vector_value.size()) = word_vector_value;
-        index += word_vector_value.size();
+        vector.segment(index, size_info.word_vector_value) = word_vector_value;
+        index += size_info.word_vector_value;
 
         return vector;
     }
@@ -246,13 +262,13 @@ namespace lc {
     }
 
     bool TextCompleter::WordVectorImproviserNNOutput::from_output(const Eigen::VectorXf& output) {
-        const std::size_t expected_output_vector_size = word_vector_value.size();
+        const std::size_t expected_output_vector_size = size_info.total();
 
         if (static_cast<std::size_t>(output.size()) != expected_output_vector_size) {
             return false;
         }
 
-        word_vector_value = output.segment(0, word_vector_value.size());
+        word_vector_value = output.segment(0, size_info.word_vector_value);
 
         return true;
     }
