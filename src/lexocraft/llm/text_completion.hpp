@@ -58,6 +58,21 @@ namespace lc {
             virtual bool from_output(const Eigen::VectorXf& output) = 0;
         };
 
+        /******************** EphemeralMemoryNNInput ********************/
+
+        struct ephemeral_memory_fields_sizes_t {
+            std::size_t word_vector;
+            std::size_t ephemeral_memory;
+            std::size_t context_memory;
+
+            [[nodiscard]] std::size_t total() const;
+
+            template <class Archive>
+            void serialize(Archive& archive) {
+                archive(word_vector, ephemeral_memory, context_memory);
+            }
+        } ephemeral_memory_fields_sizes;
+
         struct EphemeralMemoryNNFields : NNFieldsInput {
             /* Vector fields for EphemeralMemoryNN */
 
@@ -74,30 +89,12 @@ namespace lc {
             Eigen::VectorXf ephemeral_memory;
             Eigen::VectorXf context_memory;
 
+            ephemeral_memory_fields_sizes_t size_info;
+
             [[nodiscard]] Eigen::VectorXf to_vector() const final;
         };
 
-        struct ephemeral_memory_fields_sizes_t {
-            std::size_t word_vector;
-            std::size_t ephemeral_memory;
-            std::size_t context_memory;
-
-            [[nodiscard]] std::size_t total() const;
-
-            template <class Archive>
-            void serialize(Archive& archive) {
-                archive(word_vector, ephemeral_memory, context_memory);
-            }
-        } ephemeral_memory_fields_sizes;
-
-        struct EphemeralMemoryNNOutput : NNOutput<EphemeralMemoryNNOutput> {
-            /* Vector fields for EphemeralMemoryNN output */
-
-            Eigen::VectorXf ephemeral_memory;
-            Eigen::VectorXf word_vector_value;
-
-            bool from_output(const Eigen::VectorXf& output) final;
-        };
+        /******************** EphemeralMemoryNNOutput ********************/
 
         struct ephemeral_memory_output_sizes_t {
             std::size_t ephemeral_memory;
@@ -110,6 +107,31 @@ namespace lc {
                 archive(ephemeral_memory, word_vector_value);
             }
         } ephemeral_memory_output_sizes;
+
+        struct EphemeralMemoryNNOutput : NNOutput<EphemeralMemoryNNOutput> {
+            /* Vector fields for EphemeralMemoryNN output */
+
+            Eigen::VectorXf ephemeral_memory;
+            Eigen::VectorXf word_vector_value;
+
+            ephemeral_memory_output_sizes_t size_info;
+
+            bool from_output(const Eigen::VectorXf& output) final;
+        };
+
+        /******************** ContextBuilderNNInput ********************/
+
+        struct context_builder_fields_sizes_t {
+            std::size_t ephemeral_memory;
+            std::size_t context_memory;
+
+            [[nodiscard]] std::size_t total() const;
+
+            template <class Archive>
+            void serialize(Archive& archive) {
+                archive(ephemeral_memory, context_memory);
+            }
+        } context_builder_fields_sizes;
 
         struct ContextBuilderNNFields : NNFieldsInput {
             /* Vector fields for ContextBuilderNN */
@@ -126,28 +148,12 @@ namespace lc {
             Eigen::VectorXf ephemeral_memory;
             Eigen::VectorXf context_memory;
 
+            context_builder_fields_sizes_t size_info;
+
             [[nodiscard]] Eigen::VectorXf to_vector() const final;
         };
 
-        struct context_builder_fields_sizes_t {
-            std::size_t ephemeral_memory;
-            std::size_t context_memory;
-
-            [[nodiscard]] std::size_t total() const;
-
-            template <class Archive>
-            void serialize(Archive& archive) {
-                archive(ephemeral_memory, context_memory);
-            }
-        } context_builder_fields_sizes;
-
-        struct ContextBuilderNNOutput : NNOutput<ContextBuilderNNOutput> {
-            /* Vector fields for ContextBuilderNN output */
-
-            Eigen::VectorXf context_memory;
-
-            bool from_output(const Eigen::VectorXf& output) final;
-        };
+        /******************** ContextBuilderNNOutput ********************/
 
         struct context_builder_output_sizes_t {
             std::size_t context_memory;
@@ -160,19 +166,17 @@ namespace lc {
             }
         } context_builder_output_sizes;
 
-        struct WordVectorImproviserNNFields : NNFieldsInput {
-            /* Vector fields for WordVectorImproviserNN */
+        struct ContextBuilderNNOutput : NNOutput<ContextBuilderNNOutput> {
+            /* Vector fields for ContextBuilderNN output */
 
-            WordVectorImproviserNNFields(const VectorDatabase::SearchResult& result,
-                                         const Eigen::VectorXf& ephemeral_memory,
-                                         Eigen::VectorXf& word_vector_value);
+            Eigen::VectorXf context_memory;
 
-            VectorDatabase::SearchResult word_vectors_search_result;
-            Eigen::VectorXf ephemeral_memory;
-            Eigen::VectorXf word_vector_value;
+            context_builder_output_sizes_t size_info;
 
-            [[nodiscard]] Eigen::VectorXf to_vector() const final;
+            bool from_output(const Eigen::VectorXf& output) final;
         };
+
+        /******************** WordVectorImproviserNNInput ********************/
 
         struct word_vector_improviser_fields_sizes_t {
             std::size_t ephemeral_memory;
@@ -186,13 +190,23 @@ namespace lc {
             }
         } word_vector_improviser_fields_sizes;
 
-        struct WordVectorImproviserNNOutput : NNOutput<WordVectorImproviserNNOutput> {
-            /* Vector fields for WordVectorImproviserNN output */
+        struct WordVectorImproviserNNFields : NNFieldsInput {
+            /* Vector fields for WordVectorImproviserNN */
 
+            WordVectorImproviserNNFields(const VectorDatabase::SearchResult& result,
+                                         const Eigen::VectorXf& ephemeral_memory,
+                                         Eigen::VectorXf& word_vector_value);
+
+            VectorDatabase::SearchResult word_vectors_search_result;
+            Eigen::VectorXf ephemeral_memory;
             Eigen::VectorXf word_vector_value;
 
-            bool from_output(const Eigen::VectorXf& output) final;
+            word_vector_improviser_fields_sizes_t size_info;
+
+            [[nodiscard]] Eigen::VectorXf to_vector() const final;
         };
+
+        /******************** WordVectorImproviserNNOutput ********************/
 
         struct word_vector_improviser_output_sizes_t {
             std::size_t word_vector_value;
@@ -204,6 +218,18 @@ namespace lc {
                 archive(word_vector_value);
             }
         } word_vector_improviser_output_sizes;
+
+        struct WordVectorImproviserNNOutput : NNOutput<WordVectorImproviserNNOutput> {
+            /* Vector fields for WordVectorImproviserNN output */
+
+            Eigen::VectorXf word_vector_value;
+
+            word_vector_improviser_output_sizes_t size_info;
+
+            bool from_output(const Eigen::VectorXf& output) final;
+        };
+
+        /******************** End ********************/
 
         static float flesch_kincaid_level(const std::string& text);
 
