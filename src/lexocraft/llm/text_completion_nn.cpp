@@ -10,9 +10,10 @@ namespace lc {
         Eigen::VectorXf word_vector_value;
 
         for (const VectorDatabase::SearchResult& result: word_vectors_search_result) {
-            WordVectorImproviserNNFields fields {result, ephemeral_memory, word_vector_value};
+            WordVectorImproviserNNFields fields(result, ephemeral_memory, word_vector_value,
+                                                word_vector_improviser_fields_sizes);
 
-            WordVectorImproviserNNOutput output;
+            WordVectorImproviserNNOutput output (word_vector_improviser_output_sizes);
 
             assert(output.from_output(fields.to_vector()));
         }
