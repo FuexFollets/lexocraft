@@ -79,7 +79,8 @@ namespace lc {
             EphemeralMemoryNNFields(float sentence_length_mean, float sentence_length_stddev,
                                     float flesch_kincaid_grade, const WordVector& word,
                                     const Eigen::VectorXf& ephemeral_memory,
-                                    const Eigen::VectorXf& context_memory);
+                                    const Eigen::VectorXf& context_memory,
+                                    const ephemeral_memory_fields_sizes_t& size_info);
 
             float sentence_length_mean;
             float sentence_length_stddev;
@@ -111,6 +112,8 @@ namespace lc {
         struct EphemeralMemoryNNOutput : NNOutput<EphemeralMemoryNNOutput> {
             /* Vector fields for EphemeralMemoryNN output */
 
+            explicit EphemeralMemoryNNOutput(ephemeral_memory_output_sizes_t size_info);
+
             Eigen::VectorXf ephemeral_memory;
             Eigen::VectorXf word_vector_value;
 
@@ -139,7 +142,8 @@ namespace lc {
             ContextBuilderNNFields(float sentence_length_mean, float sentence_length_stddev,
                                    float flesch_kincaid_grade,
                                    const Eigen::VectorXf& ephemeral_memory,
-                                   const Eigen::VectorXf& context_memory);
+                                   const Eigen::VectorXf& context_memory,
+                                   const context_builder_fields_sizes_t& size_info);
 
             float sentence_length_mean;
             float sentence_length_stddev;
@@ -169,6 +173,8 @@ namespace lc {
         struct ContextBuilderNNOutput : NNOutput<ContextBuilderNNOutput> {
             /* Vector fields for ContextBuilderNN output */
 
+            explicit ContextBuilderNNOutput(context_builder_output_sizes_t size_info);
+
             Eigen::VectorXf context_memory;
 
             context_builder_output_sizes_t size_info;
@@ -195,7 +201,8 @@ namespace lc {
 
             WordVectorImproviserNNFields(const VectorDatabase::SearchResult& result,
                                          const Eigen::VectorXf& ephemeral_memory,
-                                         Eigen::VectorXf& word_vector_value);
+                                         Eigen::VectorXf& word_vector_value,
+                                         const word_vector_improviser_fields_sizes_t& size_info);
 
             VectorDatabase::SearchResult word_vectors_search_result;
             Eigen::VectorXf ephemeral_memory;
@@ -221,6 +228,8 @@ namespace lc {
 
         struct WordVectorImproviserNNOutput : NNOutput<WordVectorImproviserNNOutput> {
             /* Vector fields for WordVectorImproviserNN output */
+
+            explicit WordVectorImproviserNNOutput(word_vector_improviser_output_sizes_t size_info);
 
             Eigen::VectorXf word_vector_value;
 
