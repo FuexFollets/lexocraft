@@ -1,5 +1,6 @@
 #include <cctype>
 #include <cstddef>
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -8,6 +9,51 @@
 #include <lexocraft/llm/vector_database.hpp>
 
 namespace lc {
+    TextCompleter::TextCompleter(
+        const std::shared_ptr<VectorDatabase>& vector_database,
+        const ephemeral_memory_fields_sizes_t& ephemeral_memory_fields_sizes,
+        const ephemeral_memory_output_sizes_t& ephemeral_memory_output_sizes,
+        const context_builder_fields_sizes_t& context_builder_fields_sizes,
+        const context_builder_output_sizes_t& context_builder_output_sizes,
+        const word_vector_improviser_fields_sizes_t& word_vector_improviser_fields_sizes,
+        const word_vector_improviser_output_sizes_t& word_vector_improviser_output_sizes) :
+        vector_database {vector_database},
+        ephemeral_memory_fields_sizes {ephemeral_memory_fields_sizes},
+        ephemeral_memory_output_sizes {ephemeral_memory_output_sizes},
+        context_builder_fields_sizes {context_builder_fields_sizes},
+        context_builder_output_sizes {context_builder_output_sizes},
+        word_vector_improviser_fields_sizes {word_vector_improviser_fields_sizes},
+        word_vector_improviser_output_sizes {word_vector_improviser_output_sizes} {
+        std::function<bool(const std::initializer_list<std::size_t>&)> all_equal_size_t =
+            [this](const std::initializer_list<std::size_t>& sizes) {
+                return std::all_of(sizes.begin(), sizes.end(), [this](std::size_t size) {
+                    return size == ephemeral_memory_size;
+                });
+            };
+
+        assert(all_equal_size_t({
+            ephemeral_memory_fields_sizes.word_vector,
+            ephemeral_memory_output_sizes.word_vector_value,
+            word_vector_improviser_fields_sizes.word_vector_value,
+            word_vector_improviser_output_sizes.word_vector_value,
+        }));
+
+        assert(all_equal_size_t({
+            ephemeral_memory_fields_sizes.ephemeral_memory,
+            ephemeral_memory_output_sizes.ephemeral_memory,
+            word_vector_improviser_fields_sizes.ephemeral_memory,
+        }));
+
+        assert(all_equal_size_t({
+            ephemeral_memory_fields_sizes.context_memory,
+            context_builder_fields_sizes.context_memory,
+            context_builder_output_sizes.context_memory,
+        }));
+
+        ephemeral_memory_size = ephemeral_memory_fields_sizes.ephemeral_memory;
+        context_memory_size = context_builder_fields_sizes.context_memory;
+    }
+
     float TextCompleter::flesch_kincaid_level(const std::string& text) {
         std::vector<std::string> words;
         std::vector<std::string> sentences;
