@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include <mapbox/eternal.hpp>
+
 namespace lc::grammar {
     class Token {
         public:
@@ -16,6 +18,14 @@ namespace lc::grammar {
             Symbol,
             Homogeneous, // Mix of letters, digits, and symbols
         };
+
+        static MAPBOX_ETERNAL_CONSTEXPR auto TOKEN_TYPES = mapbox::eternal::map<Type, std::string>({
+            {Type::Alphanumeric, "Alphanumeric"},
+            {Type::Digit,        "Digit"       },
+            {Type::Letter,       "Letter"      },
+            {Type::Symbol,       "Symbol"      },
+            {Type::Homogeneous,  "Homogeneous" },
+        });
 
         std::string value;
         bool next_is_space {};
@@ -32,9 +42,9 @@ namespace lc::grammar {
         Token(const std::string& value, bool next_is_space);
     };
 
-    std::vector<Token> tokenize(
-        const std::string& input); // Delimited by spaces, newlines, or symbols. Symbols are
-                                   // considered to be their own tokens.
+    std::vector<Token>
+        tokenize(const std::string& input); // Delimited by spaces, newlines, or symbols. Symbols
+                                            // are considered to be their own tokens.
 
     std::ostream& operator<<(std::ostream& output_stream, const Token& token);
 } // namespace lc::grammar

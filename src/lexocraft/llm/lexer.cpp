@@ -57,4 +57,15 @@ namespace lc::grammar {
 
         return tokens;
     }
+
+    std::ostream& operator<<(std::ostream& output_stream, const Token& token) {
+        /* Name layout:
+         * (value: type, next_is_space)
+         */
+
+        output_stream << "(" << token.value << ": " << Token::TOKEN_TYPES.at(token.type) << ", "
+                      << token.next_is_space << ")";
+
+        return output_stream;
+    }
 } // namespace lc::grammar
