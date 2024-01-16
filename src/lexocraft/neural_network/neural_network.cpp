@@ -1,6 +1,5 @@
 #include <cmath>
 #include <filesystem>
-#include <iostream>
 #include <system_error>
 #include <utility>
 #include <vector>
@@ -10,11 +9,8 @@
 #include <lexocraft/neural_network/neural_network.hpp>
 
 namespace lc {
-
     NeuralNetwork::NeuralNetwork(std::vector<std::size_t> layer_sizes, bool randomize) :
         layer_sizes(layer_sizes), most_recent_diff(layer_sizes) {
-        std::cout << "Layer sizes size: " << layer_sizes.size() << '\n';
-        std::cout << "Layer sizes max size: " << layer_sizes.max_size() << '\n';
 
         for (std::size_t index {1}; index < layer_sizes.size(); ++index) {
             weights.emplace_back(layer_sizes [index], layer_sizes [index - 1]);
