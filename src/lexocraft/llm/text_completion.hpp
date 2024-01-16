@@ -280,6 +280,8 @@ namespace lc {
         TextCompleter& set_word_vector_improviser_nn(const std::vector<std::size_t>& layer_sizes,
                                                      bool random = false);
 
+        TextCompleter& set_vector_database(const std::shared_ptr<VectorDatabase>& vector_database);
+
         TextCompleter();
         TextCompleter(const TextCompleter&) = delete;
         TextCompleter& operator=(const TextCompleter&) = delete;
