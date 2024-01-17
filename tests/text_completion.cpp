@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
     std::cout << "nn_input_size: " << nn_input_size << "\n";
     std::cout << "nn_output_size: " << nn_output_size << "\n";
 
-    completer.set_word_vector_improviser_nn({nn_input_size, 100, 100, 100, nn_output_size}, true);
+    completer.set_word_vector_improviser_nn({nn_input_size, 100, 100, 100, 100, 100, 100, 100, 100, 100, nn_output_size}, true);
     std::cout << "completer.word_vector_improviser.layer_sizes.back(): "
               << completer.word_vector_improviser.layer_sizes.back() << "\n";
 

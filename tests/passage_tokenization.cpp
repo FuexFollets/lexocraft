@@ -1,5 +1,7 @@
+#include <chrono>
 #include <fstream>
 #include <iostream>
+#include <ratio>
 #include <sstream>
 
 #include <lexocraft/llm/lexer.hpp>
@@ -24,7 +26,19 @@ int main(int argc, char** argv) {
 
     std::cout << "file_contents: " << file_contents << "\n";
 
+    std::cout << "Tokenizing...\n";
+
+    std::chrono::high_resolution_clock::time_point start =
+        std::chrono::high_resolution_clock::now();
     const std::vector<lc::grammar::Token> result = lc::grammar::tokenize(file_contents);
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+
+    const std::chrono::duration<double, std::nano> duration = end - start;
+
+    std::cout << "Tokenization took " << duration.count() << " nanoseconds (milliseconds: "
+              << duration.count() / 1000000.0 << ")\n";
+
+    std::cout << "Tokens: " << result.size() << "\n";
 
     std::cout << "result:\n";
 
