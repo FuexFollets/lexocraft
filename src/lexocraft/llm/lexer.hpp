@@ -19,7 +19,7 @@ namespace lc::grammar {
             Homogeneous, // Mix of letters, digits, and symbols
         };
 
-        static MAPBOX_ETERNAL_CONSTEXPR auto TOKEN_TYPES = mapbox::eternal::map<Type, std::string>({
+        static MAPBOX_ETERNAL_CONSTEXPR auto TOKEN_TYPES = mapbox::eternal::map<Type, mapbox::eternal::string>({
             {Type::Alphanumeric, "Alphanumeric"},
             {Type::Digit,        "Digit"       },
             {Type::Letter,       "Letter"      },

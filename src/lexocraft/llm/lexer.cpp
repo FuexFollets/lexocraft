@@ -8,6 +8,43 @@
 #include <lexocraft/llm/lexer.hpp>
 
 namespace lc::grammar {
+    Token::Token(const std::string& value) : value(value) {
+        bool has_letters = false;
+        bool has_digits = false;
+        bool has_symbols = false;
+
+        for (char letter: value) {
+            if (std::isalnum(letter) != 0) {
+                has_letters |= std::isalpha(letter);
+                has_digits |= std::isdigit(letter);
+            }
+
+            else {
+                has_symbols = true;
+            }
+        }
+
+        if (has_letters && !has_digits && !has_symbols) {
+            type = Type::Letter;
+        }
+
+        else if (has_digits && !has_letters && !has_symbols) {
+            type = Type::Digit;
+        }
+
+        else if (has_letters && has_digits && !has_symbols) {
+            type = Type::Alphanumeric;
+        }
+
+        else if (!has_letters && !has_digits && has_symbols) {
+            type = Type::Symbol;
+        }
+
+        else {
+            type = Type::Homogeneous;
+        }
+    }
+
     std::vector<Token> tokenize(const std::string& input) {
         // remove any chars whose values are not between '!' and
         std::vector<Token> tokens;
@@ -63,8 +100,8 @@ namespace lc::grammar {
          * (value: type, next_is_space)
          */
 
-        output_stream << "(" << token.value << ": " << Token::TOKEN_TYPES.at(token.type) << ", "
-                      << token.next_is_space << ")";
+        output_stream << "(" << token.value << ": " << Token::TOKEN_TYPES.at(token.type).c_str()
+                      << ", " << token.next_is_space << ")";
 
         return output_stream;
     }

@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
     std::cout << "[";
 
     for (const auto& token: result) {
-        std::cout << "\"" << token.value << "\", ";
+        std::cout << "\"" << token << "\", ";
     }
 
     std::cout << "]\n";
