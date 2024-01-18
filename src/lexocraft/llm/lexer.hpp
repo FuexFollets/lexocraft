@@ -13,18 +13,21 @@ namespace lc::grammar {
 
         enum class Type {
             Alphanumeric,
+            Acronym,
             Digit,
-            Letter,
+            Homogeneous,
             Symbol,
-            Homogeneous, // Mix of letters, digits, and symbols
         };
 
-        static MAPBOX_ETERNAL_CONSTEXPR auto TOKEN_TYPES = mapbox::eternal::map<Type, mapbox::eternal::string>({
-            {Type::Alphanumeric, "Alphanumeric"},
-            {Type::Digit,        "Digit"       },
-            {Type::Letter,       "Letter"      },
-            {Type::Symbol,       "Symbol"      },
-            {Type::Homogeneous,  "Homogeneous" },
+        static constexpr std::array<char, 10> token_component_symbols {'-', '\'', '/', '.'};
+
+        static MAPBOX_ETERNAL_CONSTEXPR auto TOKEN_TYPES =
+            mapbox::eternal::map<Type, mapbox::eternal::string>({
+                {Type::Alphanumeric, "Alphanumeric"},
+                {Type::Acronym,      "Acronym"     },
+                {Type::Digit,        "Digit"       },
+                {Type::Homogeneous,  "Homogeneous" },
+                {Type::Symbol,       "Symbol"      },
         });
 
         std::string value;
@@ -38,13 +41,14 @@ namespace lc::grammar {
         Token& operator=(Token&&) = default;
 
         explicit Token(const std::string& value);
-        Token(const std::string& value, bool next_is_space, Type type);
         Token(const std::string& value, bool next_is_space);
     };
 
-    std::vector<Token>
-        tokenize(const std::string& input); // Delimited by spaces, newlines, or symbols. Symbols
-                                            // are considered to be their own tokens.
+    bool is_component_symbol(char letter);
+
+    Token::Type token_type(const std::string& value);
+
+    std::vector<Token> tokenize(const std::string& input);
 
     std::ostream& operator<<(std::ostream& output_stream, const Token& token);
 } // namespace lc::grammar

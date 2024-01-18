@@ -4,11 +4,14 @@
 #include <functional>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include <lexocraft/llm/lexer.hpp>
 
 namespace lc::grammar {
-    Token::Token(const std::string& value) : value(value) {
+    Token::Token(const std::string& value) : Token(value, false) {}
+
+    Token::Token(const std::string& value, bool next_is_space) : value(value), next_is_space(next_is_space) {
         bool has_letters = false;
         bool has_digits = false;
         bool has_symbols = false;
@@ -24,7 +27,7 @@ namespace lc::grammar {
             }
         }
 
-        if (has_letters && !has_digits && !has_symbols) {
+        if (has_letters && !has_digits && !has_symbols && value.size() == 1) {
             type = Type::Letter;
         }
 
@@ -32,7 +35,7 @@ namespace lc::grammar {
             type = Type::Digit;
         }
 
-        else if (has_letters && has_digits && !has_symbols) {
+        else if (has_letters && !has_digits && !has_symbols) {
             type = Type::Alphanumeric;
         }
 
@@ -91,6 +94,21 @@ namespace lc::grammar {
                                         return token.value.empty() || token.value == " ";
                                     }),
                      tokens.end());
+
+        // Separate any multi-digit numbers into separate tokens
+        for (std::size_t index {}; index < tokens.size() - 1; index++) {
+            if (tokens [index].type == Token::Type::Digit && tokens [index].value.size() > 1) {
+                std::vector<Token> sub_tokens;
+                std::cout << "Split up " << tokens [index].value << std::endl;
+
+                for (char letter: tokens [index].value) {
+                    sub_tokens.emplace_back(std::string(1, letter), false);
+                }
+
+                tokens.erase(tokens.begin() + index);
+                tokens.insert(tokens.begin() + index, sub_tokens.begin(), sub_tokens.end());
+            }
+        }
 
         return tokens;
     }
