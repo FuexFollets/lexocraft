@@ -2,19 +2,48 @@
 #include <cctype>
 #include <cstddef>
 #include <functional>
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 
 #include <lexocraft/llm/lexer.hpp>
 
 namespace lc::grammar {
+    Token::Type token_type(const std::string& value) {
+        // Check for acronyms first, as they have a stricter pattern
+        if (value.size() == 1 && std::string {"`!@#$%^&*()+-={}[]|\\}|;:\"<,>?"}.find(
+                                     value.at(0)) != std::string::npos) {
+            return Token::Type::Symbol;
+        }
+
+        if (std::all_of(value.begin(), value.end(),
+                        [](char letter) { return (std::isupper(letter) != 0) || letter == '.'; })) {
+            return Token::Type::Acronym;
+        }
+
+        // Check for digits
+        if (std::all_of(value.begin(), value.end(), ::isdigit)) {
+            return Token::Type::Digit;
+        }
+
+        // Check for homogeneous tokens
+        if (std::all_of(value.begin(), value.end(), [](char letter) {
+                return (std::isalnum(letter) != 0) ||
+                       std::string {"~_/-'."}.find(letter) != std::string::npos;
+            })) {
+            return Token::Type::Homogeneous;
+        }
+
+        // Everything else is considered alphanumeric
+        return Token::Type::Alphanumeric;
+    }
+
+    /*
     Token::Token(const std::string& value) : Token(value, false) {}
 
-    Token::Token(const std::string& value, bool next_is_space) : value(value), next_is_space(next_is_space) {
-        bool has_letters = false;
-        bool has_digits = false;
-        bool has_symbols = false;
+    Token::Token(const std::string& value, bool next_is_space) : value(value),
+    next_is_space(next_is_space) { bool has_letters = false; bool has_digits = false; bool
+    has_symbols = false;
 
         for (char letter: value) {
             if (std::isalnum(letter) != 0) {
@@ -112,6 +141,7 @@ namespace lc::grammar {
 
         return tokens;
     }
+    */
 
     std::ostream& operator<<(std::ostream& output_stream, const Token& token) {
         /* Name layout:

@@ -19,8 +19,6 @@ namespace lc::grammar {
             Symbol,
         };
 
-        static constexpr std::array<char, 10> token_component_symbols {'-', '\'', '/', '.'};
-
         static MAPBOX_ETERNAL_CONSTEXPR auto TOKEN_TYPES =
             mapbox::eternal::map<Type, mapbox::eternal::string>({
                 {Type::Alphanumeric, "Alphanumeric"},
