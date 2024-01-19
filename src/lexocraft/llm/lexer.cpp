@@ -51,10 +51,10 @@ namespace lc::grammar {
     }
 
     std::vector<Token> tokenize(const std::string& text, const VectorDatabase& vector_database) {
-        const std::size_t longest_element = vector_database.longest_element();
+        const std::size_t longest_element_size = vector_database.longest_element();
         const std::size_t text_length = text.size();
-        std::vector<Token> tokens;
         const std::span<const char> text_span {text};
+        std::vector<Token> tokens;
 
         for (std::size_t index {}; index < text_length;) {
             const bool is_space = text.at(index) == ' ';
@@ -62,7 +62,7 @@ namespace lc::grammar {
             std::optional<Token> longest_possible_token_for_this_index_from_database {};
 
             for (std::size_t span_index {1};
-                 (span_index < longest_element) && (index + span_index <= text_length);
+                 (span_index <= longest_element_size) && (index + span_index <= text_length);
                  span_index++) {
                 const std::span<const char> sub_span = text_span.subspan(index, span_index);
                 const std::size_t right_span_index = index + span_index;
@@ -72,7 +72,7 @@ namespace lc::grammar {
 
                 // Can be sectioned off as a token
                 const bool this_can_be_token =
-                    !char_after_span.has_value() || char_after_span.value() == ' ';
+                    !char_after_span.has_value() || (std::isalpha(char_after_span.value()) == 0);
 
                 if (!this_can_be_token) {
                     continue;
