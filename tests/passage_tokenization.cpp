@@ -6,6 +6,7 @@
 
 #include <lexocraft/llm/lexer.hpp>
 #include <lexocraft/llm/text_completion.hpp>
+#include <lexocraft/llm/vector_database.hpp>
 
 int main(int argc, char** argv) {
     std::vector<std::string> args {std::next(argv, 1), std::next(argv, argc)};
@@ -16,6 +17,12 @@ int main(int argc, char** argv) {
     }
 
     const std::string filepath = args.at(0);
+    const std::string vector_database_path = args.at(1);
+
+    lc::VectorDatabase database {};
+    std::cout << "Loading database from path: " << vector_database_path << '\n';
+    database.load(vector_database_path);
+    std::cout << "Successfully loaded vector database\n";
 
     std::cout << "Reading from file: " << filepath << "\n";
 
@@ -30,7 +37,7 @@ int main(int argc, char** argv) {
 
     std::chrono::high_resolution_clock::time_point start =
         std::chrono::high_resolution_clock::now();
-    const std::vector<lc::grammar::Token> result = lc::grammar::tokenize(file_contents);
+    const std::vector<lc::grammar::Token> result = lc::grammar::tokenize(file_contents, database);
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
 
     const std::chrono::duration<double, std::nano> duration = end - start;
