@@ -81,6 +81,7 @@ namespace lc {
         RobinMap_t word_map;
 
         void add_word(const std::string& word, bool randomize_vector = true);
+        void add_word(const WordVector& word, bool replace_existing = true);
 
         void save(const std::filesystem::path& filepath) const;
         void load(const std::filesystem::path& filepath);

@@ -81,9 +81,22 @@ namespace lc {
     void VectorDatabase::add_word(const std::string& word, bool randomize_vector) {
         // (WordVector {std::string {word}, randomize_vector})
 
-        WordVector new_word {std::string {word}, randomize_vector};
+        const WordVector new_word {std::string {word}, randomize_vector};
         words.push_back(new_word);
         word_map [word] = new_word;
+    }
+
+    void VectorDatabase::add_word(const WordVector& word, bool replace_existing) {
+        const bool already_has_word = word_map.contains(word.word);
+
+        if (replace_existing && already_has_word) {
+            word_map [word.word] = word;
+        }
+
+        else if (!already_has_word) {
+            words.push_back(word);
+            word_map [word.word] = word;
+        }
     }
 
     void VectorDatabase::save(const std::filesystem::path& filepath) const {
