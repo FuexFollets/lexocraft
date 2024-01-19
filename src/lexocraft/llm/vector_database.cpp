@@ -228,4 +228,12 @@ namespace lc {
 
         return word_map.at(word);
     }
+
+    std::size_t VectorDatabase::longest_element() const {
+        return std::max_element(words.begin(), words.end(),
+                                [](const WordVector& first_word, const WordVector& second_word) {
+                                    return first_word.word.size() < second_word.word.size();
+                                })
+            ->word.size();
+    }
 } // namespace lc

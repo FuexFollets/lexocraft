@@ -102,10 +102,13 @@ namespace lc {
 
         [[nodiscard]] std::optional<WordVector> search_from_map(const std::string& word) const;
 
+        [[nodiscard]] std::size_t longest_element() const;
+
         template <class Archive>
         void serialize(Archive& archive) {
             archive(words);
         }
+
     };
 
     bool add_search_result(std::vector<VectorDatabase::SearchResult>& results,
