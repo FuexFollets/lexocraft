@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
     std::cout << "[";
 
     for (const auto& token: result) {
-        std::cout << "\"" << token << "\", ";
+        std::cout << "\"" << token << "\", \n";
     }
 
     std::cout << "]\n";
