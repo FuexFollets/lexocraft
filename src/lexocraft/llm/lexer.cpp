@@ -3,21 +3,41 @@
 #include <cstddef>
 #include <functional>
 #include <iostream>
+#include <span>
 #include <string>
 #include <vector>
 
 #include <lexocraft/llm/lexer.hpp>
 
 namespace lc::grammar {
+    Token::Token(std::string&& value, Token::Type type, bool next_is_space) :
+        value {value}, type {type}, next_is_space {next_is_space} {
+    }
+
+    bool is_component_symbol(char letter) {
+        return std::string {"~_/-'."}.find(letter) != std::string::npos;
+    }
+
+    bool is_terminating_symbol(const std::optional<const char>& letter) {
+        if (!letter.has_value()) {
+            return true;
+        }
+
+        return !is_component_symbol(letter.value()) && (std::isalpha(letter.value()) == 0);
+    }
+
     Token::Type token_type(const std::string& value) {
         // Check for acronyms first, as they have a stricter pattern
-        if (value.size() == 1 && std::string {"`!@#$%^&*()+-={}[]|\\}|;:\"<,>?"}.find(
-                                     value.at(0)) != std::string::npos) {
+        if (value.size() == 1 && (std::isalnum(value.at(0)) == 0)) {
             return Token::Type::Symbol;
         }
 
+        if (std::all_of(value.begin(), value.end(), ::isalpha)) {
+            return Token::Type::Alphanumeric;
+        }
+
         if (std::all_of(value.begin(), value.end(),
-                        [](char letter) { return (std::isupper(letter) != 0) || letter == '.'; })) {
+                        [](char letter) { return (std::isalpha(letter) != 0) || letter == '.'; })) {
             return Token::Type::Acronym;
         }
 
@@ -26,122 +46,96 @@ namespace lc::grammar {
             return Token::Type::Digit;
         }
 
-        // Check for homogeneous tokens
-        if (std::all_of(value.begin(), value.end(), [](char letter) {
-                return (std::isalnum(letter) != 0) ||
-                       std::string {"~_/-'."}.find(letter) != std::string::npos;
-            })) {
-            return Token::Type::Homogeneous;
-        }
-
-        // Everything else is considered alphanumeric
-        return Token::Type::Alphanumeric;
+        // Everything else is considered homogeneous
+        return Token::Type::Homogeneous;
     }
 
-    /*
-    Token::Token(const std::string& value) : Token(value, false) {}
-
-    Token::Token(const std::string& value, bool next_is_space) : value(value),
-    next_is_space(next_is_space) { bool has_letters = false; bool has_digits = false; bool
-    has_symbols = false;
-
-        for (char letter: value) {
-            if (std::isalnum(letter) != 0) {
-                has_letters |= std::isalpha(letter);
-                has_digits |= std::isdigit(letter);
-            }
-
-            else {
-                has_symbols = true;
-            }
-        }
-
-        if (has_letters && !has_digits && !has_symbols && value.size() == 1) {
-            type = Type::Letter;
-        }
-
-        else if (has_digits && !has_letters && !has_symbols) {
-            type = Type::Digit;
-        }
-
-        else if (has_letters && !has_digits && !has_symbols) {
-            type = Type::Alphanumeric;
-        }
-
-        else if (!has_letters && !has_digits && has_symbols) {
-            type = Type::Symbol;
-        }
-
-        else {
-            type = Type::Homogeneous;
-        }
-    }
-
-    std::vector<Token> tokenize(const std::string& input) {
-        // remove any chars whose values are not between '!' and
+    std::vector<Token> tokenize(const std::string& text, const VectorDatabase& vector_database) {
+        const std::size_t longest_element = vector_database.longest_element();
+        const std::size_t text_length = text.size();
         std::vector<Token> tokens;
-        std::string current_token;
+        const std::span<const char> text_span {text};
 
-        std::size_t index = 0;
-        for (char letter: input) {
-            if (std::isspace(letter) != 0) {
-                // Space delimiter: add current token as a special token
-                if (!current_token.empty()) {
-                    tokens.emplace_back(current_token, true);
-                    current_token.clear();
+        for (std::size_t index {}; index < text_length;) {
+            const bool is_space = text.at(index) == ' ';
+
+            std::optional<Token> longest_possible_token_for_this_index_from_database {};
+
+            for (std::size_t span_index {1};
+                 (span_index < longest_element) && (index + span_index <= text_length);
+                 span_index++) {
+                const std::span<const char> sub_span = text_span.subspan(index, span_index);
+                const std::size_t right_span_index = index + span_index;
+                const std::optional<char> char_after_span =
+                    (right_span_index < text_length) ? std::optional {text.at(right_span_index)}
+                                                     : std::nullopt;
+
+                // Can be sectioned off as a token
+                const bool this_can_be_token =
+                    !char_after_span.has_value() || char_after_span.value() == ' ';
+
+                if (!this_can_be_token) {
+                    continue;
+                }
+
+                if (const std::optional<WordVector> token = vector_database.search_from_map(
+                        std::string {sub_span.begin(), sub_span.end()})) {
+                    std::string token_value = token.value().word;
+                    const bool next_is_space =
+                        char_after_span.has_value() && char_after_span.value() == ' ';
+
+                    longest_possible_token_for_this_index_from_database = Token {
+                        std::move(token_value), token_type(token.value().word), next_is_space};
                 }
             }
 
-            else if (std::isalnum(letter) != 0) {
-                // Letter or digit: add to current word token
-                current_token += letter;
+            if (longest_possible_token_for_this_index_from_database.has_value()) {
+                tokens.push_back(longest_possible_token_for_this_index_from_database.value());
+                index += longest_possible_token_for_this_index_from_database.value().value.size();
+
+                continue;
             }
 
-            else {
-                // Symbol: create a new token
-                tokens.emplace_back(current_token, false);
-                current_token.clear();
+            if (is_space) {
+                index++;
 
-                const bool is_next_letter_space =
-                    (index + 1 < input.size()) && (std::isspace(input [index + 1]) != 0);
-
-                tokens.emplace_back(std::string(1, letter), is_next_letter_space);
+                continue;
             }
 
-            index++;
-        }
+            for (std::size_t span_index {1};; span_index++) {
+                const std::size_t right_span_index = index + span_index;
+                const std::optional<char> char_after_span =
+                    (right_span_index < text_length - 1) ? std::optional {text.at(right_span_index)}
+                                                         : std::nullopt;
+                const bool space_after_span =
+                    char_after_span.has_value() && char_after_span.value() == ' ';
 
-        // Add the last token if any
-        if (!current_token.empty()) {
-            tokens.emplace_back(current_token, false);
-        }
-
-        // remove any token that is just spaces or empty
-
-        tokens.erase(std::remove_if(tokens.begin(), tokens.end(),
-                                    [](const Token& token) {
-                                        return token.value.empty() || token.value == " ";
-                                    }),
-                     tokens.end());
-
-        // Separate any multi-digit numbers into separate tokens
-        for (std::size_t index {}; index < tokens.size() - 1; index++) {
-            if (tokens [index].type == Token::Type::Digit && tokens [index].value.size() > 1) {
-                std::vector<Token> sub_tokens;
-                std::cout << "Split up " << tokens [index].value << std::endl;
-
-                for (char letter: tokens [index].value) {
-                    sub_tokens.emplace_back(std::string(1, letter), false);
+                if (span_index == 1 && is_terminating_symbol(text.at(index))) {
+                    tokens.push_back(Token {std::string {text.at(index)}, Token::Type::Symbol,
+                                            space_after_span});
                 }
 
-                tokens.erase(tokens.begin() + index);
-                tokens.insert(tokens.begin() + index, sub_tokens.begin(), sub_tokens.end());
+                if (span_index == 1 && (std::isdigit(text.at(index)) != 0)) {
+                    tokens.push_back(
+                        Token {std::string {text.at(index)}, Token::Type::Digit, space_after_span});
+                }
+
+                const std::span<const char> sub_span = text_span.subspan(index, span_index);
+
+                if (space_after_span || is_terminating_symbol(char_after_span)) {
+                    std::string token_value {sub_span.begin(), sub_span.end()};
+                    tokens.emplace_back(std::move(token_value), token_type(token_value),
+                                        space_after_span);
+
+                    index += token_value.size();
+
+                    break;
+                }
             }
         }
 
         return tokens;
     }
-    */
 
     std::ostream& operator<<(std::ostream& output_stream, const Token& token) {
         /* Name layout:

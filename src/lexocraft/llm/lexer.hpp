@@ -7,6 +7,8 @@
 
 #include <mapbox/eternal.hpp>
 
+#include <lexocraft/llm/vector_database.hpp>
+
 namespace lc::grammar {
     class Token {
         public:
@@ -29,8 +31,8 @@ namespace lc::grammar {
         });
 
         std::string value;
-        bool next_is_space {};
         Type type {};
+        bool next_is_space {};
 
         Token() = default;
         Token(const Token&) = default;
@@ -38,15 +40,16 @@ namespace lc::grammar {
         Token& operator=(const Token&) = default;
         Token& operator=(Token&&) = default;
 
-        explicit Token(const std::string& value);
-        Token(const std::string& value, bool next_is_space);
+        Token(std::string&& value, Type type, bool next_is_space);
     };
 
-    bool is_component_symbol(char letter);
+    bool is_component_symbol(const std::optional<const char>& letter);
+    bool is_terminating_symbol(const std::optional<const char>& letter);
+    // bool is_potentially_terminating_symbol(const std::optional<const char>& letter);
 
     Token::Type token_type(const std::string& value);
 
-    std::vector<Token> tokenize(const std::string& input);
+    std::vector<Token> tokenize(const std::string& text, const VectorDatabase& vector_database);
 
     std::ostream& operator<<(std::ostream& output_stream, const Token& token);
 } // namespace lc::grammar
