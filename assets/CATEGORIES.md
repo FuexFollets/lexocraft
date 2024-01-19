@@ -66,12 +66,15 @@ This is the layout for each token: (value, type, next_is_space)
 - "A'B.C-." => ("A'B": Homogenous, false), (".": Symbol, false), ("C-": Symbol: false) // Even if "A'B" and "B.C" exist in the database, "A'B" is recognized as a token since it appears first.
 - "1" => ("1": Digit, false)
 - "12!-4. 3 times" => ("1": Digit, false), ("2": Digit, false), ("!": Symbol, false), ("-": Symbol, false), ("4": Digit, false), (".": Symbol, true), ("3": Digit, true), ("times": Alphanumeric, false)
+- (1)(2) => ("(": Symbol, false), ("1": Digit, false), (")": Symbol, false), ("(": Symbol, false), ("2": Digit, false), (")": Symbol, false)
 
 # Prompt:
 
 There is a database full of recognized tokens. Based on the cases, the existence of a token existing in the token database has an effect on the tokenization. Right now, the database is simply a list of tokens WITHOUT their category. First, I need to catagorize the database. Each element in the database is NOT multiple tokens. By categorizing the database, I mean determining a category for each element in the database, which is simply a collection of short strings, words, symbols, homogenous tokens, and digits all without order. When categorizing a individual token in the database, if its category is dependent on it being in the database, always assume that it is in the database since each individual element of the database are always one token, no matter what.
 
 Secondly, I need to transform text into an array of tokens. Given the database, it can be checked if a token is in that database from the code example above.
+
+Make sure to keep in mind that symbols that are not part of a token in the vector_database are to be considered separate tokens unless the symbol is one of the component symbols.
 
 ### Methods to Implement:
 
