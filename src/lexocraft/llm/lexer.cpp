@@ -36,8 +36,21 @@ namespace lc::grammar {
             return Token::Type::Alphanumeric;
         }
 
-        if (std::all_of(value.begin(), value.end(),
-                        [](char letter) { return (std::isalpha(letter) != 0) || letter == '.'; })) {
+        char previous_char {};
+
+        if (std::all_of(value.begin(), value.end(), [&previous_char](char letter) {
+                if (previous_char == '.' && letter != '.') {
+                    previous_char = letter;
+                    return true;
+                }
+
+                if (previous_char != '.' && letter == '.') {
+                    previous_char = letter;
+                    return true;
+                }
+
+                return false;
+            })) {
             return Token::Type::Acronym;
         }
 
