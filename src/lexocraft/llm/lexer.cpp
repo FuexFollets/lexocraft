@@ -23,7 +23,7 @@ namespace lc::grammar {
             return true;
         }
 
-        return !is_component_symbol(letter.value()) && (std::isalpha(letter.value()) == 0);
+        return std::isalpha(letter.value()) == 0;
     }
 
     Token::Type token_type(const std::string& value) {
@@ -118,7 +118,7 @@ namespace lc::grammar {
             for (std::size_t span_index {1};; span_index++) {
                 const std::size_t right_span_index = index + span_index;
                 const std::optional<char> char_after_span =
-                    (right_span_index < text_length - 1) ? std::optional {text.at(right_span_index)}
+                    (right_span_index < text_length) ? std::optional {text.at(right_span_index)}
                                                          : std::nullopt;
                 const bool space_after_span =
                     char_after_span.has_value() && char_after_span.value() == ' ';
@@ -126,11 +126,19 @@ namespace lc::grammar {
                 if (span_index == 1 && is_terminating_symbol(text.at(index))) {
                     tokens.push_back(Token {std::string {text.at(index)}, Token::Type::Symbol,
                                             space_after_span});
+
+                    index++;
+
+                    break;
                 }
 
                 if (span_index == 1 && (std::isdigit(text.at(index)) != 0)) {
                     tokens.push_back(
                         Token {std::string {text.at(index)}, Token::Type::Digit, space_after_span});
+
+                    index++;
+
+                    break;
                 }
 
                 const std::span<const char> sub_span = text_span.subspan(index, span_index);
