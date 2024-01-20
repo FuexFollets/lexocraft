@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
     std::cout << "Database loaded from path: " << database_path << "\n";
     std::cout << "Constructing text completer\n";
 
-    lc::TextCompleter completer {std::make_shared<lc::VectorDatabase>(database), 500, 500};
+    lc::TextCompleter completer {std::move(database), 500, 500};
 
     std::cout << "Text completer created\n";
 
