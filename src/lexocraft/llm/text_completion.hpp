@@ -23,7 +23,13 @@ namespace lc {
             // clang-format off
             archive(ephemeral_memory, ephemeral_memory_size, context_memory, context_memory_size,
                     ephemeral_memory_accmulator, context_builder, word_vector_improviser,
+
                     vector_database,
+                    alphanumeric_vector_subdatabase,
+                    acronym_vector_subdatabase,
+                    digit_vector_subdatabase,
+                    homogeneous_vector_subdatabase,
+                    symbol_vector_subdatabase,
 
                     ephemeral_memory_fields_sizes,
                     ephemeral_memory_output_sizes,
@@ -48,6 +54,12 @@ namespace lc {
         NeuralNetwork word_vector_improviser;
 
         std::shared_ptr<VectorDatabase> vector_database;
+
+        std::shared_ptr<VectorDatabase> alphanumeric_vector_subdatabase;
+        std::shared_ptr<VectorDatabase> acronym_vector_subdatabase;
+        std::shared_ptr<VectorDatabase> digit_vector_subdatabase;
+        std::shared_ptr<VectorDatabase> homogeneous_vector_subdatabase;
+        std::shared_ptr<VectorDatabase> symbol_vector_subdatabase;
 
         struct NNFieldsInput {
             virtual ~NNFieldsInput() = default; // Abstract
@@ -281,6 +293,8 @@ namespace lc {
                                                      bool random = false);
 
         TextCompleter& set_vector_database(const std::shared_ptr<VectorDatabase>& vector_database);
+
+        TextCompleter& create_subvector_databases();
 
         TextCompleter();
         TextCompleter(const TextCompleter&) = delete;

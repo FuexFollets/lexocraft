@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include <lexocraft/llm/lexer.hpp>
 #include <lexocraft/llm/text_completion.hpp>
 #include <lexocraft/llm/vector_database.hpp>
 
@@ -538,6 +539,59 @@ namespace lc {
     TextCompleter&
         TextCompleter::set_vector_database(const std::shared_ptr<VectorDatabase>& vector_database) {
         this->vector_database = vector_database;
+        return *this;
+    }
+
+    TextCompleter& TextCompleter::create_subvector_databases() {
+        if (!vector_database) {
+            throw std::runtime_error("Vector database is not set");
+        }
+
+        std::vector<std::shared_ptr<VectorDatabase>> subvector_databases {
+            alphanumeric_vector_subdatabase,
+            acronym_vector_subdatabase,
+            digit_vector_subdatabase,
+            homogeneous_vector_subdatabase,
+            symbol_vector_subdatabase
+        };
+
+        for (std::shared_ptr<VectorDatabase>& subvector_database: subvector_databases) {
+            if (!subvector_database) {
+                subvector_database = std::make_shared<VectorDatabase>();
+            }
+        }
+
+        for (const WordVector& word_vector: vector_database->words) {
+            const grammar::Token::Type token_type = grammar::token_type(word_vector.word);
+
+            switch (token_type) {
+                case grammar::Token::Type::Alphanumeric: {
+                    alphanumeric_vector_subdatabase->add_word(word_vector);
+                    break;
+                }
+
+                case grammar::Token::Type::Acronym: {
+                    acronym_vector_subdatabase->add_word(word_vector);
+                    break;
+                }
+
+                case grammar::Token::Type::Digit: {
+                    digit_vector_subdatabase->add_word(word_vector);
+                    break;
+                }
+
+                case grammar::Token::Type::Homogeneous: {
+                    homogeneous_vector_subdatabase->add_word(word_vector);
+                    break;
+                }
+
+                case grammar::Token::Type::Symbol: {
+                    symbol_vector_subdatabase->add_word(word_vector);
+                    break;
+                }
+            }
+        }
+
         return *this;
     }
 } // namespace lc
