@@ -2,6 +2,7 @@
 #define TEXT_COMPLETION_HPP
 
 #include <cstddef>
+#include <filesystem>
 #include <memory>
 
 #include <cereal/types/memory.hpp>
@@ -53,13 +54,13 @@ namespace lc {
         NeuralNetwork context_builder;
         NeuralNetwork word_vector_improviser;
 
-        std::shared_ptr<VectorDatabase> vector_database;
+        VectorDatabase vector_database;
 
-        std::shared_ptr<VectorDatabase> alphanumeric_vector_subdatabase;
-        std::shared_ptr<VectorDatabase> acronym_vector_subdatabase;
-        std::shared_ptr<VectorDatabase> digit_vector_subdatabase;
-        std::shared_ptr<VectorDatabase> homogeneous_vector_subdatabase;
-        std::shared_ptr<VectorDatabase> symbol_vector_subdatabase;
+        VectorDatabase alphanumeric_vector_subdatabase {};
+        VectorDatabase acronym_vector_subdatabase {};
+        VectorDatabase digit_vector_subdatabase {};
+        VectorDatabase homogeneous_vector_subdatabase {};
+        VectorDatabase symbol_vector_subdatabase {};
 
         struct NNFieldsInput {
             virtual ~NNFieldsInput() = default; // Abstract
@@ -292,9 +293,12 @@ namespace lc {
         TextCompleter& set_word_vector_improviser_nn(const std::vector<std::size_t>& layer_sizes,
                                                      bool random = false);
 
-        TextCompleter& set_vector_database(const std::shared_ptr<VectorDatabase>& vector_database);
+        TextCompleter& set_vector_database(VectorDatabase&& vector_database);
 
         TextCompleter& create_subvector_databases();
+
+        TextCompleter& save(const std::filesystem::path& filepath);
+        TextCompleter& load(const std::filesystem::path& filepath);
 
         TextCompleter();
         TextCompleter(const TextCompleter&) = delete;
@@ -303,7 +307,7 @@ namespace lc {
         TextCompleter& operator=(TextCompleter&&) = default;
 
         TextCompleter(
-            const std::shared_ptr<VectorDatabase>& vector_database,
+            VectorDatabase&& vector_database,
             const ephemeral_memory_fields_sizes_t& ephemeral_memory_fields_sizes,
             const ephemeral_memory_output_sizes_t& ephemeral_memory_output_sizes,
             const context_builder_fields_sizes_t& context_builder_fields_sizes,
@@ -311,8 +315,8 @@ namespace lc {
             const word_vector_improviser_fields_sizes_t& word_vector_improviser_fields_sizes,
             const word_vector_improviser_output_sizes_t& word_vector_improviser_output_sizes);
 
-        TextCompleter(const std::shared_ptr<VectorDatabase>& vector_database,
-                      std::size_t ephemeral_memory_size, std::size_t context_memory_size);
+        TextCompleter(VectorDatabase&& vector_database, std::size_t ephemeral_memory_size,
+                      std::size_t context_memory_size);
     };
 
     float sentence_length_mean(const std::vector<grammar::Token>& tokens);

@@ -64,9 +64,13 @@ namespace lc {
     class VectorDatabase {
         public:
 
+            /*
         using RobinMap_t =
             tsl::robin_map<std::string, WordVector, std::hash<std::string>, std::equal_to<>,
                            std::allocator<std::pair<std::string, int>>, true>;
+                           */
+
+        using RobinMap_t = tsl::robin_map<std::string, WordVector>;
 
         // all default constructors
         VectorDatabase() = default;
@@ -78,7 +82,7 @@ namespace lc {
         explicit VectorDatabase(const std::vector<WordVector>& words);
 
         std::vector<WordVector> words;
-        RobinMap_t word_map;
+        RobinMap_t word_map {};
 
         void add_word(const std::string& word, bool randomize_vector = true);
         void add_word(const WordVector& word, bool replace_existing = true);

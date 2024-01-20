@@ -1,17 +1,23 @@
 #include <cctype>
 #include <cstddef>
+#include <fstream>
 #include <functional>
+#include <ios>
 #include <memory>
 #include <string>
 #include <vector>
 
+#include <cereal/cereal.hpp>
+#include <cereal/types/memory.hpp>
+
+#include <lexocraft/cereal_eigen.hpp>
 #include <lexocraft/llm/lexer.hpp>
 #include <lexocraft/llm/text_completion.hpp>
 #include <lexocraft/llm/vector_database.hpp>
 
 namespace lc {
     TextCompleter::TextCompleter(
-        const std::shared_ptr<VectorDatabase>& vector_database,
+        VectorDatabase&& vector_database,
         const ephemeral_memory_fields_sizes_t& ephemeral_memory_fields_sizes,
         const ephemeral_memory_output_sizes_t& ephemeral_memory_output_sizes,
         const context_builder_fields_sizes_t& context_builder_fields_sizes,
@@ -66,12 +72,12 @@ namespace lc {
         word_vector_improviser_output_sizes {word_vector_improviser_output_sizes} {
     */
 
-    TextCompleter::TextCompleter(const std::shared_ptr<VectorDatabase>& vector_database,
+    TextCompleter::TextCompleter(VectorDatabase&& vector_database,
                                  std::size_t ephemeral_memory_size,
                                  std::size_t context_memory_size) :
 
         // clang-format off
-        ephemeral_memory_size { ephemeral_memory_size },
+        ephemeral_memory_size {ephemeral_memory_size},
         context_memory_size {context_memory_size}, vector_database {vector_database},
         // clang-format on
 
@@ -432,17 +438,13 @@ namespace lc {
     TextCompleter::SearchedWordVector TextCompleter::find_word_vector(const std::string& word) {
         constexpr std::size_t TOP_N = 10;
 
-        if (vector_database == nullptr) {
-            throw std::runtime_error("vector_database is null");
-        }
-
-        if (const std::optional<WordVector> word_vector = vector_database->search_from_map(word)) {
+        if (const std::optional<WordVector> word_vector = vector_database.search_from_map(word)) {
             return {word_vector.value(), false};
         }
 
         for (float threshold = 0.9F; threshold >= -0.1F; threshold -= 0.1F) {
             const std::vector<VectorDatabase::SearchResult> word_vectors =
-                vector_database->rapidfuzz_search_closest_n(word, TOP_N, threshold);
+                vector_database.rapidfuzz_search_closest_n(word, TOP_N, threshold);
 
             if (!word_vectors.empty()) {
                 return {improvised_word_vector(word, word_vectors), true};
@@ -537,60 +539,62 @@ namespace lc {
     /********************** Vector Database ********************/
 
     TextCompleter&
-        TextCompleter::set_vector_database(const std::shared_ptr<VectorDatabase>& vector_database) {
+        TextCompleter::set_vector_database(VectorDatabase&& vector_database) {
         this->vector_database = vector_database;
         return *this;
     }
 
     TextCompleter& TextCompleter::create_subvector_databases() {
-        if (!vector_database) {
-            throw std::runtime_error("Vector database is not set");
-        }
-
-        std::vector<std::shared_ptr<VectorDatabase>> subvector_databases {
-            alphanumeric_vector_subdatabase,
-            acronym_vector_subdatabase,
-            digit_vector_subdatabase,
-            homogeneous_vector_subdatabase,
-            symbol_vector_subdatabase
-        };
-
-        for (std::shared_ptr<VectorDatabase>& subvector_database: subvector_databases) {
-            if (!subvector_database) {
-                subvector_database = std::make_shared<VectorDatabase>();
-            }
-        }
-
-        for (const WordVector& word_vector: vector_database->words) {
+        for (const WordVector& word_vector: vector_database.words) {
             const grammar::Token::Type token_type = grammar::token_type(word_vector.word);
 
             switch (token_type) {
                 case grammar::Token::Type::Alphanumeric: {
-                    alphanumeric_vector_subdatabase->add_word(word_vector);
+                    alphanumeric_vector_subdatabase.add_word(word_vector);
                     break;
                 }
 
                 case grammar::Token::Type::Acronym: {
-                    acronym_vector_subdatabase->add_word(word_vector);
+                    acronym_vector_subdatabase.add_word(word_vector);
                     break;
                 }
 
                 case grammar::Token::Type::Digit: {
-                    digit_vector_subdatabase->add_word(word_vector);
+                    digit_vector_subdatabase.add_word(word_vector);
                     break;
                 }
 
                 case grammar::Token::Type::Homogeneous: {
-                    homogeneous_vector_subdatabase->add_word(word_vector);
+                    homogeneous_vector_subdatabase.add_word(word_vector);
                     break;
                 }
 
                 case grammar::Token::Type::Symbol: {
-                    symbol_vector_subdatabase->add_word(word_vector);
+                    symbol_vector_subdatabase.add_word(word_vector);
                     break;
                 }
             }
         }
+
+        return *this;
+    }
+
+    TextCompleter& TextCompleter::save(const std::filesystem::path& filepath) {
+        std::ofstream file {filepath};
+
+        cereal::BinaryOutputArchive oarchive {file};
+
+        oarchive(*this);
+
+        return *this;
+    }
+
+    TextCompleter& TextCompleter::load(const std::filesystem::path& filepath) {
+        std::ifstream file {filepath};
+
+        cereal::BinaryInputArchive iarchive {file};
+
+        iarchive(*this);
 
         return *this;
     }

@@ -9,6 +9,7 @@
 #include <cereal/types/string.hpp>
 #include <cereal/types/vector.hpp>
 #include <rapidfuzz/fuzz.hpp>
+#include <tsl/robin_map.h>
 
 #include <lexocraft/cereal_eigen.hpp>
 #include <lexocraft/llm/vector_database.hpp>
