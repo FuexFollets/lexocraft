@@ -3,7 +3,6 @@
 
 #include <cstddef>
 #include <filesystem>
-#include <memory>
 
 #include <cereal/types/memory.hpp>
 #include <cereal/types/polymorphic.hpp>
@@ -270,6 +269,12 @@ namespace lc {
         WordVector improvised_word_vector(
             const std::string& word,
             const std::vector<VectorDatabase::SearchResult>& word_vectors_search_result);
+
+        TextCompleter& reset_ephemeral_memory();
+
+        Eigen::VectorXf accumulate_context_memory(float sentence_length_mean,
+                                                  float sentence_length_stddev,
+                                                  float flesch_kincaid_grade);
 
         /*
             NeuralNetwork ephemeral_memory_accmulator;
