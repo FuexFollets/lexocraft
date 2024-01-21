@@ -41,9 +41,12 @@ namespace lc {
 
         ContextBuilderNNOutput output(context_builder_output_sizes);
 
-        assert(output.from_output(context_builder.compute(fields.to_vector())));
+        const auto compute_result {context_builder.compute(fields.to_vector())};
+
+        assert(output.from_output(compute_result));
 
         this->reset_ephemeral_memory();
+        this->context_memory = output.context_memory;
 
         return output.context_memory;
     }

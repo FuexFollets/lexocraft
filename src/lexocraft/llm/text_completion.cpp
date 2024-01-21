@@ -1,9 +1,8 @@
+#include "lexocraft/fancy_eigen_print.hpp"
 #include <cctype>
 #include <cstddef>
 #include <fstream>
 #include <functional>
-#include <ios>
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -24,7 +23,7 @@ namespace lc {
         const context_builder_output_sizes_t& context_builder_output_sizes,
         const word_vector_improviser_fields_sizes_t& word_vector_improviser_fields_sizes,
         const word_vector_improviser_output_sizes_t& word_vector_improviser_output_sizes) :
-        vector_database {vector_database},
+        vector_database {std::move(vector_database)},
         ephemeral_memory_fields_sizes {ephemeral_memory_fields_sizes},
         ephemeral_memory_output_sizes {ephemeral_memory_output_sizes},
         context_builder_fields_sizes {context_builder_fields_sizes},
@@ -58,19 +57,11 @@ namespace lc {
         }));
 
         ephemeral_memory_size = ephemeral_memory_fields_sizes.ephemeral_memory;
+        ephemeral_memory = Eigen::VectorXf::Zero(ephemeral_memory_size);
+
         context_memory_size = context_builder_fields_sizes.context_memory;
         context_memory = Eigen::VectorXf::Zero(context_memory_size);
     }
-
-    /*
-
-        ephemeral_memory_fields_sizes {ephemeral_memory_fields_sizes},
-        ephemeral_memory_output_sizes {ephemeral_memory_output_sizes},
-        context_builder_fields_sizes {context_builder_fields_sizes},
-        context_builder_output_sizes {context_builder_output_sizes},
-        word_vector_improviser_fields_sizes {word_vector_improviser_fields_sizes},
-        word_vector_improviser_output_sizes {word_vector_improviser_output_sizes} {
-    */
 
     TextCompleter::TextCompleter(VectorDatabase&& vector_database,
                                  std::size_t ephemeral_memory_size,
@@ -78,7 +69,7 @@ namespace lc {
 
         // clang-format off
         ephemeral_memory_size {ephemeral_memory_size},
-        context_memory_size {context_memory_size}, vector_database {vector_database},
+        context_memory_size {context_memory_size}, vector_database {std::move(vector_database)},
         // clang-format on
 
         ephemeral_memory_fields_sizes {ephemeral_memory_fields_sizes_t {
@@ -110,6 +101,11 @@ namespace lc {
         word_vector_improviser_output_sizes {word_vector_improviser_output_sizes_t {
             .word_vector_value = WordVector::WORD_VECTOR_DIMENSIONS,
         }} {
+        ephemeral_memory_size = ephemeral_memory_fields_sizes.ephemeral_memory;
+        ephemeral_memory = Eigen::VectorXf::Zero(ephemeral_memory_size);
+
+        context_memory_size = context_builder_fields_sizes.context_memory;
+        context_memory = Eigen::VectorXf::Zero(context_memory_size);
     }
 
     float TextCompleter::flesch_kincaid_level(const std::string& text) {
@@ -277,7 +273,7 @@ namespace lc {
     }
 
     Eigen::VectorXf TextCompleter::ContextBuilderNNFields::to_vector() const {
-        const std::size_t vector_length = ephemeral_memory.size() + context_memory.size();
+        const std::size_t vector_length = size_info.total();
 
         Eigen::VectorXf vector(vector_length);
 
@@ -552,8 +548,7 @@ namespace lc {
 
     /********************** Vector Database ********************/
 
-    TextCompleter&
-        TextCompleter::set_vector_database(VectorDatabase&& vector_database) {
+    TextCompleter& TextCompleter::set_vector_database(VectorDatabase&& vector_database) {
         this->vector_database = vector_database;
         return *this;
     }
