@@ -333,6 +333,8 @@ namespace lc {
 
         TextCompleter(VectorDatabase&& vector_database, std::size_t ephemeral_memory_size,
                       std::size_t context_memory_size);
+
+        explicit TextCompleter(const std::filesystem::path& filepath);
     };
 
     float sentence_length_mean(const std::vector<grammar::Token>& tokens);

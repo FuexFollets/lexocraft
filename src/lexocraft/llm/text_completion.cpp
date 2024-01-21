@@ -107,6 +107,11 @@ namespace lc {
         context_memory = Eigen::VectorXf::Zero(context_memory_size);
     }
 
+    TextCompleter::TextCompleter(const std::filesystem::path& filepath) :
+        TextCompleter {VectorDatabase {}, 0, 0} {
+        this->load(filepath);
+    }
+
     float TextCompleter::flesch_kincaid_level(const std::string& text) {
         std::vector<std::string> words;
         std::vector<std::string> sentences;
@@ -166,8 +171,9 @@ namespace lc {
 
     TextCompleter::EphemeralMemoryNNFields::EphemeralMemoryNNFields(
         float sentence_length_mean, float sentence_length_stddev, float flesch_kincaid_grade,
-        float sentence_count, const SearchedWordVector& word, const Eigen::VectorXf& ephemeral_memory,
-        const Eigen::VectorXf& context_memory, const ephemeral_memory_fields_sizes_t& size_info) :
+        float sentence_count, const SearchedWordVector& word,
+        const Eigen::VectorXf& ephemeral_memory, const Eigen::VectorXf& context_memory,
+        const ephemeral_memory_fields_sizes_t& size_info) :
         sentence_length_mean(sentence_length_mean),
         sentence_length_stddev(sentence_length_stddev), flesch_kincaid_grade(flesch_kincaid_grade),
         sentence_count(sentence_count), word(word), ephemeral_memory(ephemeral_memory),
@@ -553,7 +559,7 @@ namespace lc {
     /********************** Vector Database ********************/
 
     TextCompleter& TextCompleter::set_vector_database(VectorDatabase&& vector_database) {
-        this->vector_database = vector_database;
+        this->vector_database = std::move(vector_database);
         return *this;
     }
 
