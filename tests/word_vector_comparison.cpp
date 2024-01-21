@@ -34,16 +34,4 @@ int main(int argc, char** argv) {
 
     std::cout << "word1: " << word1.word << "\n";
     std::cout << "word2: " << word2.word << "\n";
-
-    const auto soundex1 = word1.soundex();
-    const auto soundex2 = word2.soundex();
-    const float levenstein_distance = word1.levenshtein_distance(word2);
-    const float soundex_distance = word1.soundex_distance(word2);
-    const float similarity = word1.similarity(word2);
-
-    std::cout << "soundex1: " << vector_to_string(soundex1) << "\n"
-              << "soundex2: " << vector_to_string(soundex2) << "\n"
-              << "levenshtein_distance: " << levenstein_distance << "\n"
-              << "soundex_distance: " << soundex_distance << "\n"
-              << "similarity: " << similarity << "\n";
 }

@@ -95,20 +95,13 @@ int main(int argc, char** argv) {
 
     std::size_t average_duration_ns = 0;
 
-    const auto results =
-        use_rapidfuzz ? database.rapidfuzz_search_closest_n(searched_word, top_n, threshold,
-                                                            stop_when_top_n_are_found)
-                      : database.search_closest_n(searched_word, top_n, threshold, soundex_weight,
-                                                  levenshtein_weight, stop_when_top_n_are_found);
+    const auto results = database.rapidfuzz_search_closest_n(searched_word, top_n, threshold,
+                                                             stop_when_top_n_are_found);
 
     for (std::size_t iteration {0}; iteration < iterations; ++iteration) {
         const auto start = std::chrono::high_resolution_clock::now();
-        const auto results =
-            use_rapidfuzz
-                ? database.rapidfuzz_search_closest_n(searched_word, top_n, threshold,
-                                                      stop_when_top_n_are_found)
-                : database.search_closest_n(searched_word, top_n, threshold, soundex_weight,
-                                            levenshtein_weight, stop_when_top_n_are_found);
+        const auto results = database.rapidfuzz_search_closest_n(searched_word, top_n, threshold,
+                                                                 stop_when_top_n_are_found);
         const auto end = std::chrono::high_resolution_clock::now();
         const auto duration_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
         average_duration_ns += duration_ns.count();
