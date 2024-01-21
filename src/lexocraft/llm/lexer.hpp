@@ -49,6 +49,8 @@ namespace lc::grammar {
 
     std::vector<Token> tokenize(const std::string& text, const VectorDatabase& vector_database);
 
+    std::string tokens_to_string(const std::vector<Token>& tokens);
+
     std::ostream& operator<<(std::ostream& output_stream, const Token& token);
 } // namespace lc::grammar
 

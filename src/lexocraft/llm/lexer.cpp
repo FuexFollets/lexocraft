@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <cctype>
 #include <cstddef>
-#include <functional>
 #include <iostream>
 #include <span>
 #include <string>
@@ -101,7 +100,7 @@ namespace lc::grammar {
                 const std::size_t right_span_index = index + span_index;
                 const std::optional<char> char_after_span =
                     (right_span_index < text_length) ? std::optional {text.at(right_span_index)}
-                                                         : std::nullopt;
+                                                     : std::nullopt;
                 const bool space_after_span =
                     char_after_span.has_value() && char_after_span.value() == ' ';
 
@@ -138,6 +137,14 @@ namespace lc::grammar {
         }
 
         return tokens;
+    }
+
+    std::string tokens_to_string(const std::vector<Token>& tokens) {
+        return std::accumulate(tokens.begin(), tokens.end(), std::string {},
+                               [](const std::string& accumulator, const Token& token) {
+                                   return accumulator + token.value +
+                                          (token.next_is_space ? " " : "");
+                               });
     }
 
     std::ostream& operator<<(std::ostream& output_stream, const Token& token) {
