@@ -219,7 +219,7 @@ namespace lc {
     /********************** EphemeralMemoryNNOutput ********************/
 
     std::size_t TextCompleter::ephemeral_memory_output_sizes_t::total() const {
-        return ephemeral_memory + word_vector_value;
+        return ephemeral_memory + word_vector_value + 4;
     }
 
     TextCompleter::EphemeralMemoryNNOutput::EphemeralMemoryNNOutput(
@@ -235,12 +235,26 @@ namespace lc {
         }
 
         /* Vector layout encoding:
+         * token_is_alphanumeric
+         * token_is_digit
+         * token_is_homogeneous
+         * token_is_symbol
          * ephemeral_memory
          * word_vector_value
          **/
 
-        ephemeral_memory = output.segment(0, size_info.ephemeral_memory);
-        word_vector_value = output.segment(size_info.ephemeral_memory, size_info.word_vector_value);
+        std::size_t index {0};
+
+        token_is_alphanumeric = output(index++);
+        token_is_digit = output(index++);
+        token_is_homogeneous = output(index++);
+        token_is_symbol = output(index++);
+
+        ephemeral_memory = output.segment(index, size_info.ephemeral_memory);
+        index += size_info.ephemeral_memory;
+
+        word_vector_value = output.segment(index, size_info.word_vector_value);
+        index += size_info.word_vector_value;
 
         return true;
     }

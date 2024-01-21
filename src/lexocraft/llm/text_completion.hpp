@@ -127,6 +127,10 @@ namespace lc {
 
             explicit EphemeralMemoryNNOutput(ephemeral_memory_output_sizes_t size_info);
 
+            float token_is_alphanumeric {};
+            float token_is_digit {};
+            float token_is_homogeneous {};
+            float token_is_symbol {};
             Eigen::VectorXf ephemeral_memory;
             Eigen::VectorXf word_vector_value;
 
