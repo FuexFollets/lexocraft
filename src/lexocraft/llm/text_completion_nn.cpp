@@ -19,7 +19,8 @@ namespace lc {
 
             WordVectorImproviserNNOutput output(word_vector_improviser_output_sizes);
 
-            assert(output.from_output(word_vector_improviser.compute(fields.to_vector())));
+            const auto compute_result {word_vector_improviser.compute(fields.to_vector())};
+            assert(output.from_output(compute_result));
             word_vector_value = output.word_vector_value;
         }
 
