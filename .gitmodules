@@ -16,3 +16,6 @@
 [submodule "lib/rapidfuzz-cpp"]
 	path = lib/rapidfuzz-cpp
 	url = https://github.com/rapidfuzz/rapidfuzz-cpp.git
+[submodule "robinmap"]
+	path = lib/robin-map
+	url = https://github.com/FuexFollets/robin-map.git
