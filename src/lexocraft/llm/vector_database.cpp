@@ -44,7 +44,13 @@ namespace lc {
     }
 
     float WordVector::similarity(const WordVector& other) const {
-        const Vector_t difference = vector - other.vector;
+        return similarity(other.vector);
+    }
+
+    float WordVector::similarity(const Eigen::VectorXf& other) const {
+        assert(other.size() == WORD_VECTOR_DIMENSIONS);
+
+        const Vector_t difference = vector - other;
 
         return 1 - (difference.squaredNorm() / (WORD_VECTOR_DIMENSIONS * 4));
     }
@@ -172,6 +178,14 @@ namespace lc {
     std::vector<VectorDatabase::SearchResult>
         VectorDatabase::search_closest_vector_value_n(const WordVector& searched_vector, int top_n,
                                                       float threshold,
+                                                      bool stop_when_top_n_are_found) const {
+        return search_closest_vector_value_n(searched_vector.vector, top_n, threshold,
+                                             stop_when_top_n_are_found);
+    }
+
+    std::vector<VectorDatabase::SearchResult>
+        VectorDatabase::search_closest_vector_value_n(const Eigen::VectorXf& searched_vector,
+                                                      int top_n, float threshold,
                                                       bool stop_when_top_n_are_found) const {
         std::vector<SearchResult> results;
 
