@@ -1,7 +1,5 @@
 #include <cmath>
 #include <filesystem>
-#include <system_error>
-#include <utility>
 #include <vector>
 
 #include <cereal/cereal.hpp>
@@ -11,7 +9,6 @@
 namespace lc {
     NeuralNetwork::NeuralNetwork(std::vector<std::size_t> layer_sizes, bool randomize) :
         layer_sizes(layer_sizes), most_recent_diff(layer_sizes) {
-
         for (std::size_t index {1}; index < layer_sizes.size(); ++index) {
             weights.emplace_back(layer_sizes [index], layer_sizes [index - 1]);
             biases.emplace_back(layer_sizes [index]);
