@@ -36,24 +36,6 @@ namespace lc::grammar {
             return Token::Type::Alphanumeric;
         }
 
-        char previous_char {};
-
-        if (std::all_of(value.begin(), value.end(), [&previous_char](char letter) {
-                if (previous_char == '.' && letter != '.') {
-                    previous_char = letter;
-                    return true;
-                }
-
-                if (previous_char != '.' && letter == '.') {
-                    previous_char = letter;
-                    return true;
-                }
-
-                return false;
-            })) {
-            return Token::Type::Acronym;
-        }
-
         // Check for digits
         if (std::all_of(value.begin(), value.end(), ::isdigit)) {
             return Token::Type::Digit;

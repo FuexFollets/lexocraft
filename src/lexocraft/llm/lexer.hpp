@@ -15,7 +15,6 @@ namespace lc::grammar {
 
         enum class Type {
             Alphanumeric,
-            Acronym,
             Digit,
             Homogeneous,
             Symbol,
@@ -24,7 +23,6 @@ namespace lc::grammar {
         static MAPBOX_ETERNAL_CONSTEXPR auto TOKEN_TYPES =
             mapbox::eternal::map<Type, mapbox::eternal::string>({
                 {Type::Alphanumeric, "Alphanumeric"},
-                {Type::Acronym,      "Acronym"     },
                 {Type::Digit,        "Digit"       },
                 {Type::Homogeneous,  "Homogeneous" },
                 {Type::Symbol,       "Symbol"      },

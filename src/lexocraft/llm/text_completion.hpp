@@ -27,7 +27,6 @@ namespace lc {
 
                     vector_database,
                     alphanumeric_vector_subdatabase,
-                    acronym_vector_subdatabase,
                     digit_vector_subdatabase,
                     homogeneous_vector_subdatabase,
                     symbol_vector_subdatabase,
@@ -57,7 +56,6 @@ namespace lc {
         VectorDatabase vector_database;
 
         VectorDatabase alphanumeric_vector_subdatabase {};
-        VectorDatabase acronym_vector_subdatabase {};
         VectorDatabase digit_vector_subdatabase {};
         VectorDatabase homogeneous_vector_subdatabase {};
         VectorDatabase symbol_vector_subdatabase {};

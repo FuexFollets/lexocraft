@@ -554,11 +554,6 @@ namespace lc {
                     break;
                 }
 
-                case grammar::Token::Type::Acronym: {
-                    acronym_vector_subdatabase.add_word(word_vector);
-                    break;
-                }
-
                 case grammar::Token::Type::Digit: {
                     digit_vector_subdatabase.add_word(word_vector);
                     break;
