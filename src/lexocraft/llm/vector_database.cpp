@@ -43,6 +43,12 @@ namespace lc {
         }
     }
 
+    float WordVector::similarity(const WordVector& other) const {
+        const Vector_t difference = vector - other.vector;
+
+        return 1 - (difference.squaredNorm() / (WORD_VECTOR_DIMENSIONS * 4));
+    }
+
     VectorDatabase::VectorDatabase(const std::vector<WordVector>& words) : words(words) {
         for (const WordVector& word: words) {
             word_map [word.word] = word;
@@ -147,6 +153,38 @@ namespace lc {
 
         for (const WordVector& word: words) {
             const float similarity = rapidfuzz::fuzz::ratio(searched_word, word.word) / 100.0F;
+
+            if (similarity < threshold) {
+                continue;
+            }
+
+            const bool was_added =
+                add_search_result(results, {word, similarity}, top_n, lowest_similarity_in_top_n);
+
+            if (was_added && results_are_full() && stop_when_top_n_are_found) {
+                break;
+            }
+        }
+
+        return results;
+    }
+
+    std::vector<VectorDatabase::SearchResult>
+        VectorDatabase::search_closest_vector_value_n(const WordVector& searched_vector, int top_n,
+                                                      float threshold,
+                                                      bool stop_when_top_n_are_found) const {
+        std::vector<SearchResult> results;
+
+        results.reserve(top_n);
+
+        float lowest_similarity_in_top_n = 0.0F;
+
+        const std::function<bool()> results_are_full = [&]() {
+            return results.size() == static_cast<std::size_t>(top_n);
+        };
+
+        for (const WordVector& word: words) {
+            const float similarity = word.similarity(searched_vector);
 
             if (similarity < threshold) {
                 continue;

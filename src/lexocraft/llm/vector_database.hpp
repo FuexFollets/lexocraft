@@ -36,7 +36,8 @@ namespace lc {
         std::string word;
         Eigen::Vector<float, WORD_VECTOR_DIMENSIONS> vector;
 
-        // [[nodiscard]] float similarity(const WordVector& other) const; /* Magnitude squared (0.0 - 1.0) */
+        [[nodiscard]] float
+            similarity(const WordVector& other) const; /* Magnitude squared (0.0 - 1.0) */
 
         template <class Archive>
         void serialize(Archive& archive) {
@@ -47,11 +48,11 @@ namespace lc {
     class VectorDatabase {
         public:
 
-            /*
-        using RobinMap_t =
-            tsl::robin_map<std::string, WordVector, std::hash<std::string>, std::equal_to<>,
-                           std::allocator<std::pair<std::string, int>>, true>;
-                           */
+        /*
+    using RobinMap_t =
+        tsl::robin_map<std::string, WordVector, std::hash<std::string>, std::equal_to<>,
+                       std::allocator<std::pair<std::string, int>>, true>;
+                       */
 
         using RobinMap_t = tsl::robin_map<std::string, WordVector>;
 
@@ -83,6 +84,10 @@ namespace lc {
                                        float threshold = 0.9F,
                                        bool stop_when_top_n_are_found = true) const;
 
+        [[nodiscard]] std::vector<SearchResult>
+            search_closest_vector_value_n(const WordVector& searched_vector, int top_n,
+                                          float threshold, bool stop_when_top_n_are_found) const;
+
         [[nodiscard]] std::optional<WordVector> search_from_map(const std::string& word) const;
 
         [[nodiscard]] std::size_t longest_element() const;
@@ -91,7 +96,6 @@ namespace lc {
         void serialize(Archive& archive) {
             archive(words);
         }
-
     };
 
     bool add_search_result(std::vector<VectorDatabase::SearchResult>& results,
