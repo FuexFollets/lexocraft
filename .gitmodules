@@ -16,6 +16,3 @@
 [submodule "lib/rapidfuzz-cpp"]
 	path = lib/rapidfuzz-cpp
 	url = https://github.com/rapidfuzz/rapidfuzz-cpp.git
-[submodule "lib/robin-map"]
-	path = lib/robin-map
-	url = https://github.com/Tessil/robin-map.git
