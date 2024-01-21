@@ -1,4 +1,3 @@
-#include "lexocraft/fancy_eigen_print.hpp"
 #include <cctype>
 #include <cstddef>
 #include <fstream>
@@ -162,18 +161,18 @@ namespace lc {
     /********************** EphemeralMemoryNNFields ********************/
 
     std::size_t TextCompleter::ephemeral_memory_fields_sizes_t::total() const {
-        return word_vector + ephemeral_memory + context_memory + 3;
+        return word_vector + ephemeral_memory + context_memory + 5;
     }
 
     TextCompleter::EphemeralMemoryNNFields::EphemeralMemoryNNFields(
         float sentence_length_mean, float sentence_length_stddev, float flesch_kincaid_grade,
-        const WordVector& word, const Eigen::VectorXf& ephemeral_memory,
+        float sentence_count, const SearchedWordVector& word, const Eigen::VectorXf& ephemeral_memory,
         const Eigen::VectorXf& context_memory, const ephemeral_memory_fields_sizes_t& size_info) :
         sentence_length_mean(sentence_length_mean),
         sentence_length_stddev(sentence_length_stddev), flesch_kincaid_grade(flesch_kincaid_grade),
-        word(word), ephemeral_memory(ephemeral_memory), context_memory(context_memory),
-        size_info(size_info) {
-        assert(static_cast<std::size_t>(word.vector.size()) == size_info.word_vector);
+        sentence_count(sentence_count), word(word), ephemeral_memory(ephemeral_memory),
+        context_memory(context_memory), size_info(size_info) {
+        assert(static_cast<std::size_t>(word.word_vector.vector.size()) == size_info.word_vector);
         assert(static_cast<std::size_t>(ephemeral_memory.size()) == size_info.ephemeral_memory);
         assert(static_cast<std::size_t>(context_memory.size()) == size_info.context_memory);
     }
@@ -186,8 +185,9 @@ namespace lc {
         /* Vector layout encoding:
          * sentence_length_mean
          * sentence_length_stddev
-         * word_sophistication
          * flesch_kincaid_grade
+         * sentence_count
+         * word.improvised
          * word.vector
          * ephemeral_memory
          * context_memory
@@ -199,8 +199,10 @@ namespace lc {
         vector(index++) = sentence_length_stddev;
         // vector(index++) = word_sophistication;
         vector(index++) = flesch_kincaid_grade;
+        vector(index++) = sentence_count;
+        vector(index++) = static_cast<float>(word.improvised);
 
-        vector.segment(index, size_info.word_vector) = word.vector;
+        vector.segment(index, size_info.word_vector) = word.word_vector.vector;
         index += size_info.word_vector;
 
         vector.segment(index, size_info.ephemeral_memory) = ephemeral_memory;
@@ -215,7 +217,7 @@ namespace lc {
     /********************** EphemeralMemoryNNOutput ********************/
 
     std::size_t TextCompleter::ephemeral_memory_output_sizes_t::total() const {
-        return ephemeral_memory + word_vector_value + 4;
+        return ephemeral_memory + word_vector_value + 5;
     }
 
     TextCompleter::EphemeralMemoryNNOutput::EphemeralMemoryNNOutput(
@@ -235,6 +237,7 @@ namespace lc {
          * token_is_digit
          * token_is_homogeneous
          * token_is_symbol
+         * is_end
          * ephemeral_memory
          * word_vector_value
          **/
@@ -245,6 +248,7 @@ namespace lc {
         token_is_digit = output(index++);
         token_is_homogeneous = output(index++);
         token_is_symbol = output(index++);
+        is_end = output(index++);
 
         ephemeral_memory = output.segment(index, size_info.ephemeral_memory);
         index += size_info.ephemeral_memory;

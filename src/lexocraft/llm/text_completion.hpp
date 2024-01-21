@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <filesystem>
+#include <vector>
 
 #include <cereal/types/memory.hpp>
 #include <cereal/types/polymorphic.hpp>
@@ -12,11 +13,16 @@
 #include <lexocraft/llm/lexer.hpp>
 #include <lexocraft/llm/vector_database.hpp>
 #include <lexocraft/neural_network/neural_network.hpp>
-#include <vector>
 
 namespace lc {
     class TextCompleter {
         public:
+
+        struct SearchedWordVector {
+            WordVector word_vector;
+            bool improvised;
+        };
+
 
         template <class Archive>
         void serialize(Archive& archive) {
@@ -89,8 +95,8 @@ namespace lc {
             /* Vector fields for EphemeralMemoryNN */
 
             EphemeralMemoryNNFields(float sentence_length_mean, float sentence_length_stddev,
-                                    float flesch_kincaid_grade, const WordVector& word,
-                                    const Eigen::VectorXf& ephemeral_memory,
+                                    float flesch_kincaid_grade, float sentence_count,
+                                    const SearchedWordVector& word, const Eigen::VectorXf& ephemeral_memory,
                                     const Eigen::VectorXf& context_memory,
                                     const ephemeral_memory_fields_sizes_t& size_info);
 
@@ -98,7 +104,8 @@ namespace lc {
             float sentence_length_stddev;
             // float word_sophistication;  // Interval: [0, 1] - 0 = Uncommon, 1 = Most common
             float flesch_kincaid_grade; // Interval: [0, 20] - 0 = Most difficult, 20 = Easiest
-            WordVector word;
+            float sentence_count;
+            SearchedWordVector word;
             Eigen::VectorXf ephemeral_memory;
             Eigen::VectorXf context_memory;
 
@@ -130,6 +137,7 @@ namespace lc {
             float token_is_digit {};
             float token_is_homogeneous {};
             float token_is_symbol {};
+            float is_end {};
             Eigen::VectorXf ephemeral_memory;
             Eigen::VectorXf word_vector_value;
 
@@ -259,11 +267,6 @@ namespace lc {
 
         static float flesch_kincaid_level(const std::string& text);
 
-        struct SearchedWordVector {
-            WordVector word_vector;
-            bool improvised;
-        };
-
         SearchedWordVector find_word_vector(const std::string& word);
 
         WordVector improvised_word_vector(
@@ -275,6 +278,12 @@ namespace lc {
         Eigen::VectorXf accumulate_context_memory(float sentence_length_mean,
                                                   float sentence_length_stddev,
                                                   float flesch_kincaid_grade);
+
+        EphemeralMemoryNNOutput predict_next_token_value(const grammar::Token& token,
+                                                         float sentence_length_mean_,
+                                                         float sentence_length_stddev_,
+                                                         float flesch_kincaid_grade_,
+                                                         float sentence_count_);
 
         /*
             NeuralNetwork ephemeral_memory_accmulator;
