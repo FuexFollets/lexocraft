@@ -36,8 +36,9 @@ int main(int argc, char** argv) {
 
     std::cout << "word found\n";
 
+    const std::size_t printed_dimensions = 15;
     std::cout << "Searched vector value for \"" << word_vector.value().word
-              << "\": " << word_vector.value().vector << "\n";
+              << "\": " << lc::fancy_eigen_vector_str(word_vector.value().vector, printed_dimensions) << "\n";
 
     const auto search_results =
         database.search_closest_vector_value_n(word_vector.value(), 10, 0.5F, false);
@@ -46,7 +47,7 @@ int main(int argc, char** argv) {
 
     for (const auto& result: search_results) {
         std::cout << std::setprecision(2) << "Similarity: " << result.similarity << " "
-                  << result.word.word << " " << lc::fancy_eigen_vector_str(result.word.vector)
+                  << result.word.word << " " << lc::fancy_eigen_vector_str(result.word.vector, printed_dimensions)
                   << "\n";
     }
 

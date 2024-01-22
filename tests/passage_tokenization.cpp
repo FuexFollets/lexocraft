@@ -35,8 +35,7 @@ int main(int argc, char** argv) {
 
     std::cout << "Tokenizing...\n";
 
-    std::chrono::high_resolution_clock::time_point start =
-        std::chrono::high_resolution_clock::now();
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     const std::vector<lc::grammar::Token> result = lc::grammar::tokenize(file_contents, database);
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
 
