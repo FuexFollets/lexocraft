@@ -46,6 +46,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        submodules: 'true'
+        token: ${{ secrets.PAT_TOKEN }}
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
@@ -55,5 +58,8 @@ jobs:
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
     - name: Build
+      with:
+        submodules: 'true'
+        token: ${{ secrets.PAT_TOKEN }}
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       run: cmake . && make -j 4
