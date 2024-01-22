@@ -9,5 +9,6 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/src/lexocraft)
 add_subdirectory(${PROJECT_SOURCE_DIR}/tests)
 add_subdirectory(${PROJECT_SOURCE_DIR}/lib/rapidfuzz-cpp)
 add_subdirectory(${PROJECT_SOURCE_DIR}/lib/robin-map)
+add_subdirectory(${PROJECT_SOURCE_DIR}/lib/benchmark)
 
 enable_testing()
