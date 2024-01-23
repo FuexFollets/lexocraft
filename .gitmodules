@@ -22,3 +22,6 @@
 [submodule "lib/benchmark"]
 	path = lib/benchmark
 	url = https://github.com/google/benchmark.git
+[submodule "lib/annoy"]
+	path = lib/annoy
+	url = https://github.com/spotify/annoy.git
