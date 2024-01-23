@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project(LexoCraft)
 
-option(USE_GOOGLE_BENCHMARK "Use Google Benchmark" OFF)
+option(USE_GOOGLE_BENCHMARK "Use Google Benchmark")
+option(COMPILE_TESTS "Compile tests")
 
 include(${PROJECT_SOURCE_DIR}/cmake/libs.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/opts.cmake)
