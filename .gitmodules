@@ -22,3 +22,7 @@
 [submodule "lib/google-benchmark"]
 	path = lib/benchmark
 	url = https://github.com/google/benchmark.git
+[submodule "lib/annoy-serialize-2"]
+	path = lib/annoy
+	url = https://github.com/FuexFollets/annoy.git
+	branch = serialization
