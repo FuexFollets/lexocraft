@@ -415,7 +415,7 @@ namespace lc {
             }
         }
 
-        return static_cast<float>(token_count) / std::max(1UL, sentence_count);
+        return static_cast<float>(token_count) / std::max(std::size_t {1}, sentence_count);
     }
 
     float sentence_length_stddev(const std::vector<grammar::Token>& tokens) {

@@ -5,7 +5,6 @@
 #include <cereal/cereal.hpp>
 #include <cstddef>
 #include <Eigen/Dense>
-#include <fstream>
 
 namespace cereal {
     template <class Archive, class Scalar, int Rows, int Cols, int Options, int MaxRows,
