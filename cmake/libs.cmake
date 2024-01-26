@@ -3,7 +3,7 @@ include_directories(${PROJECT_SOURCE_DIR}/lib/cereal/include)
 include_directories(${PROJECT_SOURCE_DIR}/lib/eternal/include)
 include_directories(${PROJECT_SOURCE_DIR}/lib/rapidfuzz-cpp)
 include_directories(${PROJECT_SOURCE_DIR}/lib/robin-map/include)
-include_directories(${PROJECT_SOURCE_DIR}/lib/annoy/src)
+include_directories(${PROJECT_SOURCE_DIR}/lib/annoy/include)
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
 if(USE_GOOGLE_BENCHMARK)

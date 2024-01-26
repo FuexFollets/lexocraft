@@ -11,7 +11,7 @@
 #include <Eigen/Eigen>
 #include <mapbox/eternal.hpp>
 #include <tsl/robin_map.h>
-#include <annoylib.h>
+#include <annoy/annoylib.h>
 
 #include <lexocraft/cereal_eigen.hpp>
 
