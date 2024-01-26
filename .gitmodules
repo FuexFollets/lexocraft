@@ -19,3 +19,6 @@
 [submodule "robinmap"]
 	path = lib/robin-map
 	url = https://github.com/FuexFollets/robin-map.git
+[submodule "lib/google-benchmark"]
+	path = lib/benchmark
+	url = https://github.com/google/benchmark.git
