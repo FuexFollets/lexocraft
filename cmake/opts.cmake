@@ -9,6 +9,7 @@ set(base_flags "-Wall -Wextra -Wpedantic -g")
 if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     # Remove -Wextra for MSVC
     string(REPLACE "-Wextra" "" flags "${base_flags}")
+    string(REPLACE "-Wpedantic" "" flags "${base_flags}")
 else()
     # Use base flags for other compilers
     set(flags "${base_flags}")
