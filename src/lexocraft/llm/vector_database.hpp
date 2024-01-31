@@ -6,12 +6,14 @@
 #include <string>
 #include <vector>
 
+#include <annoy/annoylib.h>
+#include <annoy/kissrandom.h>
+#include <cereal/types/memory.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/vector.hpp>
 #include <Eigen/Eigen>
 #include <mapbox/eternal.hpp>
 #include <tsl/robin_map.h>
-#include <annoy/annoylib.h>
 
 #include <lexocraft/cereal_eigen.hpp>
 
@@ -43,6 +45,8 @@ namespace lc {
         [[nodiscard]] float
             similarity(const Eigen::VectorXf& other) const; /* Magnitude squared (0.0 - 1.0) */
 
+        [[nodiscard]] const float* data() const;
+
         template <class Archive>
         void serialize(Archive& archive) {
             archive(word, vector);
@@ -59,6 +63,10 @@ namespace lc {
                        */
 
         using RobinMap_t = tsl::robin_map<std::string, WordVector>;
+        // using ai = Annoy::AnnoyIndex<typename S, typename T, typename Distance, typename Random,
+        // class ThreadedBuildPolicy>
+        using AnnoyIndex_t = Annoy::AnnoyIndex<int, float, Annoy::Euclidean, Annoy::Kiss64Random,
+                                               Annoy::AnnoyIndexSingleThreadedBuildPolicy>;
 
         // all default constructors
         VectorDatabase() = default;
@@ -69,8 +77,10 @@ namespace lc {
 
         explicit VectorDatabase(const std::vector<WordVector>& words);
 
-        std::vector<WordVector> words;
+        std::vector<WordVector> words {};
         RobinMap_t word_map {};
+        std::shared_ptr<AnnoyIndex_t> annoy_index {
+            std::make_shared<AnnoyIndex_t>(WordVector::WORD_VECTOR_DIMENSIONS)};
 
         void add_word(const std::string& word, bool randomize_vector = true);
         void add_word(const WordVector& word, bool replace_existing = true);
@@ -102,7 +112,7 @@ namespace lc {
 
         template <class Archive>
         void serialize(Archive& archive) {
-            archive(words);
+            archive(words, annoy_index);
         }
     };
 

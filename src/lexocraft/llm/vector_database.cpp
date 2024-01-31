@@ -54,6 +54,10 @@ namespace lc {
         return 1 - (difference.squaredNorm() / (WORD_VECTOR_DIMENSIONS * 4));
     }
 
+    const float* WordVector::data() const {
+        return vector.data();
+    }
+
     VectorDatabase::VectorDatabase(const std::vector<WordVector>& words) : words(words) {
         for (const WordVector& word: words) {
             word_map [word.word] = word;
@@ -66,6 +70,8 @@ namespace lc {
         const WordVector new_word {std::string {word}, randomize_vector};
         words.push_back(new_word);
         word_map [word] = new_word;
+        const int index = words.size() - 1;
+        annoy_index->add_item(index, new_word.vector.data());
     }
 
     void VectorDatabase::add_word(const WordVector& word, bool replace_existing) {

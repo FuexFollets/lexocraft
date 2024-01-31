@@ -317,8 +317,8 @@ namespace lc {
         TextCompleter& load(const std::filesystem::path& filepath);
 
         TextCompleter();
-        TextCompleter(const TextCompleter&) = delete;
-        TextCompleter& operator=(const TextCompleter&) = delete;
+        TextCompleter(const TextCompleter&) = default;
+        TextCompleter& operator=(const TextCompleter&) = default;
         TextCompleter(TextCompleter&&) = default;
         TextCompleter& operator=(TextCompleter&&) = default;
 
