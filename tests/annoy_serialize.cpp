@@ -1,11 +1,12 @@
+#include "cereal/archives/binary.hpp"
 #include <iostream>
 
 #include <annoy/annoylib.h>
 #include <annoy/kissrandom.h>
-
-#include <lexocraft/cereal_annoy_index.hpp>
+#include <cereal/cereal.hpp>
 
 #include <random>
+#include <sstream>
 
 constexpr int DIMENSIONS = 10;
 
@@ -40,18 +41,41 @@ int main() {
 
     annoy_index.build(10);
 
-    auto bytes = annoy_index.serialize();
+    std::stringstream sstream;
 
-    AnnoyIndex_t annoy_index2(DIMENSIONS);
+    cereal::BinaryOutputArchive oarchive {sstream};
 
-    annoy_index2.deserialize(&bytes);
+    oarchive(annoy_index);
 
-    std::cout << "annoy_index.get_n_items() = " << annoy_index.get_n_items() << '\n';
-    std::cout << "annoy_index.get_n_trees() = " << annoy_index.get_n_trees() << '\n';
+    cereal::BinaryInputArchive iarchive {sstream};
 
-    std::cout << "annoy_index2.get_n_items() = " << annoy_index2.get_n_items() << '\n';
-    std::cout << "annoy_index2.get_n_trees() = " << annoy_index2.get_n_trees() << '\n';
+    AnnoyIndex_t loaded_annoy_index;
 
-    std::cout << "(annoy_index.serialize() == annoy_index2.serialize()) = "
-              << (annoy_index.serialize() == annoy_index2.serialize()) << '\n';
+    iarchive(loaded_annoy_index);
+
+    std::cout << "Loaded Annoy Index\n";
+
+    const std::size_t num_items = annoy_index.get_n_items();
+    const std::size_t num_items_loaded = loaded_annoy_index.get_n_items();
+
+    std::cout << "Number of items in original index: " << num_items << '\n';
+    std::cout << "Number of items in loaded index: " << num_items_loaded << '\n';
+
+    std::cout << "Original Annoy Index\n";
+    for (int index {}; index < 10; ++index) {
+        float* vector = new float [DIMENSIONS];
+        annoy_index.get_item(index, vector);
+        print_vector(vector);
+
+        delete [] vector;
+    }
+
+    std::cout << "\n\nLoaded Annoy Index\n";
+    for (int index {}; index < 10; ++index) {
+        float* vector = new float [DIMENSIONS];
+        loaded_annoy_index.get_item(index, vector);
+        print_vector(vector);
+
+        delete [] vector;
+    }
 }
