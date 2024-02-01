@@ -14,6 +14,7 @@ set(TEST_FILES
     text_prediction
     vector_database_synonyms
     annoy_serialize
+    vector_database_serialization
 )
 
 if(COMPILE_TESTS)

@@ -1,9 +1,10 @@
-#include "cereal/archives/binary.hpp"
 #include <iostream>
 
 #include <annoy/annoylib.h>
 #include <annoy/kissrandom.h>
+
 #include <cereal/cereal.hpp>
+#include <cereal/archives/binary.hpp>
 
 #include <random>
 #include <sstream>

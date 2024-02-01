@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
 
         std::cout << "Loading database from path: " << path << "\n";
 
-        database.load(path);
+        database.load_file(path);
 
         std::cout << "Database loaded from path: " << path << "\n";
 
