@@ -9,12 +9,12 @@
 
 #include <annoy/annoylib.h>
 #include <annoy/kissrandom.h>
+#include <Eigen/Eigen>
+#include <tsl/robin_map.h>
+
 #include <cereal/types/memory.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/vector.hpp>
-#include <Eigen/Eigen>
-#include <mapbox/eternal.hpp>
-#include <tsl/robin_map.h>
 
 #include <lexocraft/cereal_eigen.hpp>
 
