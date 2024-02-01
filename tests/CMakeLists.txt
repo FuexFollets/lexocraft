@@ -24,7 +24,7 @@ if(COMPILE_TESTS)
         set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/tests)
         add_executable(${name} ${PROJECT_SOURCE_DIR}/tests/${name}.cpp)
         target_link_libraries(${name} ${LEXOCRAFT_LIBS})
-        target_compile_options(${name} PRIVATE -std=c++20 -g -O0 -Wall -Wextra -Wpedantic)
+        target_compile_options(${name} PRIVATE ${CMAKE_CSS_TEST_FLAGS})
         add_test(NAME ${name} COMMAND ${name})
     endfunction()
 

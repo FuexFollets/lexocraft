@@ -4,6 +4,7 @@ project(LexoCraft)
 
 option(USE_GOOGLE_BENCHMARK "Use Google Benchmark" OFF)
 option(COMPILE_TESTS "Compile tests" OFF)
+option(USE_GDB "Use GDB" OFF)
 
 include(${PROJECT_SOURCE_DIR}/cmake/libs.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/opts.cmake)

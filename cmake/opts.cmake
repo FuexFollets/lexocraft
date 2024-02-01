@@ -4,16 +4,18 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(base_flags "-Wall -Wextra -Wpedantic -g")
-
-if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    # Remove -Wextra for MSVC
-    string(REPLACE "-Wextra" "" flags "${base_flags}")
-    string(REPLACE "-Wpedantic" "" flags "${base_flags}")
-else()
-    # Use base flags for other compilers
-    set(flags "${base_flags}")
+if (USE_GDB)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 endif()
 
-# Apply the final flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${flags}")
+if ($<NOT:$<EQUAL:${CMAKE_CXX_COMPILER_ID},MSVC>>)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -g")
+endif()
+
+set(CMAKE_CXX_TEST_FLAGS "${CMAKE_CXX_FLAGS} -g")
+
+if ($<NOT:$<EQUAL:${CMAKE_CXX_COMPILER_ID},MSVC>>)
+    set(CMAKE_CXX_TEST_FLAGS "${CMAKE_CXX_TEST_FLAGS} \
+    -Wall -Wextra -Wpedantic \
+    -fsanitize=leak -fsanitize=undefined -fsanitize=address ")
+endif()
