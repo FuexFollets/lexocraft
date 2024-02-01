@@ -1,11 +1,12 @@
+#include <filesystem>
+#include <fstream>
 #include <iostream>
+#include <sstream>
 
-
-#include <cereal/cereal.hpp>
 #include <cereal/archives/binary.hpp>
+#include <cereal/cereal.hpp>
 
 #include <lexocraft/llm/vector_database.hpp>
-#include <sstream>
 
 int main(int argc, char** argv) {
     std::vector<std::string> args {std::next(argv, 1), std::next(argv, argc)};
@@ -14,6 +15,9 @@ int main(int argc, char** argv) {
     for (const auto& arg: args) {
         std::cout << arg << "\n";
     }
+
+    const std::filesystem::path tmp_path =
+        (!args.empty() ? std::filesystem::path {args [0]} : std::filesystem::temp_directory_path());
 
     lc::VectorDatabase vector_database;
 
@@ -40,5 +44,32 @@ int main(int argc, char** argv) {
 
     input_archive(vector_database2);
 
-    std::cout << "vector_database2: " << vector_database2.words[2].word << "\n";
+    std::cout << "vector_database2: " << vector_database2.words [2].word << "\n";
+
+    std::ofstream file_stream(tmp_path);
+    cereal::BinaryOutputArchive file_output_archive(file_stream);
+
+    file_output_archive(vector_database);
+
+    file_stream.close();
+
+    std::ifstream file_stream2(tmp_path);
+
+    cereal::BinaryInputArchive file_input_archive(file_stream2);
+
+    lc::VectorDatabase vector_database_file_input;
+
+    file_input_archive(vector_database_file_input);
+
+    std::cout << "vector_database_file_input.words [2].word: "
+              << vector_database_file_input.words [2].word << "\n";
+
+    vector_database.save_file(tmp_path);
+
+    lc::VectorDatabase vector_database_file;
+
+    vector_database_file.load_file(tmp_path);
+
+    std::cout << "vector_database_file.words [2].word: " << vector_database_file.words [2].word
+              << "\n";
 }
