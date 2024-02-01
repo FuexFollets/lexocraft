@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 
         lc::VectorDatabase database {words};
 
-        database.save(path_to);
+        database.save_file(path_to);
 
         std::cout << "Database saved to path: " << path_to << "\n";
 

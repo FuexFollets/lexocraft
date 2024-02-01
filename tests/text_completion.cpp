@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
 
         lc::VectorDatabase database {};
 
-        database.load(database_path);
+        database.load_file(database_path);
 
         std::cout << "Database loaded from path: " << database_path << "\n";
         std::cout << "Constructing text completer\n";
@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
 
         lc::VectorDatabase database {};
 
-        database.load(database_path);
+        database.load_file(database_path);
 
         std::cout << "Database loaded from path: " << database_path << "\n";
 

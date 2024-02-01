@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
     std::cout << "vector_database_path: " << vector_database_path << "\n";
 
     lc::VectorDatabase vector_database {};
-    vector_database.load(vector_database_path);
+    vector_database.load_file(vector_database_path);
 
     lc::TextCompleter completer {std::move(vector_database), 500, 500};
 

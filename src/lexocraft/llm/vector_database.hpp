@@ -2,6 +2,7 @@
 #define LEXOCRAFT_VECTOR_DATABASE_HPP
 
 #include <filesystem>
+#include <iostream>
 #include <optional>
 #include <string>
 #include <vector>
@@ -85,8 +86,8 @@ namespace lc {
         void add_word(const std::string& word, bool randomize_vector = true);
         void add_word(const WordVector& word, bool replace_existing = true);
 
-        void save(const std::filesystem::path& filepath) const;
-        void load(const std::filesystem::path& filepath);
+        void save_file(const std::filesystem::path& filepath) const;
+        void load_file(const std::filesystem::path& filepath);
 
         struct SearchResult {
             WordVector word;
@@ -111,8 +112,28 @@ namespace lc {
         [[nodiscard]] std::size_t longest_element() const;
 
         template <class Archive>
-        void serialize(Archive& archive) {
-            archive(words, annoy_index);
+        void save(Archive& archive) const {
+            archive(words, annoy_index->serialize());
+        }
+
+        template <class Archive>
+        void load(Archive& archive) {
+            std::vector<uint8_t> bytes;
+            std::cout << "I was called\n";
+
+            archive(words, bytes);
+
+            if (!annoy_index) {
+                annoy_index = std::make_shared<AnnoyIndex_t>(WordVector::WORD_VECTOR_DIMENSIONS);
+            }
+
+            annoy_index->deserialize(&bytes);
+
+            word_map.clear();
+
+            for (const auto& word : words) {
+                word_map[word.word] = word;
+            }
         }
     };
 

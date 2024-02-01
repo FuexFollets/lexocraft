@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
         lc::VectorDatabase database;
 
         std::cout << "Loading database from path: " << vector_database_path << '\n';
-        database.load(vector_database_path);
+        database.load_file(vector_database_path);
         std::cout << "Successfully loaded vector database\n";
 
         lc::TextCompleter completer {std::move(database), 500, 500};

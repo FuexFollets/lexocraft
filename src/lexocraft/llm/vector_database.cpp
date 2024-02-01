@@ -87,7 +87,7 @@ namespace lc {
         }
     }
 
-    void VectorDatabase::save(const std::filesystem::path& filepath) const {
+    void VectorDatabase::save_file(const std::filesystem::path& filepath) const {
         std::ofstream file {filepath};
 
         cereal::BinaryOutputArchive oarchive {file};
@@ -95,7 +95,7 @@ namespace lc {
         oarchive(*this);
     }
 
-    void VectorDatabase::load(const std::filesystem::path& filepath) {
+    void VectorDatabase::load_file(const std::filesystem::path& filepath) {
         std::ifstream file {filepath};
 
         cereal::BinaryInputArchive iarchive {file};
