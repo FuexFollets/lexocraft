@@ -13,7 +13,6 @@ set(TEST_FILES
     vector_subdatabases
     text_prediction
     vector_database_synonyms
-    annoy_serialize
     vector_database_serialization
 )
 
