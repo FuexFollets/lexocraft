@@ -119,7 +119,6 @@ namespace lc {
         template <class Archive>
         void load(Archive& archive) {
             std::vector<uint8_t> bytes;
-            std::cout << "I was called\n";
 
             archive(words, bytes);
 
@@ -131,8 +130,8 @@ namespace lc {
 
             word_map.clear();
 
-            for (const auto& word : words) {
-                word_map[word.word] = word;
+            for (const auto& word: words) {
+                word_map [word.word] = word;
             }
         }
     };
