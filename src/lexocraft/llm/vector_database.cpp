@@ -235,4 +235,18 @@ namespace lc {
                                 })
             ->word.size();
     }
+
+    VectorDatabase& VectorDatabase::build_annoy_index(int trees) {
+        annoy_index->build(trees);
+        annoy_index_is_built = true;
+
+        return *this;
+    }
+
+    VectorDatabase& VectorDatabase::unbuild_annoy_index() {
+        annoy_index->unbuild();
+        annoy_index_is_built = false;
+
+        return *this;
+    }
 } // namespace lc

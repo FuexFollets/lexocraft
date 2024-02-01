@@ -82,6 +82,7 @@ namespace lc {
         RobinMap_t word_map {};
         std::shared_ptr<AnnoyIndex_t> annoy_index {
             std::make_shared<AnnoyIndex_t>(WordVector::WORD_VECTOR_DIMENSIONS)};
+        bool annoy_index_is_built {false};
 
         void add_word(const std::string& word, bool randomize_vector = true);
         void add_word(const WordVector& word, bool replace_existing = true);
@@ -110,6 +111,9 @@ namespace lc {
         [[nodiscard]] std::optional<WordVector> search_from_map(const std::string& word) const;
 
         [[nodiscard]] std::size_t longest_element() const;
+
+        VectorDatabase& build_annoy_index(int trees = 100);
+        VectorDatabase& unbuild_annoy_index();
 
         template <class Archive>
         void save(Archive& archive) const {
