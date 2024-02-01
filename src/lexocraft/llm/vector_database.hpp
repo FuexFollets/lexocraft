@@ -101,12 +101,10 @@ namespace lc {
                                        bool stop_when_top_n_are_found = true) const;
 
         [[nodiscard]] std::vector<SearchResult>
-            search_closest_vector_value_n(const WordVector& searched_vector, int top_n,
-                                          float threshold, bool stop_when_top_n_are_found) const;
+            search_closest_vector_value_n(const WordVector& searched_vector, int top_n, int search_k=-1) const;
 
         [[nodiscard]] std::vector<SearchResult>
-            search_closest_vector_value_n(const Eigen::VectorXf& searched_vector, int top_n,
-                                          float threshold, bool stop_when_top_n_are_found) const;
+            search_closest_vector_value_n(const Eigen::VectorXf& searched_vector, int top_n, int search_k=-1) const;
 
         [[nodiscard]] std::optional<WordVector> search_from_map(const std::string& word) const;
 
