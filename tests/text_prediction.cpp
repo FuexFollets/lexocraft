@@ -67,8 +67,7 @@ int main(int argc, char** argv) {
             sentence_count_)};
 
         const std::vector<lc::VectorDatabase::SearchResult> results =
-            completer.vector_database.search_closest_vector_value_n(output.word_vector_value, 10,
-                                                                    0.5F, false);
+            completer.vector_database.search_closest_vector_value_n(output.word_vector_value, 10);
 
         std::cout << "Closest " << results.size() << " results\n";
 

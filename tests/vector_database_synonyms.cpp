@@ -27,6 +27,19 @@ int main(int argc, char** argv) {
 
     std::cout << "database loaded\n";
 
+    float* item = new float[lc::WordVector::WORD_VECTOR_DIMENSIONS];
+
+    if (!database.annoy_index_is_built) {
+        std::cout << "Building Annoy index\n";
+        database.annoy_index->build(100);
+    }
+
+    database.annoy_index->get_item(100, item);
+
+    std::cout << "Database word vector example: " << item[0] << " " << item[1] << " " << item[2] << " " << item[3] << " "
+              << item[4] << " " << item[5] << " " << item[6] << " " << item[7] << " " << item[8] << " " << item[9]
+              << " ...\n";
+
     const std::optional<lc::WordVector> word_vector = database.search_from_map(word);
 
     if (!word_vector.has_value()) {
@@ -41,7 +54,7 @@ int main(int argc, char** argv) {
               << "\": " << lc::fancy_eigen_vector_str(word_vector.value().vector, printed_dimensions) << "\n";
 
     const auto search_results =
-        database.search_closest_vector_value_n(word_vector.value(), 10, 0.5F, false);
+        database.search_closest_vector_value_n(word_vector.value(), 10);
 
     std::cout << "-------------------\n\n";
 
