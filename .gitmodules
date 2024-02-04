@@ -26,3 +26,6 @@
 [submodule "lib/icecream-cpp"]
 	path = lib/icecream-cpp
 	url = https://github.com/renatoGarcia/icecream-cpp.git
+[submodule "lib/nanobench"]
+	path = lib/nanobench
+	url = https://github.com/martinus/nanobench.git
