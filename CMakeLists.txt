@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(LexoCraft)
 
+option(USE_NANOBENCH "Use nanobench" OFF)
 option(COMPILE_TESTS "Compile tests" OFF)
 option(USE_GDB "Use GDB" OFF)
 
@@ -13,5 +14,9 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/tests)
 add_subdirectory(${PROJECT_SOURCE_DIR}/lib/rapidfuzz-cpp)
 add_subdirectory(${PROJECT_SOURCE_DIR}/lib/robin-map)
 add_subdirectory(${PROJECT_SOURCE_DIR}/lib/annoy)
+
+if(USE_NANOBENCH)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/lib/nanobench)
+endif()
 
 enable_testing()

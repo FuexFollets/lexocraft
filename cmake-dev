@@ -1,0 +1,6 @@
+#! /bin/bash
+
+cmake . \
+    -DUSE_NANOBENCH=ON \
+    -DCOMPILE_TESTS=ON
+
