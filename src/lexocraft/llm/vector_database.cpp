@@ -1,3 +1,4 @@
+#include <bit>
 #include <fstream>
 #include <functional>
 #include <optional>
@@ -90,6 +91,8 @@ namespace lc {
     }
 
     void VectorDatabase::save_file(const std::filesystem::path& filepath) const {
+        assert(annoy_index_is_built && "Annoy index must be built before saving");
+
         std::ofstream file {filepath};
 
         cereal::BinaryOutputArchive oarchive {file};
