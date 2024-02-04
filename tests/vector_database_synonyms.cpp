@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -5,6 +6,13 @@
 
 #include <lexocraft/fancy_eigen_print.hpp>
 #include <lexocraft/llm/vector_database.hpp>
+
+std::string remove_whitespace(std::string str) {
+    str.erase(str.begin(), std::find_if_not(str.begin(), str.end(), ::isspace));
+    str.erase(std::find_if_not(str.rbegin(), str.rend(), ::isspace).base(), str.end());
+
+    return str;
+}
 
 int main(int argc, char** argv) {
     std::vector<std::string> args {std::next(argv, 1), std::next(argv, argc)};
@@ -26,7 +34,7 @@ int main(int argc, char** argv) {
 
     // ---------------------- Building Database ----------------------
 
-    if (database_path == "plaintext") {
+    if (database_type == "plaintext") {
         std::cout << "loading database from " << database_path << "\n";
 
         std::cout << "database loaded\n";
@@ -38,12 +46,16 @@ int main(int argc, char** argv) {
         std::cout << "Reading from file: " << database_path << "\n";
 
         while (std::getline(file, line)) {
-            words.emplace_back(line);
+            words.emplace_back(remove_whitespace(line));
         }
 
         std::cout << "Read " << words.size() << " words from file\n";
 
-        lc::VectorDatabase database {words};
+        database = lc::VectorDatabase {words};
+
+        std::cout << "Building Annoy index\n";
+        database.build_annoy_index(10);
+        std::cout << "Annoy index built\n";
     }
 
     if (database_type == "binary") {
