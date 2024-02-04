@@ -1,8 +1,13 @@
 #include <cstdio>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
+
+#include <cereal/archives/binary.hpp>
+#include <cereal/cereal.hpp>
+#include <nanobench.h>
 
 #include <lexocraft/fancy_eigen_print.hpp>
 #include <lexocraft/llm/vector_database.hpp>
@@ -25,10 +30,13 @@ int main(int argc, char** argv) {
     const std::string database_type = args.at(0);
     const std::string database_path = args.at(1);
     const std::string word = args.at(2);
+    const std::optional<std::string> maybe_temp_file =
+        (args.size() == 4) ? std::optional<std::string> {args.at(3)} : std::nullopt;
 
     std::cout << "database_type: " << database_type << "\n";
     std::cout << "database_path: " << database_path << "\n";
     std::cout << "word: " << word << "\n";
+    std::cout << "temp_file: " << maybe_temp_file.value_or("not set") << "\n";
 
     lc::VectorDatabase database {};
 
@@ -45,7 +53,10 @@ int main(int argc, char** argv) {
 
         std::cout << "Reading from file: " << database_path << "\n";
 
-        while (std::getline(file, line)) {
+        constexpr auto MAX_WORDS_COUNT = 1000;
+
+        int word_count = 0;
+        while (std::getline(file, line) && word_count++ < MAX_WORDS_COUNT) {
             words.emplace_back(remove_whitespace(line));
         }
 
@@ -64,6 +75,38 @@ int main(int argc, char** argv) {
         database.load_file(database_path);
 
         std::cout << "database loaded\n";
+    }
+
+    // ---------------------- Serializing and Deserializing Database ----------------------
+
+    std::cout << "Serializing and deserializing database\n";
+
+    if (!maybe_temp_file.has_value()) {
+        std::stringstream sstream;
+
+        std::cout << "Serializing database\n";
+        cereal::BinaryOutputArchive archive(sstream);
+        archive(database);
+
+        std::cout << "Serialized database\n";
+
+        std::cout << "Deserializing database\n";
+
+        cereal::BinaryInputArchive iarchive(sstream);
+
+        iarchive(database);
+
+        std::cout << "Deserialized database\n";
+    }
+
+    if (maybe_temp_file.has_value()) {
+        std::cout << "Saving database to " << maybe_temp_file.value() << "\n";
+        database.save_file(maybe_temp_file.value());
+        std::cout << "Saved database\n";
+
+        std::cout << "Loading database from " << maybe_temp_file.value() << "\n";
+        database.load_file(maybe_temp_file.value());
+        std::cout << "Loaded database\n";
     }
 
     // ---------------------- Searching Database ----------------------
@@ -94,11 +137,21 @@ int main(int argc, char** argv) {
     std::cout << "Searched vector value for \"" << word_vector.value().word << "\": "
               << lc::fancy_eigen_vector_str(word_vector.value().vector, printed_dimensions) << "\n";
 
-    const auto search_results = database.search_closest_vector_value_n(word_vector.value(), 10);
+    std::optional<std::vector<lc::VectorDatabase::SearchResult>> search_results;
+
+    ankerl::nanobench::Bench().run("search_closest_vector_value_n", [&] {
+        ankerl::nanobench::doNotOptimizeAway(
+            search_results = database.search_closest_vector_value_n(word_vector.value(), 10));
+    });
 
     std::cout << "-------------------\n\n";
 
-    for (const auto& result: search_results) {
+    if (!search_results.has_value()) {
+        std::cout << "Error: search results not found\n";
+        exit(1);
+    }
+
+    for (const auto& result: search_results.value()) {
         std::cout << std::setprecision(2) << "Similarity: " << result.similarity << " "
                   << result.word.word << " "
                   << lc::fancy_eigen_vector_str(result.word.vector, printed_dimensions) << "\n";
