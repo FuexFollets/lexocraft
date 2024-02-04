@@ -1,4 +1,5 @@
 #include <fstream>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -38,7 +39,21 @@ int main(int argc, char** argv) {
 
         lc::VectorDatabase database {words};
 
+        if (!database.annoy_index_is_built) {
+            std::cout << "Building Annoy index\n";
+            database.annoy_index->build(10);
+        }
+
         database.save_file(path_to);
+
+        float* item = new float [lc::WordVector::WORD_VECTOR_DIMENSIONS];
+
+        database.annoy_index->get_item(10, item);
+        std::cout << "n_trees: " << database.annoy_index->get_n_trees() << "\n";
+
+        std::cout << "Database word vector example: " << item [0] << " " << item [1] << " "
+                  << item [2] << " " << item [3] << " " << item [4] << " " << item [5] << " "
+                  << item [6] << " " << item [7] << " " << item [8] << " " << item [9] << " ...\n";
 
         std::cout << "Database saved to path: " << path_to << "\n";
 

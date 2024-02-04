@@ -59,8 +59,10 @@ namespace lc {
     }
 
     VectorDatabase::VectorDatabase(const std::vector<WordVector>& words) : words(words) {
-        for (const WordVector& word: words) {
+        for (std::size_t index {0}; index < words.size(); ++index) {
+            const WordVector& word = words.at(index);
             word_map [word.word] = word;
+            annoy_index->add_item(index, word.vector.data());
         }
     }
 
