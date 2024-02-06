@@ -60,6 +60,7 @@ int main(int argc, char** argv) {
             words.emplace_back(remove_whitespace(line));
         }
 
+
         std::cout << "Read " << words.size() << " words from file\n";
 
         database = lc::VectorDatabase {words};
@@ -105,7 +106,11 @@ int main(int argc, char** argv) {
         std::cout << "Saved database\n";
 
         std::cout << "Loading database from " << maybe_temp_file.value() << "\n";
-        database.load_file(maybe_temp_file.value());
+        lc::VectorDatabase loaded_database {};
+
+        loaded_database.load_file(maybe_temp_file.value());
+        database = std::move(loaded_database);
+
         std::cout << "Loaded database\n";
     }
 

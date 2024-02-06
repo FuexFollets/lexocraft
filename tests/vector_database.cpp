@@ -31,7 +31,10 @@ int main(int argc, char** argv) {
 
         std::cout << "Reading from file: " << path_from << "\n";
 
-        while (std::getline(file, line)) {
+        constexpr auto MAX_WORDS_COUNT = 1000;
+
+        int word_count = 0;
+        while (std::getline(file, line) && word_count++ < MAX_WORDS_COUNT) {
             words.emplace_back(remove_whitespace(line));
         }
 
@@ -39,16 +42,15 @@ int main(int argc, char** argv) {
 
         lc::VectorDatabase database {words};
 
-        if (!database.annoy_index_is_built) {
-            std::cout << "Building Annoy index\n";
-            database.annoy_index->build(10);
-        }
+        std::cout << "Building Annoy index\n";
+        database.build_annoy_index(10);
+        std::cout << "Annoy index built\n";
 
         database.save_file(path_to);
 
-        float* item = new float [lc::WordVector::WORD_VECTOR_DIMENSIONS];
+        std::vector<float> item(lc::WordVector::WORD_VECTOR_DIMENSIONS);
 
-        database.annoy_index->get_item(10, item);
+        database.annoy_index->get_item(10, item.data());
         std::cout << "n_trees: " << database.annoy_index->get_n_trees() << "\n";
 
         std::cout << "Database word vector example: " << item [0] << " " << item [1] << " "
