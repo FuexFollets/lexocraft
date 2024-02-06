@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
 
         std::cout << "Reading from file: " << database_path << "\n";
 
-        constexpr auto MAX_WORDS_COUNT = 1000;
+        constexpr auto MAX_WORDS_COUNT = 10000000;
 
         int word_count = 0;
         while (std::getline(file, line) && word_count++ < MAX_WORDS_COUNT) {
@@ -66,7 +66,7 @@ int main(int argc, char** argv) {
         database = lc::VectorDatabase {words};
 
         std::cout << "Building Annoy index\n";
-        database.build_annoy_index(10);
+        database.build_annoy_index(2);
         std::cout << "Annoy index built\n";
     }
 

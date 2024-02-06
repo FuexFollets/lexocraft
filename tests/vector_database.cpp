@@ -24,6 +24,7 @@ int main(int argc, char** argv) {
     if (args.at(0) == "create") {
         const std::string path_from = args.at(1);
         const std::string path_to = args.at(2);
+        const int total_trees = (args.size() > 4) ? std::stoi(args.at(3)) : 50;
 
         std::ifstream file {path_from};
         std::vector<lc::WordVector> words;
@@ -31,10 +32,7 @@ int main(int argc, char** argv) {
 
         std::cout << "Reading from file: " << path_from << "\n";
 
-        constexpr auto MAX_WORDS_COUNT = 1000;
-
-        int word_count = 0;
-        while (std::getline(file, line) && word_count++ < MAX_WORDS_COUNT) {
+        while (std::getline(file, line)) {
             words.emplace_back(remove_whitespace(line));
         }
 
@@ -43,7 +41,7 @@ int main(int argc, char** argv) {
         lc::VectorDatabase database {words};
 
         std::cout << "Building Annoy index\n";
-        database.build_annoy_index(10);
+        database.build_annoy_index(total_trees);
         std::cout << "Annoy index built\n";
 
         database.save_file(path_to);
