@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
         lc::TextCompleter completer {std::move(database), 500, 500};
 
         std::cout << "Creating subvector databases\n";
-        completer.create_subvector_databases();
+        completer.create_vector_subdatabases();
         std::cout << "Subvector databases created\n";
 
         std::cout << "First word: " << completer.symbol_vector_subdatabase.words.at(0).word << "\n";

@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include <icecream.hpp>
+
 #include <lexocraft/fancy_eigen_print.hpp>
 #include <lexocraft/llm/lexer.hpp>
 #include <lexocraft/llm/text_completion.hpp>
@@ -22,10 +24,14 @@ int main(int argc, char** argv) {
     const std::string text_path = args.at(1);
     const std::string mode = args.at(2);
 
+    // ------------------------- VectorDatabase -------------------------
+
     std::cout << "vector_database_path: " << vector_database_path << "\n";
 
     lc::VectorDatabase vector_database {};
     vector_database.load_file(vector_database_path);
+
+    // ------------------------- TextCompleter -------------------------
 
     lc::TextCompleter completer {std::move(vector_database), 500, 500};
 
@@ -42,6 +48,13 @@ int main(int argc, char** argv) {
     completer.set_ephemeral_memory_accmulator_nn(
         {predictor_input_size, 200, 200, predictor_output_size}, true);
 
+    completer.create_vector_subdatabases();
+
+    IC();
+    IC(completer.homogeneous_vector_subdatabase.word_map.size());
+
+    // ------------------------- Text -------------------------
+
     std::cout << "Loading text from path: " << text_path << "\n";
     const std::ifstream file {text_path};
     std::stringstream file_contents_buffer;
@@ -49,7 +62,7 @@ int main(int argc, char** argv) {
     const std::string file_contents {file_contents_buffer.str()};
     std::cout << "Text loaded from path: " << text_path << "\n";
 
-    std::cout << "Text: " << file_contents << "\n";
+    std::cout << "\n\nText: " << file_contents << "\n";
 
     const std::vector<lc::grammar::Token> tokens =
         lc::grammar::tokenize(file_contents, completer.vector_database);
@@ -59,12 +72,17 @@ int main(int argc, char** argv) {
     const float flesch_kincaid_grade_ = 5.0F;
     const float sentence_count_ = 5.0F;
 
-    for (const auto& token: tokens) {
-        std::cout << "Token: " << token << "\n";
+    // ------------------------- Predict -------------------------
+
+    for (const lc::grammar::Token& token: tokens) {
+        std::cout << "\nToken: " << token << "\n";
 
         lc::TextCompleter::EphemeralMemoryNNOutput output {completer.predict_next_token_value(
             token, sentence_length_mean_, sentence_length_stddev_, flesch_kincaid_grade_,
             sentence_count_)};
+
+        std::cout << "Ephemeral memory: " << lc::fancy_eigen_vector_str(output.ephemeral_memory)
+                  << "\n";
 
         const std::vector<lc::VectorDatabase::SearchResult> results =
             completer.vector_database.search_closest_vector_value_n(output.word_vector_value, 10);

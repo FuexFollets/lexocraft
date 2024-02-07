@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
 
         std::cout << "Word: " << word << "\n";
 
-        const auto res = completer.find_word_vector(word);
+        const auto [res, type] = completer.find_word_vector(word);
 
         std::cout << "Word was improvised: " << res.improvised << "\n";
         std::cout << "Word vector quantity: " << lc::fancy_eigen_vector_str(res.word_vector.vector)
@@ -78,8 +78,7 @@ int main(int argc, char** argv) {
         std::cout << "nn_input_size: " << nn_input_size << "\n";
         std::cout << "nn_output_size: " << nn_output_size << "\n";
 
-        completer.set_context_builder_nn(
-            {nn_input_size, 1000, nn_output_size}, true);
+        completer.set_context_builder_nn({nn_input_size, 1000, nn_output_size}, true);
 
         std::cout << "completer.context_builder.weights[0]: "
                   << lc::fancy_eigen_matrix_str(completer.context_builder.weights [0]) << "\n";
