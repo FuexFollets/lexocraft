@@ -2,7 +2,6 @@
 #define LEXOCRAFT_VECTOR_DATABASE_HPP
 
 #include <filesystem>
-#include <iostream>
 #include <optional>
 #include <string>
 #include <vector>
