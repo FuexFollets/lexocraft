@@ -455,23 +455,45 @@ namespace lc {
         return std::sqrt(variance);
     }
 
-    TextCompleter::SearchedWordVector TextCompleter::find_word_vector(const std::string& word) {
-        constexpr std::size_t TOP_N = 10;
+    std::tuple<TextCompleter::SearchedWordVector, grammar::Token::Type>
+        TextCompleter::find_word_vector(const std::string& word) {
 
-        if (const std::optional<WordVector> word_vector = vector_database.search_from_map(word)) {
-            return {word_vector.value(), false};
-        }
-
-        for (float threshold = 0.9F; threshold >= -0.1F; threshold -= 0.1F) {
-            const std::vector<VectorDatabase::SearchResult> word_vectors =
-                vector_database.rapidfuzz_search_closest_n(word, TOP_N, threshold);
-
-            if (!word_vectors.empty()) {
-                return {improvised_word_vector(word, word_vectors), true};
+        for (const auto& [database, type]: database_type_pairs) {
+            if (const std::optional<WordVector> word_vector = database.search_from_map(word)) {
+                return {
+                    {word_vector.value(), false, false},
+                    type
+                };
             }
         }
 
-        return {improvised_word_vector(word, {}), true};
+        for (const auto& [database, type]: lowercase_database_type_pairs) {
+            if (const std::optional<WordVector> word_vector = database.search_from_map(word)) {
+                return {
+                    {word_vector.value(), true, false},
+                    type
+                };
+            }
+        }
+
+        for (float threshold = 0.9F; threshold >= -0.1F; threshold -= 0.1F) {
+            for (const auto& [database, type]: database_type_pairs) {
+                const std::vector<VectorDatabase::SearchResult> word_vectors =
+                    database.rapidfuzz_search_closest_n(word, 10, threshold);
+
+                if (!word_vectors.empty()) {
+                    return {
+                        {improvised_word_vector(word, word_vectors), false, true},
+                        type
+                    };
+                }
+            }
+        }
+
+        return {
+            {improvised_word_vector(word, {}), false, true},
+            grammar::Token::Type::Alphanumeric
+        };
     }
 
     /********************** Ephemeral Memory Accmulator ********************/

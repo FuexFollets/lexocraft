@@ -55,7 +55,8 @@ namespace lc {
     TextCompleter::EphemeralMemoryNNOutput TextCompleter::predict_next_token_value(
         const grammar::Token& token, float sentence_length_mean_, float sentence_length_stddev_,
         float flesch_kincaid_grade_, float sentence_count_) {
-        const SearchedWordVector word_vector_result = find_word_vector(token.value);
+
+        const auto [word_vector_result, type] = find_word_vector(token.value);
 
         const EphemeralMemoryNNFields fields(
             sentence_length_mean_, sentence_length_stddev_, flesch_kincaid_grade_, sentence_count_,

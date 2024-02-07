@@ -18,6 +18,8 @@ namespace lc {
     class TextCompleter {
         public:
 
+        using DatabaseTypePairElement_t = std::tuple<VectorDatabase, grammar::Token::Type>;
+
         struct SearchedWordVector {
             WordVector word_vector;
             bool is_lowercase_adjusted;
@@ -70,6 +72,22 @@ namespace lc {
 
         VectorDatabase lowercase_alphanumeric_vector_subdatabase {};
         VectorDatabase lowercase_homogeneous_vector_subdatabase {};
+
+        std::array<DatabaseTypePairElement_t, 4> database_type_pairs {
+            {
+             {alphanumeric_vector_subdatabase, grammar::Token::Type::Alphanumeric},
+             {digit_vector_subdatabase, grammar::Token::Type::Digit},
+             {homogeneous_vector_subdatabase, grammar::Token::Type::Homogeneous},
+             {symbol_vector_subdatabase, grammar::Token::Type::Symbol},
+             }
+        };
+
+        std::array<DatabaseTypePairElement_t, 2> lowercase_database_type_pairs {
+            {
+             {lowercase_alphanumeric_vector_subdatabase, grammar::Token::Type::Alphanumeric},
+             {lowercase_homogeneous_vector_subdatabase, grammar::Token::Type::Homogeneous},
+             }
+        };
 
         struct NNFieldsInput {
             virtual ~NNFieldsInput() = default; // Abstract
@@ -274,7 +292,8 @@ namespace lc {
 
         static float flesch_kincaid_level(const std::string& text);
 
-        SearchedWordVector find_word_vector(const std::string& word);
+        std::tuple<SearchedWordVector, grammar::Token::Type>
+            find_word_vector(const std::string& word);
 
         WordVector improvised_word_vector(
             const std::string& word,
