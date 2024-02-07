@@ -18,7 +18,7 @@ namespace lc {
     class TextCompleter {
         public:
 
-        using DatabaseTypePairElement_t = std::tuple<VectorDatabase, grammar::Token::Type>;
+        using DatabaseTypePairElement_t = std::tuple<VectorDatabase&, grammar::Token::Type>;
 
         struct SearchedWordVector {
             WordVector word_vector;

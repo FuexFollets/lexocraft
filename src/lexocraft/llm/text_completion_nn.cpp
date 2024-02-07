@@ -55,12 +55,12 @@ namespace lc {
     TextCompleter::EphemeralMemoryNNOutput TextCompleter::predict_next_token_value(
         const grammar::Token& token, float sentence_length_mean_, float sentence_length_stddev_,
         float flesch_kincaid_grade_, float sentence_count_) {
-
         const auto [word_vector_result, type] = find_word_vector(token.value);
 
-        const EphemeralMemoryNNFields fields(
-            sentence_length_mean_, sentence_length_stddev_, flesch_kincaid_grade_, sentence_count_,
-            word_vector_result, ephemeral_memory, context_memory, ephemeral_memory_fields_sizes);
+        const EphemeralMemoryNNFields fields(sentence_length_mean_, sentence_length_stddev_,
+                                             flesch_kincaid_grade_, sentence_count_,
+                                             word_vector_result, ephemeral_memory,
+                                             context_memory, ephemeral_memory_fields_sizes);
 
         EphemeralMemoryNNOutput output(ephemeral_memory_output_sizes);
 

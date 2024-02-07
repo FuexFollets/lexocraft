@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cctype>
 #include <cstddef>
 #include <fstream>
@@ -7,6 +8,7 @@
 
 #include <cereal/cereal.hpp>
 #include <cereal/types/memory.hpp>
+#include <icecream.hpp>
 
 #include <lexocraft/cereal_eigen.hpp>
 #include <lexocraft/llm/lexer.hpp>
@@ -457,7 +459,6 @@ namespace lc {
 
     std::tuple<TextCompleter::SearchedWordVector, grammar::Token::Type>
         TextCompleter::find_word_vector(const std::string& word) {
-
         for (const auto& [database, type]: database_type_pairs) {
             if (const std::optional<WordVector> word_vector = database.search_from_map(word)) {
                 return {
@@ -588,10 +589,17 @@ namespace lc {
     TextCompleter& TextCompleter::create_vector_subdatabases() {
         for (const WordVector& word_vector: vector_database.words) {
             const grammar::Token::Type token_type = grammar::token_type(word_vector.word);
+            std::string lowercase_word;
+
+            std::transform(word_vector.word.begin(), word_vector.word.end(),
+                           std::back_inserter(lowercase_word),
+                           [](char letter) { return std::tolower(letter); });
 
             switch (token_type) {
                 case grammar::Token::Type::Alphanumeric: {
                     alphanumeric_vector_subdatabase.add_word(word_vector);
+                    lowercase_alphanumeric_vector_subdatabase.add_word(
+                        {lowercase_word, word_vector.vector});
                     break;
                 }
 
@@ -602,6 +610,8 @@ namespace lc {
 
                 case grammar::Token::Type::Homogeneous: {
                     homogeneous_vector_subdatabase.add_word(word_vector);
+                    lowercase_homogeneous_vector_subdatabase.add_word(
+                        {lowercase_word, word_vector.vector});
                     break;
                 }
 
