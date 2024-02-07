@@ -20,9 +20,9 @@ namespace lc {
 
         struct SearchedWordVector {
             WordVector word_vector;
+            bool is_lowercase_adjusted;
             bool improvised;
         };
-
 
         template <class Archive>
         void serialize(Archive& archive) {
@@ -35,6 +35,9 @@ namespace lc {
                     digit_vector_subdatabase,
                     homogeneous_vector_subdatabase,
                     symbol_vector_subdatabase,
+
+                    lowercase_alphanumeric_vector_subdatabase,
+                    lowercase_homogeneous_vector_subdatabase,
 
                     ephemeral_memory_fields_sizes,
                     ephemeral_memory_output_sizes,
@@ -64,6 +67,9 @@ namespace lc {
         VectorDatabase digit_vector_subdatabase {};
         VectorDatabase homogeneous_vector_subdatabase {};
         VectorDatabase symbol_vector_subdatabase {};
+
+        VectorDatabase lowercase_alphanumeric_vector_subdatabase {};
+        VectorDatabase lowercase_homogeneous_vector_subdatabase {};
 
         struct NNFieldsInput {
             virtual ~NNFieldsInput() = default; // Abstract
@@ -96,7 +102,8 @@ namespace lc {
 
             EphemeralMemoryNNFields(float sentence_length_mean, float sentence_length_stddev,
                                     float flesch_kincaid_grade, float sentence_count,
-                                    const SearchedWordVector& word, const Eigen::VectorXf& ephemeral_memory,
+                                    const SearchedWordVector& word,
+                                    const Eigen::VectorXf& ephemeral_memory,
                                     const Eigen::VectorXf& context_memory,
                                     const ephemeral_memory_fields_sizes_t& size_info);
 
