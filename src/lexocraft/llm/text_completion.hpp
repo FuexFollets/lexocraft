@@ -337,7 +337,7 @@ namespace lc {
 
         TextCompleter& set_vector_database(VectorDatabase&& vector_database);
 
-        TextCompleter& create_subvector_databases();
+        TextCompleter& create_vector_subdatabases();
 
         TextCompleter& save(const std::filesystem::path& filepath);
         TextCompleter& load(const std::filesystem::path& filepath);

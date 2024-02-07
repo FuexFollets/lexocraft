@@ -585,7 +585,7 @@ namespace lc {
         return *this;
     }
 
-    TextCompleter& TextCompleter::create_subvector_databases() {
+    TextCompleter& TextCompleter::create_vector_subdatabases() {
         for (const WordVector& word_vector: vector_database.words) {
             const grammar::Token::Type token_type = grammar::token_type(word_vector.word);
 
