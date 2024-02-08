@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <cctype>
 #include <cstddef>
-#include <fstream>
 #include <functional>
 #include <string>
 #include <vector>
@@ -107,11 +106,6 @@ namespace lc {
 
         context_memory_size = context_builder_fields_sizes.context_memory;
         context_memory = Eigen::VectorXf::Zero(context_memory_size);
-    }
-
-    TextCompleter::TextCompleter(const std::filesystem::path& filepath) :
-        TextCompleter {VectorDatabase {}, 0, 0} {
-        this->load(filepath);
     }
 
     float TextCompleter::flesch_kincaid_level(const std::string& text) {

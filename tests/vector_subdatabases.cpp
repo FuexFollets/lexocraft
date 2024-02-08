@@ -1,5 +1,4 @@
 #include <iostream>
-#include <memory>
 
 #include <lexocraft/fancy_eigen_print.hpp>
 #include <lexocraft/llm/text_completion.hpp>
@@ -35,7 +34,7 @@ int main(int argc, char** argv) {
         std::cout << "First word: " << completer.symbol_vector_subdatabase.words.at(0).word << "\n";
 
         std::cout << "Saving to path: " << stored_path << "\n";
-        completer.save(stored_path);
+        completer.save_file(stored_path);
         std::cout << "Subvector databases saved\n";
     }
 
@@ -45,7 +44,7 @@ int main(int argc, char** argv) {
 
         std::cout << "Loading from path: " << stored_path << "\n";
 
-        completer.load(stored_path);
+        completer.load_file(stored_path);
 
         std::cout << "Subvector databases loaded\n";
 
