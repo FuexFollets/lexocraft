@@ -6,6 +6,16 @@
 #include <lexocraft/llm/text_completion.hpp>
 
 namespace lc {
+    // --------------------------- General ---------------------------
+
+    TextCompleter& TextCompleter::start_new_section(float sentence_length_mean,
+                                                    float sentence_length_stddev,
+                                                    float flesch_kincaid_grade) {
+        this->context_memory = this->accumulate_context_memory(
+            sentence_length_mean, sentence_length_stddev, flesch_kincaid_grade);
+        return *this;
+    }
+
     TextCompleter& TextCompleter::add_word_vector(const WordVector& added_word_vector) {
         vector_database.add_word(added_word_vector);
         return create_vector_subdatabases();
