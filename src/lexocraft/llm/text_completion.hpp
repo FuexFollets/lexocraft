@@ -383,26 +383,26 @@ namespace lc {
 
         TextCompleter& set_ephemeral_memory_accumulator_layer_sizes(std::size_t layer_count);
         TextCompleter& set_ephemeral_memory_accumulator_layer_sizes(
-            UnaryLayerSizeVectorGenerator_t unary_layer_size_vector_generator,
+            const UnaryLayerSizeVectorGenerator_t& unary_layer_size_vector_generator,
             std::size_t layer_count);
         TextCompleter& set_ephemeral_memory_accumulator_layer_sizes(
-            BinaryLayerSizeVectorGenerator_t binary_layer_size_vector_generator,
+            const BinaryLayerSizeVectorGenerator_t& binary_layer_size_vector_generator,
             std::size_t layer_count);
 
         TextCompleter& set_context_builder_layer_sizes(std::size_t layer_count);
         TextCompleter& set_context_builder_layer_sizes(
-            UnaryLayerSizeVectorGenerator_t unary_layer_size_vector_generator,
+            const UnaryLayerSizeVectorGenerator_t& unary_layer_size_vector_generator,
             std::size_t layer_count);
         TextCompleter& set_context_builder_layer_sizes(
-            BinaryLayerSizeVectorGenerator_t binary_layer_size_vector_generator,
+            const BinaryLayerSizeVectorGenerator_t& binary_layer_size_vector_generator,
             std::size_t layer_count);
 
         TextCompleter& set_word_vector_improviser_layer_sizes(std::size_t layer_count);
         TextCompleter& set_word_vector_improviser_layer_sizes(
-            UnaryLayerSizeVectorGenerator_t unary_layer_size_vector_generator,
+            const UnaryLayerSizeVectorGenerator_t& unary_layer_size_vector_generator,
             std::size_t layer_count);
         TextCompleter& set_word_vector_improviser_layer_sizes(
-            BinaryLayerSizeVectorGenerator_t binary_layer_size_vector_generator,
+            const BinaryLayerSizeVectorGenerator_t& binary_layer_size_vector_generator,
             std::size_t layer_count);
 
         TextCompleter& add_word_vector(const WordVector& added_word_vector);
