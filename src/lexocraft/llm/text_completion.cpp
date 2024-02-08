@@ -109,6 +109,35 @@ namespace lc {
         context_memory = Eigen::VectorXf::Zero(context_memory_size);
     }
 
+    TextCompleter::VectorDatabasePointerCollection_t
+        TextCompleter::get_vector_database_pointers() const {
+        return {
+            .vector_database = vector_database,
+            .alphanumeric_vector_subdatabase = alphanumeric_vector_subdatabase,
+            .digit_vector_subdatabase = digit_vector_subdatabase,
+            .homogeneous_vector_subdatabase = homogeneous_vector_subdatabase,
+            .symbol_vector_subdatabase = symbol_vector_subdatabase,
+            .lowercase_alphanumeric_vector_subdatabase = lowercase_alphanumeric_vector_subdatabase,
+            .lowercase_homogeneous_vector_subdatabase = lowercase_homogeneous_vector_subdatabase,
+        };
+    }
+
+    TextCompleter& TextCompleter::assign_vector_database_pointers(
+        const VectorDatabasePointerCollection_t& vector_database_collection) {
+        vector_database = vector_database_collection.vector_database;
+        alphanumeric_vector_subdatabase =
+            vector_database_collection.alphanumeric_vector_subdatabase;
+        digit_vector_subdatabase = vector_database_collection.digit_vector_subdatabase;
+        homogeneous_vector_subdatabase = vector_database_collection.homogeneous_vector_subdatabase;
+        symbol_vector_subdatabase = vector_database_collection.symbol_vector_subdatabase;
+        lowercase_alphanumeric_vector_subdatabase =
+            vector_database_collection.lowercase_alphanumeric_vector_subdatabase;
+        lowercase_homogeneous_vector_subdatabase =
+            vector_database_collection.lowercase_homogeneous_vector_subdatabase;
+
+        return *this;
+    }
+
     float TextCompleter::flesch_kincaid_level(const std::string& text) {
         std::vector<std::string> words;
         std::vector<std::string> sentences;

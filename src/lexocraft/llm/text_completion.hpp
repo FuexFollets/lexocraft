@@ -78,6 +78,20 @@ namespace lc {
         std::shared_ptr<VectorDatabase> lowercase_alphanumeric_vector_subdatabase;
         std::shared_ptr<VectorDatabase> lowercase_homogeneous_vector_subdatabase;
 
+        struct VectorDatabasePointerCollection_t {
+            std::shared_ptr<VectorDatabase> vector_database;
+            std::shared_ptr<VectorDatabase> alphanumeric_vector_subdatabase;
+            std::shared_ptr<VectorDatabase> digit_vector_subdatabase;
+            std::shared_ptr<VectorDatabase> homogeneous_vector_subdatabase;
+            std::shared_ptr<VectorDatabase> symbol_vector_subdatabase;
+
+            std::shared_ptr<VectorDatabase> lowercase_alphanumeric_vector_subdatabase;
+            std::shared_ptr<VectorDatabase> lowercase_homogeneous_vector_subdatabase;
+        };
+
+        [[nodiscard]] VectorDatabasePointerCollection_t get_vector_database_pointers() const;
+        TextCompleter& assign_vector_database_pointers(const VectorDatabasePointerCollection_t& vector_database_collection);
+
         std::array<DatabaseTypePairElement_t, 4> database_type_pairs {
             {
              {alphanumeric_vector_subdatabase, grammar::Token::Type::Alphanumeric},
