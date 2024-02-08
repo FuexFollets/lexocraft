@@ -31,8 +31,6 @@ namespace lc {
         TextCompleter& add_word_vector(const std::string& word, const Eigen::VectorXf& vector);
         TextCompleter& add_word_vector(const std::string& word, bool random = false);
 
-        TextCompleter& remove_word_vector(const std::string& word);
-
         TextCompleter& save_file(const std::filesystem::path& filepath);
         TextCompleter& load_file(const std::filesystem::path& filepath);
 
@@ -47,6 +45,33 @@ namespace lc {
     ephemeral_memory_fields_sizes.total();
     }
     */
+
+    TextCompleter& TextCompleter::add_word_vector(const WordVector& added_word_vector) {
+        vector_database.add_word(added_word_vector);
+        return create_vector_subdatabases();
+    }
+
+    TextCompleter&
+        TextCompleter::add_word_vector(const std::vector<WordVector>& added_word_vectors) {
+        for (const auto& word_vector: added_word_vectors) {
+            vector_database.add_word(word_vector);
+        }
+
+        return create_vector_subdatabases();
+    }
+
+    TextCompleter& TextCompleter::add_word_vector(const std::string& word,
+                                                  const Eigen::VectorXf& vector) {
+        vector_database.add_word(WordVector(word, vector));
+
+        return create_vector_subdatabases();
+    }
+
+    TextCompleter& TextCompleter::add_word_vector(const std::string& word, bool random) {
+        vector_database.add_word(WordVector(word, random));
+
+        return create_vector_subdatabases();
+    }
 
     // -------------------------- Ephermal Memory Accumulator --------------------------
     TextCompleter& TextCompleter::set_ephemeral_memory_accumulator_layer_sizes(

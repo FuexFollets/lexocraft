@@ -410,8 +410,6 @@ namespace lc {
         TextCompleter& add_word_vector(const std::string& word, const Eigen::VectorXf& vector);
         TextCompleter& add_word_vector(const std::string& word, bool random = false);
 
-        TextCompleter& remove_word_vector(const std::string& word);
-
         TextCompleter& save_file(const std::filesystem::path& filepath);
         TextCompleter& load_file(const std::filesystem::path& filepath);
 
