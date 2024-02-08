@@ -35,6 +35,10 @@ namespace lc {
         return input;
     }
 
+    NeuralNetwork::NeuralNetworkDiff NeuralNetwork::random_diff() const noexcept {
+        return NeuralNetworkDiff(layer_sizes);
+    }
+
     float NeuralNetwork::sigmoid_abs(float value) {
         return 0.5F + value / (2 * (1 + std::abs(value)));
     }

@@ -6,9 +6,9 @@
 #include <filesystem>
 #include <vector>
 
-#include <Eigen/Core>
 #include <cereal/cereal.hpp>
 #include <cereal/types/vector.hpp>
+#include <Eigen/Core>
 
 #include <lexocraft/cereal_eigen.hpp>
 
@@ -84,6 +84,7 @@ namespace lc {
         void train(float cost);
 
         [[nodiscard]] Eigen::VectorXf compute(Eigen::VectorXf input) const noexcept;
+        [[nodiscard]] NeuralNetworkDiff random_diff() const noexcept;
 
         void save_file(const std::filesystem::path& filepath) const;
 
