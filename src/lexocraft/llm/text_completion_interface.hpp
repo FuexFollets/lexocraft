@@ -1,3 +1,8 @@
+#include <fstream>
+
+#include <cereal/cereal.hpp>
+#include <cereal/types/memory.hpp>
+
 #include <lexocraft/llm/text_completion.hpp>
 
 namespace lc {
@@ -71,6 +76,26 @@ namespace lc {
         vector_database.add_word(WordVector(word, random));
 
         return create_vector_subdatabases();
+    }
+
+    TextCompleter& TextCompleter::save_file(const std::filesystem::path& filepath) {
+        std::ofstream file {filepath};
+
+        cereal::BinaryOutputArchive archive {file};
+
+        archive(*this);
+
+        return *this;
+    }
+
+    TextCompleter& TextCompleter::load_file(const std::filesystem::path& filepath) {
+        std::ifstream file {filepath};
+
+        cereal::BinaryInputArchive archive {file};
+
+        archive(*this);
+
+        return *this;
     }
 
     // -------------------------- Ephermal Memory Accumulator --------------------------

@@ -624,24 +624,4 @@ namespace lc {
 
         return *this;
     }
-
-    TextCompleter& TextCompleter::save(const std::filesystem::path& filepath) {
-        std::ofstream file {filepath};
-
-        cereal::BinaryOutputArchive oarchive {file};
-
-        oarchive(*this);
-
-        return *this;
-    }
-
-    TextCompleter& TextCompleter::load(const std::filesystem::path& filepath) {
-        std::ifstream file {filepath};
-
-        cereal::BinaryInputArchive iarchive {file};
-
-        iarchive(*this);
-
-        return *this;
-    }
 } // namespace lc

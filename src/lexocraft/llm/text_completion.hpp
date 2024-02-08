@@ -344,9 +344,6 @@ namespace lc {
 
         TextCompleter& create_vector_subdatabases();
 
-        TextCompleter& save(const std::filesystem::path& filepath);
-        TextCompleter& load(const std::filesystem::path& filepath);
-
         TextCompleter();
         TextCompleter(const TextCompleter&) = default;
         TextCompleter& operator=(const TextCompleter&) = default;
