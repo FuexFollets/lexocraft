@@ -399,6 +399,18 @@ namespace lc {
 
     /********************** End ********************/
 
+    float sentence_count(const std::vector<grammar::Token>& tokens) {
+        std::size_t sentence_count = 0;
+
+        for (const grammar::Token& token: tokens) {
+            if (token.value == "." || token.value == "!" || token.value == "?") {
+                sentence_count++;
+            }
+        }
+
+        return sentence_count;
+    }
+
     float sentence_length_mean(const std::vector<grammar::Token>& tokens) {
         std::size_t token_count = 0;
         std::size_t sentence_count = 0;

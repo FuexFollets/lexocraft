@@ -403,7 +403,7 @@ namespace lc {
             std::size_t layer_count);
 
         TextCompleter& start_new_section(float sentence_length_mean, float sentence_length_stddev,
-                                        float flesch_kincaid_grade);
+                                         float flesch_kincaid_grade);
 
         TextCompleter& add_word_vector(const WordVector& added_word_vector);
         TextCompleter& add_word_vector(const std::vector<WordVector>& added_word_vectors);
@@ -416,6 +416,7 @@ namespace lc {
         std::vector<grammar::Token> tokenize(const std::string& text);
     };
 
+    float sentence_count(const std::vector<grammar::Token>& tokens);
     float sentence_length_mean(const std::vector<grammar::Token>& tokens);
     float sentence_length_stddev(const std::vector<grammar::Token>& tokens);
 } // namespace lc
