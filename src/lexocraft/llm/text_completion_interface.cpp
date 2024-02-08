@@ -6,51 +6,6 @@
 #include <lexocraft/llm/text_completion.hpp>
 
 namespace lc {
-    /*
-        TextCompleter& set_ephemeral_memory_accumulator_layer_sizes(std::size_t layer_count);
-        TextCompleter& set_ephemeral_memory_accumulator_layer_sizes(
-            const UnaryLayerSizeVectorGenerator_t& unary_layer_size_vector_generator,
-            std::size_t layer_count);
-        TextCompleter& set_ephemeral_memory_accumulator_layer_sizes(
-            const BinaryLayerSizeVectorGenerator_t& binary_layer_size_vector_generator,
-            std::size_t layer_count);
-
-        TextCompleter& set_context_builder_layer_sizes(std::size_t layer_count);
-        TextCompleter& set_context_builder_layer_sizes(
-            const UnaryLayerSizeVectorGenerator_t& unary_layer_size_vector_generator,
-            std::size_t layer_count);
-        TextCompleter& set_context_builder_layer_sizes(
-            const BinaryLayerSizeVectorGenerator_t& binary_layer_size_vector_generator,
-            std::size_t layer_count);
-
-        TextCompleter& set_word_vector_improviser_layer_sizes(std::size_t layer_count);
-        TextCompleter& set_word_vector_improviser_layer_sizes(
-            const UnaryLayerSizeVectorGenerator_t& unary_layer_size_vector_generator,
-            std::size_t layer_count);
-        TextCompleter& set_word_vector_improviser_layer_sizes(
-            const BinaryLayerSizeVectorGenerator_t& binary_layer_size_vector_generator,
-            std::size_t layer_count);
-
-        TextCompleter& add_word_vector(const WordVector& added_word_vector);
-        TextCompleter& add_word_vector(const std::vector<WordVector>& added_word_vectors);
-        TextCompleter& add_word_vector(const std::string& word, const Eigen::VectorXf& vector);
-        TextCompleter& add_word_vector(const std::string& word, bool random = false);
-
-        TextCompleter& save_file(const std::filesystem::path& filepath);
-        TextCompleter& load_file(const std::filesystem::path& filepath);
-
-        std::vector<grammar::Token> tokenize(const std::string& text);
-        */
-
-    /*
-    TextCompleter& TextCompleter::set_ephemeral_memory_accumulator_layer_sizes(
-        BinaryLayerSizeVectorGenerator_t binary_layer_size_vector_generator, std::size_t
-    layer_count) { const std::size_t ephemeral_memory_input_layer_size =
-    ephemeral_memory_fields_sizes.total(); const std::size_t ephemeral_memory_output_layer_size =
-    ephemeral_memory_fields_sizes.total();
-    }
-    */
-
     TextCompleter& TextCompleter::add_word_vector(const WordVector& added_word_vector) {
         vector_database.add_word(added_word_vector);
         return create_vector_subdatabases();
@@ -96,6 +51,10 @@ namespace lc {
         archive(*this);
 
         return *this;
+    }
+
+    std::vector<grammar::Token> TextCompleter::tokenize(const std::string& text) {
+        return grammar::tokenize(text, vector_database);
     }
 
     // -------------------------- Ephermal Memory Accumulator --------------------------
