@@ -16,6 +16,9 @@
 #include <lexocraft/neural_network/neural_network.hpp>
 
 namespace lc {
+    using UnaryLayerSizeVectorGenerator_t = std::function<std::size_t(std::size_t)>;
+    using BinaryLayerSizeVectorGenerator_t = std::function<std::size_t(std::size_t, std::size_t)>;
+
     class TextCompleter {
         public:
 
@@ -377,23 +380,29 @@ namespace lc {
         using BinaryLayerSizeVectorGenerator_t =
             std::function<std::size_t(std::size_t, std::size_t)>;
 
-        TextCompleter& set_ephemeral_memory_accumulator_layer_sizes();
+        TextCompleter& set_ephemeral_memory_accumulator_layer_sizes(std::size_t layer_count);
         TextCompleter& set_ephemeral_memory_accumulator_layer_sizes(
-            UnaryLayerSizeVectorGenerator_t unary_layer_size_vector_generator);
+            UnaryLayerSizeVectorGenerator_t unary_layer_size_vector_generator,
+            std::size_t layer_count);
         TextCompleter& set_ephemeral_memory_accumulator_layer_sizes(
-            BinaryLayerSizeVectorGenerator_t binary_layer_size_vector_generator);
+            BinaryLayerSizeVectorGenerator_t binary_layer_size_vector_generator,
+            std::size_t layer_count);
 
-        TextCompleter& set_context_builder_layer_sizes();
+        TextCompleter& set_context_builder_layer_sizes(std::size_t layer_count);
         TextCompleter& set_context_builder_layer_sizes(
-            UnaryLayerSizeVectorGenerator_t unary_layer_size_vector_generator);
+            UnaryLayerSizeVectorGenerator_t unary_layer_size_vector_generator,
+            std::size_t layer_count);
         TextCompleter& set_context_builder_layer_sizes(
-            BinaryLayerSizeVectorGenerator_t binary_layer_size_vector_generator);
+            BinaryLayerSizeVectorGenerator_t binary_layer_size_vector_generator,
+            std::size_t layer_count);
 
-        TextCompleter& set_word_vector_improviser_layer_sizes();
+        TextCompleter& set_word_vector_improviser_layer_sizes(std::size_t layer_count);
         TextCompleter& set_word_vector_improviser_layer_sizes(
-            UnaryLayerSizeVectorGenerator_t unary_layer_size_vector_generator);
+            UnaryLayerSizeVectorGenerator_t unary_layer_size_vector_generator,
+            std::size_t layer_count);
         TextCompleter& set_word_vector_improviser_layer_sizes(
-            BinaryLayerSizeVectorGenerator_t binary_layer_size_vector_generator);
+            BinaryLayerSizeVectorGenerator_t binary_layer_size_vector_generator,
+            std::size_t layer_count);
 
         TextCompleter& add_word_vector(const WordVector& added_word_vector);
         TextCompleter& add_word_vector(const std::vector<WordVector>& added_word_vectors);
