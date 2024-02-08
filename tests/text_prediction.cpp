@@ -75,6 +75,12 @@ int main(int argc, char** argv) {
     // ------------------------- Predict -------------------------
 
     for (const lc::grammar::Token& token: tokens) {
+        completer.set_word_vector_improviser_nn(
+            {improviser_input_size, 200, 200, improviser_output_size}, true);
+
+        completer.set_ephemeral_memory_accmulator_nn(
+            {predictor_input_size, 200, 200, predictor_output_size}, true);
+
         std::cout << "\nToken: " << token << "\n";
 
         lc::TextCompleter::EphemeralMemoryNNOutput output {completer.predict_next_token_value(
@@ -83,6 +89,8 @@ int main(int argc, char** argv) {
 
         std::cout << "Ephemeral memory: " << lc::fancy_eigen_vector_str(output.ephemeral_memory)
                   << "\n";
+        std::cout << "Predicted word vector value: "
+                  << lc::fancy_eigen_vector_str(output.word_vector_value) << "\n";
 
         const std::vector<lc::VectorDatabase::SearchResult> results =
             completer.vector_database.search_closest_vector_value_n(output.word_vector_value, 10);
