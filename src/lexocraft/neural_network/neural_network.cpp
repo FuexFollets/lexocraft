@@ -39,6 +39,16 @@ namespace lc {
         return 0.5F + value / (2 * (1 + std::abs(value)));
     }
 
+    void NeuralNetwork::randomize() {
+        for (auto& weight: weights) {
+            weight = Eigen::MatrixXf::Random(weight.rows(), weight.cols());
+        }
+
+        for (auto& bias: biases) {
+            bias = Eigen::VectorXf::Random(bias.rows());
+        }
+    }
+
     void NeuralNetwork::modify(NeuralNetwork::NeuralNetworkDiff diff, bool apply_biases,
                                bool apply_weights) {
         if (apply_biases) {

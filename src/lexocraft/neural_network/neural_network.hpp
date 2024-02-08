@@ -78,6 +78,7 @@ namespace lc {
 
         explicit NeuralNetwork(std::vector<std::size_t> layer_sizes, bool randomize = true);
 
+        void randomize();
         void modify(NeuralNetworkDiff diff, bool apply_biases = true, bool apply_weights = true);
 
         void train(float cost);
