@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include <nanobench.h>
+
 #include <lexocraft/fancy_eigen_print.hpp>
 #include <lexocraft/llm/vector_database.hpp>
 
@@ -24,7 +26,7 @@ int main(int argc, char** argv) {
     if (args.at(0) == "create") {
         const std::string path_from = args.at(1);
         const std::string path_to = args.at(2);
-        const int total_trees = (args.size() > 4) ? std::stoi(args.at(3)) : 50;
+        const int total_trees = (args.size() > 3) ? std::stoi(args.at(3)) : 10;
 
         std::ifstream file {path_from};
         std::vector<lc::WordVector> words;
@@ -41,7 +43,9 @@ int main(int argc, char** argv) {
         lc::VectorDatabase database {words};
 
         std::cout << "Building Annoy index\n";
-        database.build_annoy_index(total_trees);
+        ankerl::nanobench::Bench().run("build_annoy_index", [&] {
+            ankerl::nanobench::doNotOptimizeAway(database.build_annoy_index(total_trees));
+        });
         std::cout << "Annoy index built\n";
 
         database.save_file(path_to);

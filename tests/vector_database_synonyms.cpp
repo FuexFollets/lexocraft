@@ -66,7 +66,10 @@ int main(int argc, char** argv) {
         database = lc::VectorDatabase {words};
 
         std::cout << "Building Annoy index\n";
-        database.build_annoy_index(2);
+        ankerl::nanobench::Bench().run("build_annoy_index", [&] {
+            database.build_annoy_index(10);
+        });
+
         std::cout << "Annoy index built\n";
     }
 
