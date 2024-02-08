@@ -17,14 +17,14 @@ namespace lc {
     }
 
     TextCompleter& TextCompleter::add_word_vector(const WordVector& added_word_vector) {
-        vector_database.add_word(added_word_vector);
+        vector_database->add_word(added_word_vector);
         return create_vector_subdatabases();
     }
 
     TextCompleter&
         TextCompleter::add_word_vector(const std::vector<WordVector>& added_word_vectors) {
         for (const auto& word_vector: added_word_vectors) {
-            vector_database.add_word(word_vector);
+            vector_database->add_word(word_vector);
         }
 
         return create_vector_subdatabases();
@@ -32,13 +32,13 @@ namespace lc {
 
     TextCompleter& TextCompleter::add_word_vector(const std::string& word,
                                                   const Eigen::VectorXf& vector) {
-        vector_database.add_word(WordVector(word, vector));
+        vector_database->add_word(WordVector(word, vector));
 
         return create_vector_subdatabases();
     }
 
     TextCompleter& TextCompleter::add_word_vector(const std::string& word, bool random) {
-        vector_database.add_word(WordVector(word, random));
+        vector_database->add_word(WordVector(word, random));
 
         return create_vector_subdatabases();
     }
@@ -64,7 +64,7 @@ namespace lc {
     }
 
     std::vector<grammar::Token> TextCompleter::tokenize(const std::string& text) {
-        return grammar::tokenize(text, vector_database);
+        return grammar::tokenize(text, *vector_database);
     }
 
     // -------------------------- Ephermal Memory Accumulator --------------------------

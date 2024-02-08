@@ -2,6 +2,7 @@
 #include <cctype>
 #include <cstddef>
 #include <functional>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -23,7 +24,7 @@ namespace lc {
         const context_builder_output_sizes_t& context_builder_output_sizes,
         const word_vector_improviser_fields_sizes_t& word_vector_improviser_fields_sizes,
         const word_vector_improviser_output_sizes_t& word_vector_improviser_output_sizes) :
-        vector_database {std::move(vector_database)},
+        vector_database {std::make_shared<VectorDatabase>(std::move(vector_database))},
         ephemeral_memory_fields_sizes {ephemeral_memory_fields_sizes},
         ephemeral_memory_output_sizes {ephemeral_memory_output_sizes},
         context_builder_fields_sizes {context_builder_fields_sizes},
@@ -69,7 +70,7 @@ namespace lc {
 
         // clang-format off
         ephemeral_memory_size {ephemeral_memory_size},
-        context_memory_size {context_memory_size}, vector_database {std::move(vector_database)},
+        context_memory_size {context_memory_size}, vector_database {std::make_shared<VectorDatabase>(std::move(vector_database))},
         // clang-format on
 
         ephemeral_memory_fields_sizes {ephemeral_memory_fields_sizes_t {
@@ -466,7 +467,7 @@ namespace lc {
     std::tuple<TextCompleter::SearchedWordVector, grammar::Token::Type>
         TextCompleter::find_word_vector(const std::string& word) {
         for (const auto& [database, type]: database_type_pairs) {
-            if (const std::optional<WordVector> word_vector = database.search_from_map(word)) {
+            if (const std::optional<WordVector> word_vector = database->search_from_map(word)) {
                 return {
                     {word_vector.value(), false, false},
                     type
@@ -475,7 +476,7 @@ namespace lc {
         }
 
         for (const auto& [database, type]: lowercase_database_type_pairs) {
-            if (const std::optional<WordVector> word_vector = database.search_from_map(word)) {
+            if (const std::optional<WordVector> word_vector = database->search_from_map(word)) {
                 return {
                     {word_vector.value(), true, false},
                     type
@@ -486,7 +487,7 @@ namespace lc {
         for (float threshold = 0.9F; threshold >= -0.1F; threshold -= 0.1F) {
             for (const auto& [database, type]: database_type_pairs) {
                 const std::vector<VectorDatabase::SearchResult> word_vectors =
-                    database.rapidfuzz_search_closest_n(word, 10, threshold);
+                    database->rapidfuzz_search_closest_n(word, 10, threshold);
 
                 if (!word_vectors.empty()) {
                     return {
@@ -588,12 +589,12 @@ namespace lc {
     /********************** Vector Database ********************/
 
     TextCompleter& TextCompleter::set_vector_database(VectorDatabase&& vector_database) {
-        this->vector_database = std::move(vector_database);
+        this->vector_database = std::make_shared<VectorDatabase>(std::move(vector_database));
         return *this;
     }
 
     TextCompleter& TextCompleter::create_vector_subdatabases() {
-        for (const WordVector& word_vector: vector_database.words) {
+        for (const WordVector& word_vector: vector_database->words) {
             const grammar::Token::Type token_type = grammar::token_type(word_vector.word);
             std::string lowercase_word;
 
@@ -603,26 +604,26 @@ namespace lc {
 
             switch (token_type) {
                 case grammar::Token::Type::Alphanumeric: {
-                    alphanumeric_vector_subdatabase.add_word(word_vector);
-                    lowercase_alphanumeric_vector_subdatabase.add_word(
+                    alphanumeric_vector_subdatabase->add_word(word_vector);
+                    lowercase_alphanumeric_vector_subdatabase->add_word(
                         {lowercase_word, word_vector.vector});
                     break;
                 }
 
                 case grammar::Token::Type::Digit: {
-                    digit_vector_subdatabase.add_word(word_vector);
+                    digit_vector_subdatabase->add_word(word_vector);
                     break;
                 }
 
                 case grammar::Token::Type::Homogeneous: {
-                    homogeneous_vector_subdatabase.add_word(word_vector);
-                    lowercase_homogeneous_vector_subdatabase.add_word(
+                    homogeneous_vector_subdatabase->add_word(word_vector);
+                    lowercase_homogeneous_vector_subdatabase->add_word(
                         {lowercase_word, word_vector.vector});
                     break;
                 }
 
                 case grammar::Token::Type::Symbol: {
-                    symbol_vector_subdatabase.add_word(word_vector);
+                    symbol_vector_subdatabase->add_word(word_vector);
                     break;
                 }
             }

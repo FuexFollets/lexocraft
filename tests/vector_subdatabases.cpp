@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include <lexocraft/fancy_eigen_print.hpp>
 #include <lexocraft/llm/text_completion.hpp>
 #include <lexocraft/llm/vector_database.hpp>
@@ -31,7 +30,8 @@ int main(int argc, char** argv) {
         completer.create_vector_subdatabases();
         std::cout << "Subvector databases created\n";
 
-        std::cout << "First word: " << completer.symbol_vector_subdatabase.words.at(0).word << "\n";
+        std::cout << "First word: " << completer.symbol_vector_subdatabase->words.at(0).word
+                  << "\n";
 
         std::cout << "Saving to path: " << stored_path << "\n";
         completer.save_file(stored_path);
@@ -68,7 +68,7 @@ int main(int argc, char** argv) {
         }
         */
 
-        for (const auto& word: completer.homogeneous_vector_subdatabase.words) {
+        for (const auto& word: completer.homogeneous_vector_subdatabase->words) {
             std::cout << word.word << "\n";
         }
     }

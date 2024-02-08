@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
     completer.create_vector_subdatabases();
 
     IC();
-    IC(completer.homogeneous_vector_subdatabase.word_map.size());
+    IC(completer.homogeneous_vector_subdatabase->word_map.size());
 
     // ------------------------- Text -------------------------
 
@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
     std::cout << "\n\nText: " << file_contents << "\n";
 
     const std::vector<lc::grammar::Token> tokens =
-        lc::grammar::tokenize(file_contents, completer.vector_database);
+        lc::grammar::tokenize(file_contents, *completer.vector_database);
 
     const float sentence_length_mean_ = 10.0F;
     const float sentence_length_stddev_ = 7.0F;
@@ -93,7 +93,7 @@ int main(int argc, char** argv) {
                   << lc::fancy_eigen_vector_str(output.word_vector_value) << "\n";
 
         const std::vector<lc::VectorDatabase::SearchResult> results =
-            completer.vector_database.search_closest_vector_value_n(output.word_vector_value, 10);
+            completer.vector_database->search_closest_vector_value_n(output.word_vector_value, 10);
 
         std::cout << "Closest " << results.size() << " results\n";
 

@@ -22,7 +22,8 @@ namespace lc {
     class TextCompleter {
         public:
 
-        using DatabaseTypePairElement_t = std::tuple<VectorDatabase&, grammar::Token::Type>;
+        using DatabaseTypePairElement_t =
+            std::tuple<std::shared_ptr<VectorDatabase>, grammar::Token::Type>;
 
         struct SearchedWordVector {
             WordVector word_vector;
@@ -67,15 +68,15 @@ namespace lc {
         NeuralNetwork context_builder;
         NeuralNetwork word_vector_improviser;
 
-        VectorDatabase vector_database;
+        std::shared_ptr<VectorDatabase> vector_database;
 
-        VectorDatabase alphanumeric_vector_subdatabase {};
-        VectorDatabase digit_vector_subdatabase {};
-        VectorDatabase homogeneous_vector_subdatabase {};
-        VectorDatabase symbol_vector_subdatabase {};
+        std::shared_ptr<VectorDatabase> alphanumeric_vector_subdatabase;
+        std::shared_ptr<VectorDatabase> digit_vector_subdatabase;
+        std::shared_ptr<VectorDatabase> homogeneous_vector_subdatabase;
+        std::shared_ptr<VectorDatabase> symbol_vector_subdatabase;
 
-        VectorDatabase lowercase_alphanumeric_vector_subdatabase {};
-        VectorDatabase lowercase_homogeneous_vector_subdatabase {};
+        std::shared_ptr<VectorDatabase> lowercase_alphanumeric_vector_subdatabase;
+        std::shared_ptr<VectorDatabase> lowercase_homogeneous_vector_subdatabase;
 
         std::array<DatabaseTypePairElement_t, 4> database_type_pairs {
             {
