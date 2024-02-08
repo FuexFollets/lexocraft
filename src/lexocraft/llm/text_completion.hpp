@@ -304,6 +304,7 @@ namespace lc {
             const std::vector<VectorDatabase::SearchResult>& word_vectors_search_result);
 
         TextCompleter& reset_ephemeral_memory();
+        TextCompleter& reset_context_memory();
 
         Eigen::VectorXf accumulate_context_memory(float sentence_length_mean,
                                                   float sentence_length_stddev,
