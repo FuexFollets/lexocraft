@@ -1,6 +1,7 @@
 #ifndef LEXOCRAFT_TEXT_COMPLETION_TRAINING_HPP
 #define LEXOCRAFT_TEXT_COMPLETION_TRAINING_HPP
 
+#include <memory>
 #include <optional>
 #include <string>
 
@@ -38,19 +39,26 @@ namespace lc {
 
         std::optional<TextCompleter> text_completer;
 
-        float calculate_prediction_costs(
+        static float calculate_prediction_costs(
+            const std::shared_ptr<TextCompleter>& text_completer,
             const std::string& training_data_section,
-            const std::optional<CostWeightCoefficients>& cost_weight_coefficients);
-        float calculate_prediction_costs(
+            const std::optional<CostWeightCoefficients>& cost_weight_coefficients = std::nullopt);
+
+        static float calculate_prediction_costs(
+            const std::shared_ptr<TextCompleter>& text_completer,
             const std::vector<std::string>& training_data_sections,
-            const std::optional<CostWeightCoefficients>& cost_weight_coefficients);
+            const std::optional<CostWeightCoefficients>& cost_weight_coefficients = std::nullopt);
 
         TrainingModification train_neural_network(
             const std::vector<std::string>& training_data_sections,
             const std::optional<CostWeightCoefficients>& cost_weight_coefficients = std::nullopt);
-        TrainingModification train_neural_network(const std::string& training_data);
 
-        TextCompleter& apply_training_modification(const TrainingModification& modification);
+        TrainingModification train_neural_network(
+            const std::string& training_data,
+            const std::optional<CostWeightCoefficients>& cost_weight_coefficients = std::nullopt);
+
+        static TextCompleter& apply_training_modification(TextCompleter& text_completer,
+                                                          const TrainingModification& modification);
     };
 } // namespace lc
 

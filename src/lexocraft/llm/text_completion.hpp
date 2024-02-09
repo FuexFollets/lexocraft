@@ -384,6 +384,8 @@ namespace lc {
                                std::size_t ephemeral_memory_size = 1000,
                                std::size_t context_memory_size = 500);
 
+        TextCompleter(std::size_t ephemeral_memory_size, std::size_t context_memory_size);
+
         // Based on the previous neural network layer size, it creates the next neural network layer
         // size
         using UnaryLayerSizeVectorGenerator_t = std::function<std::size_t(std::size_t)>;
