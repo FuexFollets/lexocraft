@@ -35,6 +35,11 @@ int main(int argc, char** argv) {
 
     lc::TextCompleter completer {std::move(vector_database), 500, 500};
 
+    completer.create_vector_subdatabases();
+
+    IC(completer.vector_database->word_map.at("test").word);
+    IC(completer.lowercase_homogeneous_vector_subdatabase->word_map.contains("test"));
+
     const std::size_t improviser_input_size = completer.word_vector_improviser_fields_sizes.total();
     const std::size_t improviser_output_size =
         completer.word_vector_improviser_output_sizes.total();
@@ -47,8 +52,6 @@ int main(int argc, char** argv) {
 
     completer.set_ephemeral_memory_accmulator_nn(
         {predictor_input_size, 200, 200, predictor_output_size}, true);
-
-    completer.create_vector_subdatabases();
 
     IC();
     IC(completer.homogeneous_vector_subdatabase->word_map.size());
