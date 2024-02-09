@@ -1,4 +1,3 @@
-#include <bit>
 #include <fstream>
 #include <functional>
 #include <optional>
@@ -10,6 +9,7 @@
 #include <cereal/types/vector.hpp>
 #include <rapidfuzz/fuzz.hpp>
 #include <tsl/robin_map.h>
+#include <icecream.hpp>
 
 #include <lexocraft/cereal_eigen.hpp>
 #include <lexocraft/llm/vector_database.hpp>

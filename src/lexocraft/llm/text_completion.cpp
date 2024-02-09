@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cstddef>
+#include <cstdlib>
 #include <functional>
 #include <memory>
 #include <string>
@@ -136,6 +137,28 @@ namespace lc {
             vector_database_collection.lowercase_homogeneous_vector_subdatabase;
 
         return *this;
+    }
+
+    std::array<TextCompleter::DatabaseTypePairElement_t, 4>
+        TextCompleter::get_database_type_pairs() const {
+        return {
+            {
+             {alphanumeric_vector_subdatabase, grammar::Token::Type::Alphanumeric},
+             {digit_vector_subdatabase, grammar::Token::Type::Digit},
+             {homogeneous_vector_subdatabase, grammar::Token::Type::Homogeneous},
+             {symbol_vector_subdatabase, grammar::Token::Type::Symbol},
+             }
+        };
+    }
+
+    std::array<TextCompleter::DatabaseTypePairElement_t, 2>
+        TextCompleter::get_lowercase_database_type_pairs() const {
+        return {
+            {
+             {lowercase_alphanumeric_vector_subdatabase, grammar::Token::Type::Alphanumeric},
+             {lowercase_homogeneous_vector_subdatabase, grammar::Token::Type::Homogeneous},
+             }
+        };
     }
 
     float TextCompleter::flesch_kincaid_level(const std::string& text) {
@@ -495,7 +518,7 @@ namespace lc {
 
     std::tuple<TextCompleter::SearchedWordVector, grammar::Token::Type>
         TextCompleter::find_word_vector(const std::string& word) {
-        for (const auto& [database, type]: database_type_pairs) {
+        for (const auto& [database, type]: get_database_type_pairs()) {
             if (const std::optional<WordVector> word_vector = database->search_from_map(word)) {
                 return {
                     {word_vector.value(), false, false},
@@ -504,7 +527,7 @@ namespace lc {
             }
         }
 
-        for (const auto& [database, type]: lowercase_database_type_pairs) {
+        for (const auto& [database, type]: get_lowercase_database_type_pairs()) {
             if (const std::optional<WordVector> word_vector = database->search_from_map(word)) {
                 return {
                     {word_vector.value(), true, false},
@@ -514,7 +537,7 @@ namespace lc {
         }
 
         for (float threshold = 0.9F; threshold >= -0.1F; threshold -= 0.1F) {
-            for (const auto& [database, type]: database_type_pairs) {
+            for (const auto& [database, type]: get_database_type_pairs()) {
                 const std::vector<VectorDatabase::SearchResult> word_vectors =
                     database->rapidfuzz_search_closest_n(word, 10, threshold);
 
@@ -623,6 +646,13 @@ namespace lc {
     }
 
     TextCompleter& TextCompleter::create_vector_subdatabases() {
+        alphanumeric_vector_subdatabase = std::make_shared<VectorDatabase>();
+        digit_vector_subdatabase = std::make_shared<VectorDatabase>();
+        homogeneous_vector_subdatabase = std::make_shared<VectorDatabase>();
+        symbol_vector_subdatabase = std::make_shared<VectorDatabase>();
+        lowercase_alphanumeric_vector_subdatabase = std::make_shared<VectorDatabase>();
+        lowercase_homogeneous_vector_subdatabase = std::make_shared<VectorDatabase>();
+
         for (const WordVector& word_vector: vector_database->words) {
             const grammar::Token::Type token_type = grammar::token_type(word_vector.word);
             std::string lowercase_word;

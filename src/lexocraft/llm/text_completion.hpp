@@ -92,21 +92,9 @@ namespace lc {
         [[nodiscard]] VectorDatabasePointerCollection_t get_vector_database_pointers() const;
         TextCompleter& assign_vector_database_pointers(const VectorDatabasePointerCollection_t& vector_database_collection);
 
-        std::array<DatabaseTypePairElement_t, 4> database_type_pairs {
-            {
-             {alphanumeric_vector_subdatabase, grammar::Token::Type::Alphanumeric},
-             {digit_vector_subdatabase, grammar::Token::Type::Digit},
-             {homogeneous_vector_subdatabase, grammar::Token::Type::Homogeneous},
-             {symbol_vector_subdatabase, grammar::Token::Type::Symbol},
-             }
-        };
+        [[nodiscard]] std::array<DatabaseTypePairElement_t, 4> get_database_type_pairs() const;
 
-        std::array<DatabaseTypePairElement_t, 2> lowercase_database_type_pairs {
-            {
-             {lowercase_alphanumeric_vector_subdatabase, grammar::Token::Type::Alphanumeric},
-             {lowercase_homogeneous_vector_subdatabase, grammar::Token::Type::Homogeneous},
-             }
-        };
+        [[nodiscard]] std::array<DatabaseTypePairElement_t, 2> get_lowercase_database_type_pairs() const;
 
         struct NNFieldsInput {
             virtual ~NNFieldsInput() = default; // Abstract
