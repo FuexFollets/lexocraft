@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(LexoCraft)
 
-option(USE_NANOBENCH "Use nanobench" OFF)
+option(USE_NANOBENCH "Use nanobench" ON)
 option(COMPILE_TESTS "Compile tests" OFF)
 option(USE_GDB "Use GDB" OFF)
 
