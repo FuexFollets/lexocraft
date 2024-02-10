@@ -98,8 +98,9 @@ namespace lc {
         TrinaryLayerSizeVectorGenerator_t trinary_layer_size_vector_generator =
             [&layer_count](std::size_t layer_number, std::size_t input_layer_size,
                            std::size_t output_layer_size) {
-                const float slope = static_cast<float>(output_layer_size - input_layer_size) /
-                                    static_cast<float>(layer_count);
+                const float slope =
+                    (static_cast<float>(output_layer_size) - static_cast<float>(input_layer_size)) /
+                    static_cast<float>(layer_count);
 
                 return slope * layer_number + input_layer_size;
             };
@@ -137,8 +138,9 @@ namespace lc {
         TrinaryLayerSizeVectorGenerator_t trinary_layer_size_vector_generator =
             [&layer_count](std::size_t layer_number, std::size_t input_layer_size,
                            std::size_t output_layer_size) {
-                const float slope = static_cast<float>(output_layer_size - input_layer_size) /
-                                    static_cast<float>(layer_count);
+                const float slope =
+                    (static_cast<float>(output_layer_size) - static_cast<float>(input_layer_size)) /
+                    static_cast<float>(layer_count);
 
                 return slope * layer_number + input_layer_size;
             };
@@ -168,9 +170,6 @@ namespace lc {
 
         layer_sizes.push_back(word_vector_improviser_output_layer_size);
 
-        IC();
-        IC(layer_sizes);
-
         word_vector_improviser = NeuralNetwork {layer_sizes};
 
         return *this;
@@ -182,8 +181,9 @@ namespace lc {
         TrinaryLayerSizeVectorGenerator_t trinary_layer_size_vector_generator =
             [&layer_count](std::size_t layer_number, std::size_t input_layer_size,
                            std::size_t output_layer_size) {
-                const float slope = static_cast<float>(output_layer_size - input_layer_size) /
-                                    static_cast<float>(layer_count);
+                const float slope =
+                    (static_cast<float>(output_layer_size) - static_cast<float>(input_layer_size)) /
+                    static_cast<float>(layer_count);
 
                 return slope * layer_number + input_layer_size;
             };
