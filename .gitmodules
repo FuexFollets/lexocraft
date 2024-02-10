@@ -29,3 +29,6 @@
 [submodule "lib/nanobench"]
 	path = lib/nanobench
 	url = https://github.com/martinus/nanobench.git
+[submodule "lib/thread-pool"]
+	path = lib/thread-pool
+	url = https://github.com/bshoshany/thread-pool.git
