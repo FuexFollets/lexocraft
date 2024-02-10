@@ -1,14 +1,17 @@
-#include <Eigen/Eigen>
-#include <lexocraft/neural_network/neural_network.hpp>
+#include <algorithm>
 #include <vector>
+
+#include <Eigen/Eigen>
+#include <icecream.hpp>
+
+#include <lexocraft/neural_network/neural_network.hpp>
 
 namespace lc {
     // Give each random float values between -1 and 1.
     NeuralNetwork::NeuralNetworkDiff::NeuralNetworkDiff(
         const std::vector<std::size_t>& layer_sizes) :
-        weight_diffs(layer_sizes.size() - 1),
-        bias_diffs(layer_sizes.size() - 1), layer_sizes(layer_sizes) {
-
+        weight_diffs(std::max(std::size_t {0}, layer_sizes.size() - 1)),
+        bias_diffs(std::max(std::size_t {0}, layer_sizes.size() - 1)), layer_sizes {layer_sizes} {
         for (std::size_t index {0}; index < layer_sizes.size() - 1; index++) {
             weight_diffs [index] =
                 Eigen::MatrixXf::Random(layer_sizes [index + 1], layer_sizes [index]);
