@@ -1,6 +1,5 @@
 #include <ios>
 #include <iostream>
-#include <memory>
 
 #include <lexocraft/fancy_eigen_print.hpp>
 #include <lexocraft/llm/text_completion.hpp>

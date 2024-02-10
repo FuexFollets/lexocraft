@@ -14,6 +14,7 @@ set(TEST_FILES
     text_prediction
     vector_database_synonyms
     vector_database_serialization
+    create_text_completer
 )
 
 if(COMPILE_TESTS)
