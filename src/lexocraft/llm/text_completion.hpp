@@ -35,6 +35,7 @@ namespace lc {
         void serialize(Archive& archive) {
             // clang-format off
             archive(ephemeral_memory, ephemeral_memory_size, context_memory, context_memory_size,
+
                     ephemeral_memory_accmulator, context_builder, word_vector_improviser,
 
                     vector_database,
@@ -90,11 +91,13 @@ namespace lc {
         };
 
         [[nodiscard]] VectorDatabasePointerCollection_t get_vector_database_pointers() const;
-        TextCompleter& assign_vector_database_pointers(const VectorDatabasePointerCollection_t& vector_database_collection);
+        TextCompleter& assign_vector_database_pointers(
+            const VectorDatabasePointerCollection_t& vector_database_collection);
 
         [[nodiscard]] std::array<DatabaseTypePairElement_t, 4> get_database_type_pairs() const;
 
-        [[nodiscard]] std::array<DatabaseTypePairElement_t, 2> get_lowercase_database_type_pairs() const;
+        [[nodiscard]] std::array<DatabaseTypePairElement_t, 2>
+            get_lowercase_database_type_pairs() const;
 
         struct NNFieldsInput {
             virtual ~NNFieldsInput() = default; // Abstract
@@ -347,7 +350,7 @@ namespace lc {
 
         TextCompleter& create_vector_subdatabases();
 
-        TextCompleter();
+        TextCompleter() = default;
         TextCompleter(const TextCompleter&) = default;
         TextCompleter& operator=(const TextCompleter&) = default;
         TextCompleter(TextCompleter&&) = default;
@@ -374,37 +377,24 @@ namespace lc {
 
         TextCompleter(std::size_t ephemeral_memory_size, std::size_t context_memory_size);
 
-        // Based on the previous neural network layer size, it creates the next neural network layer
-        // size
-        using UnaryLayerSizeVectorGenerator_t = std::function<std::size_t(std::size_t)>;
-
         // Based on the first and last neural network layer size, it creates the next neural network
         // layer size
-        using BinaryLayerSizeVectorGenerator_t =
-            std::function<std::size_t(std::size_t, std::size_t)>;
+        using TrinaryLayerSizeVectorGenerator_t = std::function<std::size_t(
+            std::size_t layer_number, std::size_t first_layer_size, std::size_t last_layer_size)>;
 
         TextCompleter& set_ephemeral_memory_accumulator_layer_sizes(std::size_t layer_count);
         TextCompleter& set_ephemeral_memory_accumulator_layer_sizes(
-            const UnaryLayerSizeVectorGenerator_t& unary_layer_size_vector_generator,
-            std::size_t layer_count);
-        TextCompleter& set_ephemeral_memory_accumulator_layer_sizes(
-            const BinaryLayerSizeVectorGenerator_t& binary_layer_size_vector_generator,
+            const TrinaryLayerSizeVectorGenerator_t& trinary_layer_size_vector_generator,
             std::size_t layer_count);
 
         TextCompleter& set_context_builder_layer_sizes(std::size_t layer_count);
         TextCompleter& set_context_builder_layer_sizes(
-            const UnaryLayerSizeVectorGenerator_t& unary_layer_size_vector_generator,
-            std::size_t layer_count);
-        TextCompleter& set_context_builder_layer_sizes(
-            const BinaryLayerSizeVectorGenerator_t& binary_layer_size_vector_generator,
+            const TrinaryLayerSizeVectorGenerator_t& trinary_layer_size_vector_generator,
             std::size_t layer_count);
 
         TextCompleter& set_word_vector_improviser_layer_sizes(std::size_t layer_count);
         TextCompleter& set_word_vector_improviser_layer_sizes(
-            const UnaryLayerSizeVectorGenerator_t& unary_layer_size_vector_generator,
-            std::size_t layer_count);
-        TextCompleter& set_word_vector_improviser_layer_sizes(
-            const BinaryLayerSizeVectorGenerator_t& binary_layer_size_vector_generator,
+            const TrinaryLayerSizeVectorGenerator_t& trinary_layer_size_vector_generator,
             std::size_t layer_count);
 
         TextCompleter& start_new_section(float sentence_length_mean, float sentence_length_stddev,
