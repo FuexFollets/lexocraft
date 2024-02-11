@@ -3,12 +3,16 @@
 #include <iostream>
 #include <memory>
 #include <optional>
+#include <sstream>
 #include <string>
 #include <vector>
 
+#include <cereal/archives/binary.hpp>
+#include <cereal/cereal.hpp>
 #include <icecream.hpp>
 #include <nanobench.h>
 
+#include <lexocraft/fancy_eigen_print.hpp>
 #include <lexocraft/llm/text_completion.hpp>
 #include <lexocraft/llm/vector_database.hpp>
 
@@ -108,16 +112,56 @@ int main(const int argc, const char** argv) {
                     .epochs(1)
                     .epochIterations(1)
                     .run(name + "(t=5)", [&] { vector_subdatabase->build_annoy_index(5); });
-
-            /*
-            const auto elapsed_measure = ankerl::nanobench::Result::Measure::elapsed;
-            std::cout << "Annoy index built in " << result.results().at(0).maximum(elapsed_measure)
-                      << " seconds\n";
-                      */
         }
     }
 
     std::cout << "Saving text completer to file: " << output_path << "\n";
 
+    IC();
+    IC(text_completer.word_vector_improviser_fields_sizes.word_vector_search_result);
+
+    const auto result = text_completer.predict_next_token_value(
+        lc::grammar::Token("sam", lc::grammar::Token::Type::Alphanumeric, false), 10, 10, 10, 10);
+
+    IC(lc::fancy_eigen_vector_str(result.word_vector_value));
+    IC(result.is_end);
+
+    // ---------------------------- Test Serialization ----------------------------
+
+    std::cout << "Testing serialization\n";
+
+    std::stringstream text_completer_stream;
+
+    cereal::BinaryOutputArchive output_archive {text_completer_stream};
+
+    IC();
+    std::cout << "Serializing text completer\n";
+    output_archive(text_completer);
+
+    std::cout << "Getting bytes from text completer\n";
+    const std::string text_completer_serialized = text_completer_stream.str();
+    std::cout << "Text completer serialized\n";
+
+    cereal::BinaryInputArchive input_archive {text_completer_stream};
+
+    IC();
+    std::cout << "Deserializing text completer\n";
+    input_archive(text_completer);
+    std::cout << "Text completer deserialized\n";
+
+    std::stringstream text_completer_stream2 {text_completer_serialized};
+    cereal::BinaryOutputArchive output_archive2 {text_completer_stream2};
+
+    std::cout << "Serializing deserialized text completer\n";
+    output_archive2(text_completer);
+
+    std::cout << "Getting bytes from deserialized text completer\n";
+    const std::string deserialized_text_completer_serialized = text_completer_stream2.str();
+
+    IC(text_completer_serialized.size());
+    IC(deserialized_text_completer_serialized.size());
+    IC(text_completer_serialized == deserialized_text_completer_serialized);
+
+    std::cout << "Saving deserialized text completer to file: " << output_path << "\n";
     text_completer.save_file(output_path);
 }

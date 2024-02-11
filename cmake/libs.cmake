@@ -6,6 +6,7 @@ include_directories(${PROJECT_SOURCE_DIR}/lib/robin-map/include)
 include_directories(${PROJECT_SOURCE_DIR}/lib/annoy/include)
 include_directories(${PROJECT_SOURCE_DIR}/lib/nanobench/src/include)
 include_directories(${PROJECT_SOURCE_DIR}/lib/icecream-cpp)
+include_directories(${PROJECT_SOURCE_DIR}/lib/thread-pool/include)
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
 option(USE_NANOBENCH "Use nanobench" OFF)

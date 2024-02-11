@@ -50,11 +50,11 @@ namespace lc {
             const std::optional<CostWeightCoefficients>& cost_weight_coefficients = std::nullopt);
 
         TrainingModification train_neural_network(
-            const std::vector<std::string>& training_data_sections,
+            const std::vector<std::string>& training_data_sections, std::size_t threads_count,
             const std::optional<CostWeightCoefficients>& cost_weight_coefficients = std::nullopt);
 
         TrainingModification train_neural_network(
-            const std::string& training_data,
+            const std::string& training_data, std::size_t threads_count,
             const std::optional<CostWeightCoefficients>& cost_weight_coefficients = std::nullopt);
 
         static TextCompleter& apply_training_modification(TextCompleter& text_completer,

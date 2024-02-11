@@ -15,6 +15,7 @@ set(TEST_FILES
     vector_database_synonyms
     vector_database_serialization
     create_text_completer
+    train_text_completer
 )
 
 if(COMPILE_TESTS)
