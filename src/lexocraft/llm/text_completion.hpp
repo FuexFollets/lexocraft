@@ -34,7 +34,7 @@ namespace lc {
         template <class Archive>
         void serialize(Archive& archive) {
             // clang-format off
-            archive(ephemeral_memory, ephemeral_memory_size, context_memory, context_memory_size,
+            archive(ephemeral_memory, ephemeral_memory_size, context_memory, context_memory_size, 
 
                     ephemeral_memory_accmulator, context_builder, word_vector_improviser,
 
@@ -252,7 +252,7 @@ namespace lc {
 
             template <class Archive>
             void serialize(Archive& archive) {
-                archive(ephemeral_memory, word_vector_value);
+                archive(ephemeral_memory, word_vector_value, word_vector_search_result);
             }
         } word_vector_improviser_fields_sizes;
 
