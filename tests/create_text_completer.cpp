@@ -84,15 +84,21 @@ int main(const int argc, const char** argv) {
 
     assert(vector_database.has_value());
 
-    lc::TextCompleter text_completer {std::move(vector_database.value())};
+    lc::TextCompleter text_completer {std::move(vector_database.value()), 200, 200};
 
     std::cout << "Creating vector subdatabases\n";
     text_completer.create_vector_subdatabases();
 
     std::cout << "Creating neural networks\n";
-    text_completer.set_word_vector_improviser_layer_sizes(20);
-    text_completer.set_context_builder_layer_sizes(20);
-    text_completer.set_ephemeral_memory_accumulator_layer_sizes(20);
+    lc::TextCompleter::TrinaryLayerSizeVectorGenerator_t trinary_layer_size_vector_generator =
+        [](std::size_t, std::size_t, std::size_t) {
+            return 200;
+        };
+
+    text_completer.set_word_vector_improviser_layer_sizes(trinary_layer_size_vector_generator, 10);
+    text_completer.set_context_builder_layer_sizes(trinary_layer_size_vector_generator, 10);
+    text_completer.set_ephemeral_memory_accumulator_layer_sizes(trinary_layer_size_vector_generator,
+                                                                10);
 
     std::vector<std::pair<std::string, std::shared_ptr<lc::VectorDatabase>>>
         vector_subdatabase_pairs {

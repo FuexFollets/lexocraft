@@ -40,7 +40,7 @@ int main(const int argc, const char** argv) {
     const std::string training_data = training_data_stream.str();
 
     std::cout << "Training neural network\n";
-    const auto result = text_completion_trainer.train_neural_network(training_data, 1);
+    const auto result = text_completion_trainer.train_neural_network(training_data, 2);
 
     IC();
     IC(result.improved_cost);
